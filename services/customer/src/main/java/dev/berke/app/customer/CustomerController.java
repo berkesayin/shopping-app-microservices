@@ -37,4 +37,11 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.checkCustomerById(customerId));
     }
 
+    @GetMapping("/{customer-id}")
+    public ResponseEntity<CustomerResponse> findCustomerById(
+            @PathVariable("customer-id") String customerId
+    ) {
+        return ResponseEntity.ok(customerService.findCustomerById(customerId));
+    }
+
 }
