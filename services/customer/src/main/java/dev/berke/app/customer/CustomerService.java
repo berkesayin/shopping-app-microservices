@@ -64,4 +64,7 @@ public class CustomerService {
                         String.format(CustomerConstants.CUSTOMER_NOT_FOUND_BY_ID, customerId)));
     }
 
+    public void deleteCustomer(String customerId) {
+        customerRepository.deleteById(customerId);
+    }
 }
