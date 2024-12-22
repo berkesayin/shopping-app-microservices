@@ -29,4 +29,12 @@ public class CustomerController {
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
+
+    @GetMapping("/exists/{customer-id}")
+    public ResponseEntity<Boolean> checkCustomerById(
+            @PathVariable("customer-id") String customerId
+    ) {
+        return ResponseEntity.ok(customerService.checkCustomerById(customerId));
+    }
+
 }
