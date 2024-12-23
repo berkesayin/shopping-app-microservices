@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +87,12 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
                 ));
+    }
+
+    public List<ProductResponse> getAllProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(productMapper::toProductResponse)
+                .collect(Collectors.toList());
     }
 }
