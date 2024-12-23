@@ -2,9 +2,9 @@ package dev.berke.app.product;
 
 import dev.berke.app.constants.ProductConstants;
 import dev.berke.app.exception.ProductPurchaseException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
@@ -78,5 +78,13 @@ public class ProductService {
         }
 
         return purchasedProducts;
+    }
+
+    public ProductResponse getProductById(Integer productId) {
+        return productRepository.findById(productId)
+                .map(productMapper::toProductResponse)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
+                ));
     }
 }

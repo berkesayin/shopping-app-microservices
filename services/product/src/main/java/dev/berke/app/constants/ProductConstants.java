@@ -11,5 +11,6 @@ public class ProductConstants {
     public static final String QUANTITY_MANDATORY_MESSAGE = "Quantity is mandatory";
     public static final String PRODUCT_NOT_FOUND_ERROR = "One or more products does not exist!";
     public static final String INSUFFICIENT_STOCK_ERROR = "Insufficient stock quantity for product with ID:: ";
+    public static final String PRODUCT_NOT_FOUND_MESSAGE = "Product not found with the ID:: ";
 
 }

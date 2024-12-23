@@ -32,4 +32,17 @@ public class ProductMapper {
                 quantity
         );
     }
+
+    public ProductResponse toProductResponse(Product product) {
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getDescription(),
+                product.getAvailableQuantity(),
+                product.getPrice(),
+                product.getCategory().getId(),
+                product.getCategory().getName(),
+                product.getCategory().getDescription()
+        );
+    }
 }
