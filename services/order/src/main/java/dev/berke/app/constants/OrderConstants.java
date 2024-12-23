@@ -12,4 +12,5 @@ public class OrderConstants {
             "Cannot create order:: No customer exists with the provided ID";
     public static final String PRODUCT_PURCHASE_ERROR_MESSAGE =
             "An error occurred while processing the product purchase: ";
+    public static final String ORDER_NOT_FOUND_ERROR_MESSAGE = "No order found with the provided ID: ";
 }
