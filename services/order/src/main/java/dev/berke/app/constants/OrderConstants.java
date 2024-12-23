@@ -1,0 +1,15 @@
+package dev.berke.app.constants;
+
+public class OrderConstants {
+
+    public static final String ORDER_AMOUNT_POSITIVE_MESSAGE = "Order amount should be positive";
+    public static final String PAYMENT_METHOD_NOT_NULL_MESSAGE = "Payment method should be precised";
+    public static final String CUSTOMER_ID_NOT_NULL_MESSAGE = "Customer should be present";
+    public static final String PRODUCTS_NOT_EMPTY_MESSAGE = "You should purchase at least one product";
+    public static final String PRODUCT_ID_NOT_NULL_MESSAGE = "Product is mandatory";
+    public static final String QUANTITY_POSITIVE_MESSAGE = "Quantity is mandatory";
+    public static final String CUSTOMER_NOT_FOUND_MESSAGE =
+            "Cannot create order:: No customer exists with the provided ID";
+    public static final String PRODUCT_PURCHASE_ERROR_MESSAGE =
+            "An error occurred while processing the product purchase: ";
+}
