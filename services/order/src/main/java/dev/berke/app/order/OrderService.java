@@ -3,6 +3,8 @@ package dev.berke.app.order;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.exception.BusinessException;
+import dev.berke.app.kafka.OrderConfirmation;
+import dev.berke.app.kafka.OrderProducer;
 import dev.berke.app.orderline.OrderLineRequest;
 import dev.berke.app.orderline.OrderLineService;
 import dev.berke.app.product.ProductClient;
@@ -23,6 +25,7 @@ public class OrderService {
     private final CustomerClient customerClient;
     private final ProductClient productClient;
     private final OrderLineService orderLineService;
+    private final OrderProducer orderProducer;
 
     // Business logic to create order
     // 1. check the customer: Check if we have our customer or not (use OpenFeign)
@@ -59,11 +62,21 @@ public class OrderService {
             );
         }
 
-        return order.getId();
-
         // 5. start payment process: After persisting the order lines, start payment process
 
-        // 6. send the order confirmation: Send the order confirmation to the notification microservice (use kafka)
+        // 6. send the order confirmation: Send the order confirmation message to the kafka broker
+        // and notification microservice will consume from there
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        orderRequest.reference(),
+                        orderRequest.amount(),
+                        orderRequest.paymentMethod(),
+                        customer,
+                        purchasedProducts
+                )
+        );
+
+        return order.getId();
     }
 
     public List<OrderResponse> getAllOrders() {
