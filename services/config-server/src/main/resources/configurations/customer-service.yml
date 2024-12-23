@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      username: ${MONGO_INITDB_ROOT_USERNAME}
-      password: ${MONGO_INITDB_ROOT_PASSWORD}
+      username: berke
+      password: mngdb-pwd
       host: localhost
       port: 27017
       database: customer
