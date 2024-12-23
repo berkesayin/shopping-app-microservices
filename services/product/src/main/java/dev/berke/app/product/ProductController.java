@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
@@ -22,5 +24,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(productRequest));
     }
 
-    
+    @PostMapping("/purchase")
+    public ResponseEntity<List<ProductPurchaseResponse>> purchaseProducts(
+            @RequestBody List<ProductPurchaseRequest> productPurchaseRequest
+    ) {
+        return ResponseEntity.ok(productService.purchaseProducts(productPurchaseRequest));
+    }
+
 }
