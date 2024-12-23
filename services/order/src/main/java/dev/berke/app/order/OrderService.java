@@ -10,6 +10,9 @@ import dev.berke.app.product.PurchaseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -60,5 +63,12 @@ public class OrderService {
         // 5. start payment process: After persisting the order lines, start payment process
 
         // 6. send the order confirmation: Send the order confirmation to the notification microservice (use kafka)
+    }
+
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll()
+                .stream()
+                .map(orderMapper::fromOrder)
+                .collect(Collectors.toList());
     }
 }
