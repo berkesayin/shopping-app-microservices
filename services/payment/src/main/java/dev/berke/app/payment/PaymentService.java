@@ -16,7 +16,7 @@ public class PaymentService {
     public Integer createPayment(PaymentRequest paymentRequest) {
         var payment = paymentRepository.save(paymentMapper.toPayment(paymentRequest));
 
-        paymentNotificationProducer.sendNotification(
+        paymentNotificationProducer.sendPaymentNotification(
                 new PaymentNotificationRequest(
                         paymentRequest.orderReference(),
                         paymentRequest.amount(),

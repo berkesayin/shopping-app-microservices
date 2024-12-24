@@ -17,7 +17,7 @@ public class PaymentNotificationProducer {
     private final KafkaTemplate<String, PaymentNotificationRequest> kafkaTemplate;
 
     // Send a payment notification to the Kafka topic
-    public void sendNotification(PaymentNotificationRequest paymentNotificationRequest) {
+    public void sendPaymentNotification(PaymentNotificationRequest paymentNotificationRequest) {
         log.info("Sending notification with body <{}>", paymentNotificationRequest);
 
         // Create a message to be sent to Kafka
