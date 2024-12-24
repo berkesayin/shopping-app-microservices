@@ -1,0 +1,11 @@
+spring:
+  data:
+    mongodb:
+      username: berke
+      password: mngdb-pwd
+      host: localhost
+      port: 27017
+      database: notification
+      authentication-database: admin
+server:
+  port: 8040
