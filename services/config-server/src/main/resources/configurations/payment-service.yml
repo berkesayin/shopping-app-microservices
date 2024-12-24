@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/order
+    url: jdbc:postgresql://localhost:5432/payment
     username: berke
     password: pgdb-pwd
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   kafka:
@@ -15,11 +15,6 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: orderConfirmation:dev.berke.app.kafka.OrderConfirmation
+        spring.json.type.mapping: paymentConfirmation:dev.berke.app.kafka.PaymentNotificationRequest
 server:
-  port: 8070
-application:
-  config:
-    customer-url: http://localhost:8222/api/v1/customers
-    product-url: http://localhost:8222/api/v1/products
-    payment-url: http://localhost:8222/api/v1/payments
+  port: 8060
