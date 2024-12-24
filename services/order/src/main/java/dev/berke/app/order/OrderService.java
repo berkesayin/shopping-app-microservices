@@ -7,6 +7,8 @@ import dev.berke.app.kafka.OrderConfirmation;
 import dev.berke.app.kafka.OrderProducer;
 import dev.berke.app.orderline.OrderLineRequest;
 import dev.berke.app.orderline.OrderLineService;
+import dev.berke.app.payment.PaymentClient;
+import dev.berke.app.payment.PaymentRequest;
 import dev.berke.app.product.ProductClient;
 import dev.berke.app.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
@@ -26,6 +28,7 @@ public class OrderService {
     private final ProductClient productClient;
     private final OrderLineService orderLineService;
     private final OrderProducer orderProducer;
+    private final PaymentClient paymentClient;
 
     // Business logic to create order
     // 1. check the customer: Check if we have our customer or not (use OpenFeign)
@@ -63,6 +66,15 @@ public class OrderService {
         }
 
         // 5. start payment process: After persisting the order lines, start payment process
+        var paymentRequest = new PaymentRequest(
+                orderRequest.amount(),
+                orderRequest.paymentMethod(),
+                order.getId(),
+                order.getReference(),
+                customer
+        );
+
+        paymentClient.requestOrderPayment(paymentRequest);
 
         // 6. send the order confirmation: Send the order confirmation message to the kafka broker
         // and notification microservice will consume from there
