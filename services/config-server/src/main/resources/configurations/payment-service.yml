@@ -16,5 +16,12 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping: paymentConfirmation:dev.berke.app.kafka.PaymentNotificationRequest
+iyzipay:
+  api:
+    key: sandbox-q6L1GCFJrBE3OUTW8lxbPS5bCDzqeBZZ
+  secret:
+    key: sandbox-ybdMkmJmflCYlhzUBiyRo9X4eeUJF3nk
+  base:
+    url: https://sandbox-api.iyzipay.com
 server:
   port: 8060
