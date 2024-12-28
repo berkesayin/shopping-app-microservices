@@ -1,4 +1,4 @@
-package dev.berke.app.IyziPayment;
+package dev.berke.app.iyzipayment;
 
 import com.iyzipay.model.Address;
 import com.iyzipay.model.BasketItem;
@@ -58,7 +58,7 @@ public class IyziPayment {
         request.setPaidPrice(totalBasketPrice);
 
         // Print payment request details BEFORE creating payment
-        printPaymentRequestDetails(request);
+        // printPaymentRequestDetails(request);
 
         // Create Payment using the injected Options
         Payment payment = Payment.create(request, iyzipayOptions);
@@ -76,7 +76,7 @@ public class IyziPayment {
         paymentCard.setExpireMonth("12");
         paymentCard.setExpireYear("2030");
         paymentCard.setCvc("123");
-        paymentCard.setRegisterCard(0);
+        // paymentCard.setRegisterCard(0);
 
         return paymentCard;
     }
@@ -90,10 +90,10 @@ public class IyziPayment {
         buyer.setGsmNumber("+905350000000");
         buyer.setEmail("email@email.com");
         buyer.setIdentityNumber("74300864791");
-        buyer.setLastLoginDate("2015-10-05 12:43:35");
-        buyer.setRegistrationDate("2013-04-21 15:12:09");
+        // buyer.setLastLoginDate("2015-10-05 12:43:35");
+        // buyer.setRegistrationDate("2013-04-21 15:12:09");
         buyer.setRegistrationAddress("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        buyer.setIp("85.34.78.112");
+        // buyer.setIp("85.34.78.112");
         buyer.setCity("Istanbul");
         buyer.setCountry("Turkey");
         buyer.setZipCode("34732");
@@ -104,7 +104,7 @@ public class IyziPayment {
     private Address createBillingAddress(){
         Address billingAddress = new Address();
 
-        billingAddress.setContactName("Jane Doe");
+        billingAddress.setContactName("Berke Sayin");
         billingAddress.setCity("Istanbul");
         billingAddress.setCountry("Turkey");
         billingAddress.setAddress("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
@@ -116,7 +116,7 @@ public class IyziPayment {
     private Address createShippingAddress(){
         Address shippingAddress = new Address();
 
-        shippingAddress.setContactName("Jane Doe");
+        shippingAddress.setContactName("Berke Sayin");
         shippingAddress.setCity("Istanbul");
         shippingAddress.setCountry("Turkey");
         shippingAddress.setAddress("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
@@ -133,19 +133,20 @@ public class IyziPayment {
         firstBasketItem.setId("BI101");
         firstBasketItem.setName("Binocular");
         firstBasketItem.setCategory1("Collectibles");
-        firstBasketItem.setCategory2("Accessories");
+        // firstBasketItem.setCategory2("Accessories");
         firstBasketItem.setItemType(BasketItemType.PHYSICAL.name());
         firstBasketItem.setPrice(new BigDecimal("0.3"));
+
         basketItems.add(firstBasketItem);
 
-        BasketItem secondBasketItem = new BasketItem();
-        secondBasketItem.setId("BI102");
-        secondBasketItem.setName("Camera");
-        secondBasketItem.setCategory1("Electronics");
-        secondBasketItem.setCategory2("Accessories");
-        secondBasketItem.setItemType(BasketItemType.PHYSICAL.name());
-        secondBasketItem.setPrice(new BigDecimal("100.7"));
-        basketItems.add(secondBasketItem);
+        // BasketItem secondBasketItem = new BasketItem();
+        // secondBasketItem.setId("BI102");
+        // secondBasketItem.setName("Camera");
+        // secondBasketItem.setCategory1("Electronics");
+        // secondBasketItem.setCategory2("Accessories");
+        // secondBasketItem.setItemType(BasketItemType.PHYSICAL.name());
+        // secondBasketItem.setPrice(new BigDecimal("100.7"));
+        // basketItems.add(secondBasketItem);
 
         return basketItems;
     }
@@ -158,7 +159,7 @@ public class IyziPayment {
         return total;
     }
 
-    private void printPaymentRequestDetails(CreatePaymentRequest request) {
+    /*private void printPaymentRequestDetails(CreatePaymentRequest request) {
         System.out.println("---------------------------------------------");
         System.out.println("Payment Request Details:");
         System.out.println("---------------------------------------------");
@@ -226,5 +227,5 @@ public class IyziPayment {
         }
 
         System.out.println("---------------------------------------------");
-    }
+    }*/
 }
