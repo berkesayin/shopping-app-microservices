@@ -9,21 +9,33 @@ public class CustomerMapper {
         if (customerRequest == null) {
             return null;
         }
+
         return Customer.builder()
                 .id(customerRequest.id())
-                .firstname(customerRequest.firstname())
-                .lastname(customerRequest.lastname())
+                .name(customerRequest.name())
+                .surname(customerRequest.surname())
+                .gsmNumber(customerRequest.gsmNumber())
                 .email(customerRequest.email())
-                .address(customerRequest.address())
+                .identityNumber(customerRequest.identityNumber())
+                .registrationAddress(customerRequest.registrationAddress())
+                .city(customerRequest.city())
+                .country(customerRequest.country())
+                .zipCode(customerRequest.zipCode())
                 .build();
     }
 
     public CustomerResponse fromCustomer(Customer customer) {
         return new CustomerResponse(
                 customer.getId(),
-                customer.getFirstname(),
-                customer.getLastname(),
+                customer.getName(),
+                customer.getSurname(),
+                customer.getGsmNumber(),
                 customer.getEmail(),
+                customer.getIdentityNumber(),
+                customer.getRegistrationAddress(),
+                customer.getCity(),
+                customer.getCountry(),
+                customer.getZipCode(),
                 customer.getAddress()
         );
     }

@@ -1,5 +1,9 @@
 package dev.berke.app.customer;
 
+import dev.berke.app.address.Address;
+import dev.berke.app.address.AddressMapper;
+import dev.berke.app.address.AddressRequest;
+import dev.berke.app.address.AddressResponse;
 import dev.berke.app.constants.CustomerConstants;
 import dev.berke.app.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +19,7 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final AddressMapper addressMapper;
 
     public String createCustomer(CustomerRequest customerRequest) {
         var customer = customerRepository.save(customerMapper.toCustomer(customerRequest));
@@ -31,18 +36,45 @@ public class CustomerService {
     }
 
     private void mergeCustomer(Customer customer, CustomerRequest customerRequest) {
-        if (StringUtils.isNotBlank(customerRequest.firstname())) {
-            customer.setFirstname(customerRequest.firstname());
+        if (StringUtils.isNotBlank(customerRequest.name())) {
+            customer.setName(customerRequest.name());
         }
-        if (StringUtils.isNotBlank(customerRequest.lastname())) {
-            customer.setLastname(customerRequest.lastname());
+        if (StringUtils.isNotBlank(customerRequest.surname())) {
+            customer.setSurname(customerRequest.surname());
+        }
+        if (StringUtils.isNotBlank(customerRequest.gsmNumber())) {
+            customer.setGsmNumber(customerRequest.gsmNumber());
         }
         if (StringUtils.isNotBlank(customerRequest.email())) {
             customer.setEmail(customerRequest.email());
         }
-        if (customerRequest.address() != null) {
-            customer.setAddress(customerRequest.address());
+        if (StringUtils.isNotBlank(customerRequest.identityNumber())) {
+            customer.setIdentityNumber(customerRequest.identityNumber());
         }
+        if (StringUtils.isNotBlank(customerRequest.registrationAddress())) {
+            customer.setRegistrationAddress(customerRequest.registrationAddress());
+        }
+        if (StringUtils.isNotBlank(customerRequest.city())) {
+            customer.setCity(customerRequest.city());
+        }
+        if (StringUtils.isNotBlank(customerRequest.country())) {
+            customer.setCountry(customerRequest.country());
+        }
+        if (StringUtils.isNotBlank(customerRequest.zipCode())) {
+            customer.setZipCode(customerRequest.zipCode());
+        }
+    }
+
+    public AddressResponse createBillingAddress(AddressRequest addressRequest) {
+        Address address = addressMapper.toAddress(addressRequest);
+        //Here you can save your billing address if you wish
+        return addressMapper.toAddressResponse(address);
+    }
+
+    public AddressResponse createShippingAddress(AddressRequest addressRequest) {
+        Address address = addressMapper.toAddress(addressRequest);
+        //Here you can save your shipping address if you wish
+        return addressMapper.toAddressResponse(address);
     }
 
     public List<CustomerResponse> getAllCustomers() {

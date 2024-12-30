@@ -1,5 +1,7 @@
 package dev.berke.app.customer;
 
+import dev.berke.app.address.AddressRequest;
+import dev.berke.app.address.AddressResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,20 @@ public class CustomerController {
     public ResponseEntity<Void> updateCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
         customerService.updateCustomer(customerRequest);
         return ResponseEntity.accepted().build();
+    }
+
+    @PostMapping("/billing-address")
+    public ResponseEntity<AddressResponse> createBillingAddress(
+            @RequestBody @Valid AddressRequest addressRequest
+    ) {
+        return ResponseEntity.ok(customerService.createBillingAddress(addressRequest));
+    }
+
+    @PostMapping("/shipping-address")
+    public ResponseEntity<AddressResponse> createShippingAddress(
+            @RequestBody @Valid AddressRequest addressRequest
+    ) {
+        return ResponseEntity.ok(customerService.createShippingAddress(addressRequest));
     }
 
     @GetMapping

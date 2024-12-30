@@ -1,4 +1,4 @@
-package dev.berke.app.customer;
+package dev.berke.app.address;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,11 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class Address {
 
-    private String street;
-    private String houseNumber;
+    // @Id
+    // private String id;
+    private String contactName;
+    private String city;
+    private String country;
+    private String address;
     private String zipCode;
 }
