@@ -25,3 +25,6 @@ iyzipay:
     url: https://sandbox-api.iyzipay.com
 server:
   port: 8060
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers
