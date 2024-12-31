@@ -31,8 +31,10 @@ public record CustomerRequest (
         String country,
 
         @NotNull
-        String zipCode
+        String zipCode,
 
-        // Address address
+        Address billingAddress,
+
+        Address shippingAddress
 ){
 }

@@ -32,6 +32,15 @@ public class Payment {
     @Id
     @GeneratedValue
     private Integer id;
+    private String customerId;
+    private String cardHolderName;
+    private String cardNumber;
+    private String expireMonth;
+    private String expireYear;
+    private String cvc;
+
+
+
 
     private BigDecimal amount;
 
@@ -47,4 +56,5 @@ public class Payment {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
 }

@@ -21,6 +21,8 @@ public class CustomerMapper {
                 .city(customerRequest.city())
                 .country(customerRequest.country())
                 .zipCode(customerRequest.zipCode())
+                .billingAddress(customerRequest.billingAddress())
+                .shippingAddress(customerRequest.shippingAddress())
                 .build();
     }
 
@@ -36,7 +38,8 @@ public class CustomerMapper {
                 customer.getCity(),
                 customer.getCountry(),
                 customer.getZipCode(),
-                customer.getAddress()
+                customer.getBillingAddress(),
+                customer.getShippingAddress()
         );
     }
 }
