@@ -1,35 +1,15 @@
 package dev.berke.app.customer;
 
-import jakarta.validation.constraints.NotNull;
-
-public record CustomerRequest(
+public record CustomerResponse (
         String id,
-
-        @NotNull
         String name,
-
-        @NotNull
         String surname,
-
-        @NotNull
         String gsmNumber,
-
-        @NotNull
         String email,
-
-        @NotNull
         String identityNumber,
-
-        @NotNull
         String registrationAddress,
-
-        @NotNull
         String city,
-
-        @NotNull
         String country,
-
-        @NotNull
         String zipCode
-) {
+){
 }

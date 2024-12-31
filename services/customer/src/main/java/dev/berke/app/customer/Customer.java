@@ -1,6 +1,6 @@
 package dev.berke.app.customer;
 
-import dev.berke.app.address.Address;
+// import dev.berke.app.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +28,6 @@ public class Customer {
     private String city;
     private String country;
     private String zipCode;
-    private Address address;
+    // private Address address;
 }
 

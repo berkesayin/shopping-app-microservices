@@ -9,7 +9,7 @@ import com.iyzipay.model.PaymentCard;
 import com.iyzipay.request.CreatePaymentRequest;
 import com.iyzipay.Options;
 import dev.berke.app.customer.CustomerClient;
-import dev.berke.app.customer.CustomerRequest;
+import dev.berke.app.customer.CustomerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,9 @@ public class IyziPayment {
     private final CustomerClient customerClient;
 
     @Bean
-    public CreatePaymentRequest createPaymentRequestWithCard(CustomerRequest customerRequest) {
+    public CreatePaymentRequest createPaymentRequestWithCard(
+            String customerId
+    ) {
         CreatePaymentRequest request = new CreatePaymentRequest();
 
         // Create and set paymentCard
@@ -33,16 +35,13 @@ public class IyziPayment {
         request.setPaymentCard(paymentCard);
 
         // Create and set buyer
-        Buyer buyer = createBuyer(customerRequest);
-        request.setBuyer(buyer);
+        // Buyer buyer = createBuyer(customerRequest);
+        // request.setBuyer(buyer);
 
-        // Create and set billing address
-        Address billingAddress = createBillingAddress();
-        request.setBillingAddress(billingAddress);
-
-        // Create and set shipping address
-        Address shippingAddress = createShippingAddress();
-        request.setShippingAddress(shippingAddress);
+        // Retrieve Customer data from customer service
+        CustomerResponse customerResponse = getCustomerDetails(customerId);
+        Buyer iyziBuyer = createIyziBuyer(customerResponse);
+        request.setBuyer(iyziBuyer);
 
         // Create and set basket Items
         List<BasketItem> basketItems = createBasketItems();
@@ -65,44 +64,28 @@ public class IyziPayment {
         return request;
     }
 
-    /*private Buyer createBuyer(){
+    private CustomerResponse getCustomerDetails(String customerId) {
+        return customerClient.getCustomerById(customerId);
+    }
+
+    private Buyer createIyziBuyer(CustomerResponse customerResponse) {
         Buyer buyer = new Buyer();
 
-        buyer.setId("BY789");
-        buyer.setName("Berke");
-        buyer.setSurname("Sayin");
-        buyer.setGsmNumber("+905350000000");
-        buyer.setEmail("email@email.com");
-        buyer.setIdentityNumber("74300864791");
-        buyer.setRegistrationAddress("Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1");
-        buyer.setCity("Istanbul");
-        buyer.setCountry("Turkey");
-        buyer.setZipCode("34732");
-
-        return buyer;
-    }*/
-
-    private Buyer createBuyer(CustomerRequest customerRequest){
-        // 1. Create a customer by calling the createCustomer method from CustomerClient
-        String customerId = customerClient.createCustomer(customerRequest);
-
-        Buyer buyer = new Buyer();
-
-        buyer.setId(customerId); // Use the customerId returned from Customer service
-        buyer.setName(customerRequest.name());
-        buyer.setSurname(customerRequest.surname());
-        buyer.setGsmNumber(customerRequest.gsmNumber());
-        buyer.setEmail(customerRequest.email());
-        buyer.setIdentityNumber(customerRequest.identityNumber());
-        buyer.setRegistrationAddress(customerRequest.registrationAddress());
-        buyer.setCity(customerRequest.city());
-        buyer.setCountry(customerRequest.country());
-        buyer.setZipCode(customerRequest.zipCode());
+        buyer.setId(customerResponse.id());
+        buyer.setName(customerResponse.name());
+        buyer.setSurname(customerResponse.surname());
+        buyer.setGsmNumber(customerResponse.gsmNumber());
+        buyer.setEmail(customerResponse.email());
+        buyer.setIdentityNumber(customerResponse.identityNumber());
+        buyer.setRegistrationAddress(customerResponse.registrationAddress());
+        buyer.setCity(customerResponse.city());
+        buyer.setCountry(customerResponse.country());
+        buyer.setZipCode(customerResponse.zipCode());
 
         return buyer;
     }
 
-    private Address createBillingAddress(){
+    private Address createBillingAddress() {
         Address billingAddress = new Address();
 
         billingAddress.setContactName("Berke Sayin");
@@ -114,7 +97,7 @@ public class IyziPayment {
         return billingAddress;
     }
 
-    private Address createShippingAddress(){
+    private Address createShippingAddress() {
         Address shippingAddress = new Address();
 
         shippingAddress.setContactName("Berke Sayin");

@@ -65,17 +65,20 @@ public class CustomerService {
         }
     }
 
+    /*
     public AddressResponse createBillingAddress(AddressRequest addressRequest) {
         Address address = addressMapper.toAddress(addressRequest);
         //Here you can save your billing address if you wish
         return addressMapper.toAddressResponse(address);
     }
 
+
     public AddressResponse createShippingAddress(AddressRequest addressRequest) {
         Address address = addressMapper.toAddress(addressRequest);
         //Here you can save your shipping address if you wish
         return addressMapper.toAddressResponse(address);
     }
+     */
 
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll()

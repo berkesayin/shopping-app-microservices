@@ -1,6 +1,6 @@
 package dev.berke.app.customer;
 
-import dev.berke.app.address.Address;
+// import dev.berke.app.address.Address;
 
 public record CustomerResponse (
         String id,
@@ -12,7 +12,7 @@ public record CustomerResponse (
         String registrationAddress,
         String city,
         String country,
-        String zipCode,
-        Address address
+        String zipCode
+        // Address address
 ){
 }

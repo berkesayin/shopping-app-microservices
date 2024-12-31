@@ -34,6 +34,7 @@ public class CustomerController {
         return ResponseEntity.accepted().build();
     }
 
+    /*
     @PostMapping("/billing-address")
     public ResponseEntity<AddressResponse> createBillingAddress(
             @RequestBody @Valid AddressRequest addressRequest
@@ -47,6 +48,7 @@ public class CustomerController {
     ) {
         return ResponseEntity.ok(customerService.createShippingAddress(addressRequest));
     }
+     */
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
