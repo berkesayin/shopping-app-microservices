@@ -10,10 +10,10 @@ import com.iyzipay.request.CreatePaymentRequest;
 import com.iyzipay.Options;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.card.CreditCardResponse;
-import dev.berke.app.payment.PaymentController;
+// import dev.berke.app.payment.PaymentController;
 import dev.berke.app.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
+// import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,12 +27,11 @@ public class IyziPayment {
     private final Options iyzipayOptions; // Correctly inject Options
     private final CustomerClient customerClient;
     private final PaymentService paymentService;
-    private final PaymentController paymentController;
+    // private final PaymentController paymentController;
 
     // @Bean
     public CreatePaymentRequest createPaymentRequestWithCard(
-            String customerId
-    ) {
+            String customerId) {
         CreatePaymentRequest request = new CreatePaymentRequest();
 
         // Create and set paymentCard
@@ -162,10 +161,10 @@ public class IyziPayment {
         return basketItems;
     }
 
-    private BigDecimal calculateTotalBasketPrice(List<BasketItem> basketItems){
+    private BigDecimal calculateTotalBasketPrice(List<BasketItem> basketItems) {
         BigDecimal total = BigDecimal.ZERO;
-        for (BasketItem basketItem : basketItems){
-            total =  total.add(basketItem.getPrice());
+        for (BasketItem basketItem : basketItems) {
+            total = total.add(basketItem.getPrice());
         }
         return total;
     }
