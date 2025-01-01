@@ -1,13 +1,11 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/basket
-    username: berke
-    password: pgdb-pwd
-    driver-class-name: org.postgresql.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
 server:
   port: 8040
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers
+    product-url: http://localhost:8222/api/v1/products

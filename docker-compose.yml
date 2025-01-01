@@ -107,6 +107,26 @@ services:
     networks:
       - be-net
 
+  redis:
+    image: redis:7-alpine
+    container_name: be-redis
+    ports:
+      - "6379:6379"
+    restart: always
+    networks:
+      - be-net
+
+  redis-insight:
+    image: redis/redisinsight:latest
+    container_name: be-redisinsight
+    ports:
+      - "5540:5540"
+    volumes:
+      - redisinsight:/data
+    networks:
+      - be-net
+    restart: always
+
 networks:
   be-net:
     driver: bridge
@@ -115,4 +135,5 @@ volumes:
   postgres:
   pgadmin:
   mongo:
+  redisinsight:
 

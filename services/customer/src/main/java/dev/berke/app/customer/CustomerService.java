@@ -1,9 +1,6 @@
 package dev.berke.app.customer;
 
-import dev.berke.app.address.Address;
 import dev.berke.app.address.AddressMapper;
-import dev.berke.app.address.AddressRequest;
-import dev.berke.app.address.AddressResponse;
 import dev.berke.app.constants.CustomerConstants;
 import dev.berke.app.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -64,21 +61,6 @@ public class CustomerService {
             customer.setZipCode(customerRequest.zipCode());
         }
     }
-
-    /*
-    public AddressResponse createBillingAddress(AddressRequest addressRequest) {
-        Address address = addressMapper.toAddress(addressRequest);
-        //Here you can save your billing address if you wish
-        return addressMapper.toAddressResponse(address);
-    }
-
-
-    public AddressResponse createShippingAddress(AddressRequest addressRequest) {
-        Address address = addressMapper.toAddress(addressRequest);
-        //Here you can save your shipping address if you wish
-        return addressMapper.toAddressResponse(address);
-    }
-     */
 
     public List<CustomerResponse> getAllCustomers() {
         return customerRepository.findAll()
