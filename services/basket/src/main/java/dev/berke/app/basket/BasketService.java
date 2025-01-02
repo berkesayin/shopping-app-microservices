@@ -95,4 +95,17 @@ public class BasketService {
 
         return new BasketResponse(updatedBasket.getCustomerId(), updatedBasket.getItems());
     }
+
+    public BasketTotalPriceResponse calculateTotalBasketPrice(
+            String customerId
+    ) {
+        Basket basket = basketRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Basket not found for customer id: " + customerId));
+
+        Double totalPrice = basket.getItems().stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
+
+        return new BasketTotalPriceResponse(customerId, totalPrice);
+    }
 }
