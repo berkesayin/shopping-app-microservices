@@ -8,67 +8,62 @@ import com.iyzipay.model.Payment;
 import com.iyzipay.model.PaymentCard;
 import com.iyzipay.request.CreatePaymentRequest;
 import com.iyzipay.Options;
+import dev.berke.app.basket.BasketClient;
+import dev.berke.app.basket.BasketResponse;
+import dev.berke.app.basket.BasketTotalPriceResponse;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.card.CreditCardResponse;
-// import dev.berke.app.payment.PaymentController;
 import dev.berke.app.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 // import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class IyziPayment {
 
     private final Options iyzipayOptions; // Correctly inject Options
-    private final CustomerClient customerClient;
     private final PaymentService paymentService;
-    // private final PaymentController paymentController;
+    private final CustomerClient customerClient;
+    private final BasketClient basketClient;
 
     // @Bean
     public CreatePaymentRequest createPaymentRequestWithCard(
-            String customerId) {
+            String customerId
+    ) {
         CreatePaymentRequest request = new CreatePaymentRequest();
 
-        // Create and set paymentCard
+        // Create and set paymentCard: already in payment service
         PaymentCard paymentCard = createPaymentCard(customerId);
         request.setPaymentCard(paymentCard);
 
-        // Create and set buyer
+        // Create and set buyer: feign request to customer service
         Buyer buyer = createBuyer(customerId); // Pass the dynamic ID
         request.setBuyer(buyer);
 
-        // Create and set billing address
-        // here is where we will implement feign request to customer service
+        // Create and set billing address: feign request to customer service
         Address billingAddress = createBillingAddress(customerId);
         request.setBillingAddress(billingAddress);
 
-        // Create and set shipping address
-        // here is where we will implement feign request to customer service
+        // Create and set shipping address: feign request to customer service
         Address shippingAddress = createShippingAddress(customerId);
         request.setShippingAddress(shippingAddress);
 
-        // Create and set basket Items
-        List<BasketItem> basketItems = createBasketItems();
+        // Create and set basket items: feign request to basket service
+        List<com.iyzipay.model.BasketItem> basketItems = createBasketItems(customerId);
         request.setBasketItems(basketItems);
 
-        // Calculate total basket price
-        BigDecimal totalBasketPrice = calculateTotalBasketPrice(basketItems);
-
-        // added price
+        // Calculate total basket price: feign request to basket service
+        BigDecimal totalBasketPrice = calculateTotalBasketPrice(customerId);
         request.setPrice(totalBasketPrice);
-
-        // added paid price
         request.setPaidPrice(totalBasketPrice);
 
-        // Create Payment using the injected Options
+        // Create payment using the injected options
         Payment payment = Payment.create(request, iyzipayOptions);
-
-        // You can print the payment response here
 
         return request;
     }
@@ -123,10 +118,11 @@ public class IyziPayment {
     }
 
     private PaymentCard createPaymentCard(String customerId) {
-        List<CreditCardResponse> creditCards = paymentService.getCreditCardsByCustomerId(customerId);
+        List<CreditCardResponse> creditCards = paymentService
+                .getCreditCardsByCustomerId(customerId);
 
         if (creditCards != null && !creditCards.isEmpty()) {
-            // Assuming you want to use the first credit card in the list
+            // Use the first credit card in the list
             CreditCardResponse creditCardResponse = creditCards.get(0);
 
             PaymentCard paymentCard = new PaymentCard();
@@ -146,26 +142,28 @@ public class IyziPayment {
         }
     }
 
-    private List<BasketItem> createBasketItems() {
-        List<BasketItem> basketItems = new ArrayList<>();
+    private List<com.iyzipay.model.BasketItem> createBasketItems(String customerId) {
+        BasketResponse basketResponse = basketClient.getBasketByCustomerId(customerId);
+        List<dev.berke.app.basket.BasketItem> fetchedBasketItems = basketResponse.items();
 
-        BasketItem firstBasketItem = new BasketItem();
-        firstBasketItem.setId("BI101");
-        firstBasketItem.setName("Binocular");
-        firstBasketItem.setCategory1("Collectibles");
-        firstBasketItem.setItemType(BasketItemType.PHYSICAL.name());
-        firstBasketItem.setPrice(new BigDecimal("0.3"));
-
-        basketItems.add(firstBasketItem);
-
+        List<com.iyzipay.model.BasketItem> basketItems = fetchedBasketItems.stream()
+                .map(item -> {
+                    com.iyzipay.model.BasketItem iyziBasketItem = new com.iyzipay.model.BasketItem();
+                    iyziBasketItem.setId(String.valueOf(item.getProductId()));
+                    iyziBasketItem.setName(item.getProductName());
+                    iyziBasketItem.setCategory1(String.valueOf(item.getCategoryId()));
+                    iyziBasketItem.setItemType(BasketItemType.PHYSICAL.name());
+                    iyziBasketItem.setPrice(BigDecimal.valueOf(item.getPrice()));
+                    return iyziBasketItem;
+                })
+                .collect(Collectors.toList());
         return basketItems;
     }
 
-    private BigDecimal calculateTotalBasketPrice(List<BasketItem> basketItems) {
-        BigDecimal total = BigDecimal.ZERO;
-        for (BasketItem basketItem : basketItems) {
-            total = total.add(basketItem.getPrice());
-        }
-        return total;
+    private BigDecimal calculateTotalBasketPrice(String customerId) {
+        BasketTotalPriceResponse totalPriceResponse =
+                basketClient.getTotalBasketPrice(customerId);
+
+        return BigDecimal.valueOf(totalPriceResponse.totalPrice());
     }
 }
