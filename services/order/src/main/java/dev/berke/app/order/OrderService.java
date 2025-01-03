@@ -1,5 +1,6 @@
 package dev.berke.app.order;
 
+import dev.berke.app.basket.*;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.exception.BusinessException;
@@ -13,6 +14,7 @@ import dev.berke.app.product.ProductClient;
 import dev.berke.app.product.PurchaseRequest;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,12 +25,13 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderLineService orderLineService;
     private final OrderMapper orderMapper;
     private final CustomerClient customerClient;
     private final ProductClient productClient;
-    private final OrderLineService orderLineService;
-    private final OrderProducer orderProducer;
+    private final BasketClient basketClient;
     private final PaymentClient paymentClient;
+    private final OrderProducer orderProducer;
 
     // Business logic to create order
     // 1. check the customer: Check if we have our customer or not (use OpenFeign)
@@ -39,13 +42,42 @@ public class OrderService {
     // 6. send the order confirmation: Send the order confirmation to the notification microservice (use kafka)
     // (send a message to Kafka broker)
 
-    public Integer createOrder(OrderRequest orderRequest) {
+    // 1. check the customer: Check if we have our customer or not (use OpenFeign)
+    // 2. create basket for customer: createBasket method at basket service
+    // 3. add items to basket for customer: addItemToBasket method at basket service
+    // 4. confirm basket for customer: create a new method at BasketController and BasketService, which
+    // will confirm the products to be bought for customer
+    // 5. persist order: After confirming basket for customer, save the order object
+    // 6. persist order lines: Persist (save) the order lines (like purchasing or saving order lines)
+    // 7. start payment process: After persisting the order lines, start payment process. Use
+    // payment service -> IyziPayment.java -> createPaymentRequest(). If sync communication needed, use
+    // OpenFeign to send request from order to payment service
+    // 8. send the order confirmation: If payment is successfully processed, send the order confirmation
+    // to the notification microservice (use kafka)
 
+    public Integer createOrder(
+            OrderRequest orderRequest,
+            String customerId,
+            List<BasketItemRequest> basketItemRequests
+    ) {
         // 1. check the customer: Check if we have our customer or not (use OpenFeign)
         var customer = this.customerClient.getCustomerById(orderRequest.customerId())
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE
                 ));
+
+        // 2. create basket
+        BasketRequest basketRequest = new BasketRequest(customerId, basketItemRequests);
+
+        // 3. add items to basket
+        AddItemToBasketRequest addItemToBasketRequest =
+                new AddItemToBasketRequest(customerId, basketItemRequests);
+
+        ResponseEntity<BasketResponse> addItemToBasketResponse =
+                basketClient.addItemToBasket(addItemToBasketRequest);
+
+        System.out.println("Items added to basket: " + addItemToBasketResponse);
+        ResponseEntity<BasketResponse> basketResponse = basketClient.createBasket(basketRequest);
 
         // 2. purchase the products: Purchase the products using the product microservice (use RestTemplate)
         var purchasedProducts = this.productClient.purchaseProducts(orderRequest.products());
@@ -107,3 +139,18 @@ public class OrderService {
                         )));
     }
 }
+
+// 2. create basket for customer: createBasket method at basket service
+
+
+// 3. add items to basket for customer: addItemToBasket method at basket service
+
+
+// 4. confirm basket for customer: create a new method at BasketController and BasketService, which
+// will confirm the products to be bought for customer
+
+
+// 5. persist order: After confirming basket for customer, save the order object
+
+
+// 6. persist order lines: Persist (save) the order lines (like purchasing or saving order lines)
