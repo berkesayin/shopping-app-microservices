@@ -52,4 +52,12 @@ public class ProductController {
         return ResponseEntity.ok(productService.getCategoryIdOfProduct(productId));
     }
 
+    @GetMapping("/{product-id}/available-quantity")
+    public ResponseEntity<Double> getAvailableQuantityByProductId(
+            @PathVariable("product-id") Integer productId
+    ) {
+        return ResponseEntity.ok(productService.getAvailableQuantityByProductId(productId));
+    }
+
+
 }

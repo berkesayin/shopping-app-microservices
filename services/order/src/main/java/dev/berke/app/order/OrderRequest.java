@@ -1,6 +1,5 @@
 package dev.berke.app.order;
 
-import dev.berke.app.basket.BasketItemRequest;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.product.PurchaseRequest;
 import jakarta.validation.constraints.NotBlank;
@@ -28,8 +27,6 @@ public record OrderRequest(
         String customerId,
 
         // @NotEmpty(message = OrderConstants.PRODUCTS_NOT_EMPTY_MESSAGE)
-        List<PurchaseRequest> products,
-
-        List<BasketItemRequest> basketItemRequests
+        List<PurchaseRequest> products
 ) {
 }
