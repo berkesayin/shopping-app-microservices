@@ -49,48 +49,43 @@ public class OrderService {
         // 1. check the customer: Check if we have our customer or not (use OpenFeign)
         // 2. create basket for customer: createBasket method at basket service
         // 3. add items to basket for customer: addItemToBasket method at basket service
-        // 4. calculate total price of basket
-        // 5. confirm basket for customer: create a new method at BasketController and
-        // BasketService, which
-        // will confirm the products to be bought for customer
+        // 4. calculate total basket price
+        // 5. confirm basket for customer: create a new method at BasketController and BasketService,
+        // which will confirm the products to be bought for customer
         // 6. persist order: After confirming basket for customer, save the order object
-        // 7. persist order lines: Persist (save) the order lines (like purchasing or
-        // saving order lines)
-        // 8. start payment process: After persisting the order lines, start payment
-        // process. Use
-        // payment service -> IyziPayment.java -> createPaymentRequest(). If sync
-        // communication needed, use
-        // OpenFeign to send request from order to payment service
-        // 9. send the order confirmation: If payment is successfully processed, send
-        // the order confirmation
+        // 7. persist order lines: Persist (save) the order lines (like purchasing or saving order lines)
+        // 8. start payment process: After persisting the order lines, start payment process. Use
+        // payment service -> IyziPayment.java -> createPaymentRequest(). If sync communication needed,
+        // use OpenFeign to send request from order to payment service
+        // 9. send the order confirmation: If payment is successfully processed, send the order confirmation
         // to the notification microservice (use kafka)
 
         public Integer createOrder(
-                        OrderRequest orderRequest) {
+                OrderRequest orderRequest) {
                 // 1. check the customer: Check if we have our customer or not (use OpenFeign)
                 var customer = this.customerClient.getCustomerById(orderRequest.customerId())
-                                .orElseThrow(() -> new BusinessException(
-                                                OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE));
+                        .orElseThrow(() -> new BusinessException(
+                                OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE));
 
                 // 2. create basket
                 BasketRequest basketRequest = new BasketRequest(
-                                orderRequest.customerId(),
-                                orderRequest.basketItemRequests());
+                        orderRequest.customerId(),
+                        orderRequest.basketItemRequests());
 
                 // 3. add items to basket
                 AddItemToBasketRequest addItemToBasketRequest = new AddItemToBasketRequest(
-                                orderRequest.customerId(),
-                                orderRequest.basketItemRequests());
+                        orderRequest.customerId(),
+                        orderRequest.basketItemRequests());
 
-                ResponseEntity<BasketResponse> addItemToBasketResponse = basketClient
-                                .addItemToBasket(addItemToBasketRequest);
+                ResponseEntity < BasketResponse > addItemToBasketResponse = basketClient
+                        .addItemToBasket(addItemToBasketRequest);
 
                 System.out.println("Items added to basket: " + addItemToBasketResponse);
-                ResponseEntity<BasketResponse> basketResponse = basketClient.createBasket(basketRequest);
+                ResponseEntity < BasketResponse > basketResponse = basketClient.createBasket(basketRequest);
 
                 // 4. calculate total basket price
-                ResponseEntity<BasketTotalPriceResponse> basketTotalPriceResponse = basketClient
-                                .calculateTotalBasketPrice(orderRequest.customerId());
+                ResponseEntity < BasketTotalPriceResponse > basketTotalPriceResponse = basketClient
+                        .calculateTotalBasketPrice(orderRequest.customerId());
 
                 Double totalPrice = basketTotalPriceResponse.getBody().totalPrice();
 
@@ -103,23 +98,23 @@ public class OrderService {
 
                 // 4. persist order lines: Persist (save) the order lines (like purchasing or
                 // saving order lines)
-                for (PurchaseRequest purchaseRequest : orderRequest.products()) {
+                for (PurchaseRequest purchaseRequest: orderRequest.products()) {
                         orderLineService.saveOrderLine(
-                                        new OrderLineRequest(
-                                                        null, // id of the orderline
-                                                        order.getId(),
-                                                        purchaseRequest.productId(),
-                                                        purchaseRequest.quantity()));
+                                new OrderLineRequest(
+                                        null, // id of the orderline
+                                        order.getId(),
+                                        purchaseRequest.productId(),
+                                        purchaseRequest.quantity()));
                 }
 
                 // 5. start payment process: After persisting the order lines, start payment
                 // process
                 var paymentRequest = new PaymentRequest(
-                                orderRequest.amount(),
-                                orderRequest.paymentMethod(),
-                                order.getId(),
-                                order.getReference(),
-                                customer);
+                        orderRequest.amount(),
+                        orderRequest.paymentMethod(),
+                        order.getId(),
+                        order.getReference(),
+                        customer);
 
                 paymentClient.requestOrderPayment(paymentRequest);
 
@@ -127,33 +122,32 @@ public class OrderService {
                 // kafka broker
                 // and notification microservice will consume from there
                 orderProducer.sendOrderConfirmation(
-                                new OrderConfirmation(
-                                                orderRequest.reference(),
-                                                orderRequest.amount(),
-                                                orderRequest.paymentMethod(),
-                                                customer,
-                                                purchasedProducts));
+                        new OrderConfirmation(
+                                orderRequest.reference(),
+                                orderRequest.amount(),
+                                orderRequest.paymentMethod(),
+                                customer,
+                                purchasedProducts));
 
                 return order.getId();
         }
 
-        public List<OrderResponse> getAllOrders() {
+        public List < OrderResponse > getAllOrders() {
                 return orderRepository.findAll()
-                                .stream()
-                                .map(orderMapper::fromOrder)
-                                .collect(Collectors.toList());
+                        .stream()
+                        .map(orderMapper::fromOrder)
+                        .collect(Collectors.toList());
         }
 
         public OrderResponse getOrderById(Integer orderId) {
                 return orderRepository.findById(orderId)
-                                .map(orderMapper::fromOrder)
-                                .orElseThrow(() -> new EntityNotFoundException(
-                                                String.format(
-                                                                OrderConstants.ORDER_NOT_FOUND_ERROR_MESSAGE
-                                                                                + orderId)));
+                        .map(orderMapper::fromOrder)
+                        .orElseThrow(() -> new EntityNotFoundException(
+                                String.format(
+                                        OrderConstants.ORDER_NOT_FOUND_ERROR_MESSAGE +
+                                                orderId)));
         }
 }
-
 // 2. create basket for customer: createBasket method at basket service
 
 // 3. add items to basket for customer: addItemToBasket method at basket service
