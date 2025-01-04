@@ -11,10 +11,10 @@ public record Customer(
         String id,
 
         @NotNull(message = PaymentConstants.FIRSTNAME_NOT_NULL_MESSAGE)
-        String firstname,
+        String name,
 
         @NotNull(message = PaymentConstants.LASTNAME_NOT_NULL_MESSAGE)
-        String lastname,
+        String surname,
 
         @NotNull(message = PaymentConstants.EMAIL_NOT_NULL_MESSAGE)
         @Email(message = PaymentConstants.EMAIL_INVALID_FORMAT_MESSAGE)

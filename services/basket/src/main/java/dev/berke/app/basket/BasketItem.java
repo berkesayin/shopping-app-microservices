@@ -14,5 +14,5 @@ public class BasketItem {
     private Integer categoryId;
     private ItemType itemType;
     private Double price;
-    private Integer quantity;
+    private Double quantity;
 }

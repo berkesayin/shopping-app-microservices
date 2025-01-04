@@ -40,12 +40,12 @@ public class Order {
     @Column(unique = true,  nullable = false)
     private String reference;
 
+    private String customerId;
+
     private BigDecimal totalAmount;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
-
-    private String customerId;
 
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableFeignClients
-@EnableJpaAuditing
 public class PaymentApplication {
 
 	public static void main(String[] args) {

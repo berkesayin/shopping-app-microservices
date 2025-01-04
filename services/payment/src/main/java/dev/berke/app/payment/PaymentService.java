@@ -1,10 +1,7 @@
 package dev.berke.app.payment;
-
-import dev.berke.app.card.CreditCard;
-import dev.berke.app.card.CreditCardRequest;
 import dev.berke.app.card.CreditCardResponse;
+import lombok.extern.slf4j.Slf4j;
 import dev.berke.app.kafka.PaymentNotificationProducer;
-import dev.berke.app.kafka.PaymentNotificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -23,11 +21,20 @@ public class PaymentService {
         return paymentRepository.save(creditCard).getId();
     }
 
+    /*
     public List<CreditCardResponse> getCreditCardsByCustomerId(String customerId) {
         List<CreditCard> creditCards = paymentRepository.findByCustomerId(customerId);
         return paymentMapper.toCreditCardResponseList(creditCards);
+    }*/
+
+    public List<CreditCardResponse> getCreditCardsByCustomerId(String customerId) {
+        log.info("Fetching credit cards for customer ID: {}", customerId);
+        List<Payment> creditCards = paymentRepository.findByCustomerId(customerId);
+        log.info("Found {} credit cards for customer ID: {}", creditCards.size(), customerId);
+        return paymentMapper.toCreditCardResponseList(creditCards);
     }
 
+    /*
     public Integer createPayment(PaymentRequest paymentRequest) {
         var payment = paymentRepository.save(paymentMapper.toPayment(paymentRequest));
 
@@ -44,4 +51,6 @@ public class PaymentService {
 
         return payment.getId();
     }
+
+     */
 }

@@ -1,7 +1,5 @@
 package dev.berke.app.payment;
 
-import dev.berke.app.card.CreditCard;
-import dev.berke.app.card.CreditCardRequest;
 import dev.berke.app.card.CreditCardResponse;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +9,9 @@ import java.util.stream.Collectors;
 @Service
 public class PaymentMapper {
 
+
     public Payment toCreditCard(CreditCardRequest creditCardRequest) {
         return Payment.builder()
-                .id(creditCardRequest.id())
                 .customerId(creditCardRequest.customerId())
                 .cardHolderName(creditCardRequest.cardHolderName())
                 .cardNumber(creditCardRequest.cardNumber())
@@ -23,7 +21,7 @@ public class PaymentMapper {
                 .build();
     }
 
-    public List<CreditCardResponse> toCreditCardResponseList(List<CreditCard> creditCards) {
+    public List<CreditCardResponse> toCreditCardResponseList(List<Payment> creditCards) {
         return creditCards.stream()
                 .map(creditCard -> new CreditCardResponse(
                         creditCard.getId(),
@@ -37,6 +35,7 @@ public class PaymentMapper {
                 .collect(Collectors.toList());
     }
 
+    /*
     public Payment toPayment(PaymentRequest paymentRequest) {
         return Payment.builder()
                 .id(paymentRequest.id())
@@ -44,5 +43,5 @@ public class PaymentMapper {
                 .paymentMethod(paymentRequest.paymentMethod())
                 .amount(paymentRequest.amount())
                 .build();
-    }
+    } */
 }
