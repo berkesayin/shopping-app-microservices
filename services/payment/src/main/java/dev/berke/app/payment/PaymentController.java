@@ -66,17 +66,8 @@ public class PaymentController {
     @PostMapping("/create-iyzipayment")
     public ResponseEntity<PaymentResponse> createPayment(
             @RequestParam String customerId) {
-        try {
-            PaymentResponse paymentResponse = iyzipayService.createPaymentRequestWithCard(customerId);
+        PaymentResponse paymentResponse = iyzipayService.createPaymentRequestWithCard(customerId);
 
-            return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
-
-        } catch (Exception e) {
-            // Log the exception for debugging purposes
-            e.printStackTrace();
-            // Return a user-friendly error message
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
     }
-
 }

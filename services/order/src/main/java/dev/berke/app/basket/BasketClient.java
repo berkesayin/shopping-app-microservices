@@ -15,6 +15,6 @@ public interface BasketClient {
     @GetMapping("/{customer-id}")
     Optional<BasketResponse> getBasketByCustomerId(@PathVariable("customer-id") String customerId);
 
-    @GetMapping("/{customer-id}/items")
+    @GetMapping("/{customer-id}/total-price")
     ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(@PathVariable("customer-id") String customerId);
 }

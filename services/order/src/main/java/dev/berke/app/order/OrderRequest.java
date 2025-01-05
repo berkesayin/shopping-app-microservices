@@ -46,13 +46,11 @@ public record OrderRequest(
         @NotBlank(message = "Reference can not be blank")
         String reference,
 
-        // @NotNull(message = "Amount can not be null")
+        @NotNull(message = "Amount can not be null")
         BigDecimal amount,
 
-        @NotBlank(message = "Payment method can not be blank")
         PaymentMethod paymentMethod,
 
         List<BasketItem> basketItems
-
 ) {
 }

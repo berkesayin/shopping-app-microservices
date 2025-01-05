@@ -54,64 +54,58 @@ public class OrderService {
     // to the notification microservice (use kafka)
     // 9. calculate the new available quantities for each product after order confirmation
 
-    public Integer createOrder(
-            OrderRequest orderRequest
-    ) {
+
+    public OrderResponse createOrder(OrderRequest orderRequest) {
         // 1. check the customer: check if we have our customer or not (use OpenFeign)
         var customer = this.customerClient.getCustomerById(orderRequest.customerId())
-                .orElseThrow(() -> new BusinessException(
-                        OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE));
-
+                        .orElseThrow(() -> new BusinessException(
+                                OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE
+                        ));
+        System.out.println("Step 1: " + customer.id() + customer.name());
 
         // 2. check customer's basket: check if customer added products to basket or not
         var basket = this.basketClient.getBasketByCustomerId(orderRequest.customerId())
-                .orElseThrow(() -> new BusinessException(
-                        OrderConstants.BASKET_EMPTY_MESSAGE));
+                        .orElseThrow(() -> new BusinessException(
+                                OrderConstants.BASKET_EMPTY_MESSAGE
+                        ));
+
+        System.out.println("Step 2: " + basket.customerId() + basket.items());
 
         // 3. check each product's available quantity
         checkProductQuantities(basket);
 
         // 4. calculate total basket price
-        ResponseEntity <BasketTotalPriceResponse> basketTotalPriceResponse = basketClient
-                .calculateTotalBasketPrice(orderRequest.customerId());
+        ResponseEntity <BasketTotalPriceResponse> basketTotalPriceResponse =
+                basketClient.calculateTotalBasketPrice(orderRequest.customerId());
 
         Double totalPrice = basketTotalPriceResponse.getBody().totalPrice();
 
+        System.out.println("Step 4: " + totalPrice);
+
         // 5. persist order save the order object
-        var order = this.orderRepository.save(orderMapper.toOrder(orderRequest));
+        var order = orderMapper.toOrder(orderRequest);
+        order.setTotalAmount(orderRequest.amount());
+        var savedOrder = this.orderRepository.save(order);
+
+        System.out.println("Step 5: " + order.getCustomerId() + order.getPaymentMethod());
 
         // 6. persist order lines: Persist (save) the order lines (like purchasing or saving order lines)
-        for (BasketItem basketItem: orderRequest.basketItems()) {
+        for (BasketItem basketItem : orderRequest.basketItems()) {
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
                             null, // id of the orderline
-                            order.getId(),
+                            savedOrder.getId(),
                             basketItem.getProductId(),
-                            basketItem.getQuantity()
-                    ));
+                            basketItem.getQuantity()));
         }
 
         // 7. start payment process: After persisting the order lines, start payment
-        paymentClient.createPayment(customer.id());
+        paymentClient.createPayment(
+                customer.id()
+                // orderRequest.amount()
+        );
 
-        // 8. send the order confirmation: Send the order confirmation message to the kafka broker
-        // and notification microservice will consume from there
-        /*
-        List<BasketItem> basketItems = basket.items();
-
-        orderProducer.sendOrderConfirmation(
-              new OrderConfirmation(
-                    orderRequest.reference(),
-                    // orderRequest.amount(),
-                    totalPrice,
-                    orderRequest.paymentMethod(),
-                    customer,
-                    basketItems
-        ));
-        */
-
-
-        return order.getId();
+        return new OrderResponse(savedOrder.getId(), savedOrder.getReference());
     }
 
     private void checkProductQuantities(
@@ -123,6 +117,8 @@ public class OrderService {
             double availableQuantity = productClient
                     .getAvailableQuantityByProductId(item.getProductId());
 
+            System.out.println("Step 3: " + availableQuantity);
+
             if(item.getQuantity() > availableQuantity) {
                 throw new BusinessException(
                         OrderConstants.PRODUCT_QUANTITY_NOT_AVAILABLE + item.getProductId()
@@ -131,6 +127,7 @@ public class OrderService {
         }
     }
 
+    /*
 
     public List < OrderResponse > getAllOrders() {
         return orderRepository.findAll()
@@ -147,4 +144,6 @@ public class OrderService {
                                 OrderConstants.ORDER_NOT_FOUND_ERROR_MESSAGE +
                                         orderId)));
     }
+
+     */
 }
