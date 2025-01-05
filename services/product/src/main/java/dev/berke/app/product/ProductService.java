@@ -104,7 +104,7 @@ public class ProductService {
                 ));
     }
 
-    public double getAvailableQuantityByProductId(Integer productId) {
+    public Integer getAvailableQuantityByProductId(Integer productId) {
         return productRepository.findById(productId)
                 .map(Product::getAvailableQuantity)
                 .orElseThrow(() -> new EntityNotFoundException(

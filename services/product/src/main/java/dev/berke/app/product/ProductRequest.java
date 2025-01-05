@@ -9,21 +9,15 @@ import java.math.BigDecimal;
 
 public record ProductRequest(
 
-        Integer id,
+                Integer id,
 
-        @NotNull(message = ProductConstants.PRODUCT_NAME_REQUIRED)
-        String name,
+                @NotNull(message = ProductConstants.PRODUCT_NAME_REQUIRED) String name,
 
-        @NotNull(message = ProductConstants.PRODUCT_DESCRIPTION_REQUIRED)
-        String description,
+                @NotNull(message = ProductConstants.PRODUCT_DESCRIPTION_REQUIRED) String description,
 
-        @Positive(message = ProductConstants.AVAILABLE_QUANTITY_POSITIVE)
-        double availableQuantity,
+                @Positive(message = ProductConstants.AVAILABLE_QUANTITY_POSITIVE) Integer availableQuantity,
 
-        @Positive(message = ProductConstants.PRICE_POSITIVE)
-        BigDecimal price,
+                @Positive(message = ProductConstants.PRICE_POSITIVE) BigDecimal price,
 
-        @NotNull(message = ProductConstants.PRODUCT_CATEGORY_REQUIRED)
-        Integer categoryId
-) {
+                @NotNull(message = ProductConstants.PRODUCT_CATEGORY_REQUIRED) Integer categoryId) {
 }

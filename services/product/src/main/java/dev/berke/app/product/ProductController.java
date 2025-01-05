@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     @GetMapping("/{product-id}/available-quantity")
-    public ResponseEntity<Double> getAvailableQuantityByProductId(
+    public ResponseEntity<Integer> getAvailableQuantityByProductId(
             @PathVariable("product-id") Integer productId
     ) {
         return ResponseEntity.ok(productService.getAvailableQuantityByProductId(productId));

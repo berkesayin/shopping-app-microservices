@@ -1,5 +1,7 @@
 package dev.berke.app.basket;
 
+import java.math.BigDecimal;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,6 @@ public class BasketItem {
     private String productName;
     private Integer categoryId;
     private ItemType itemType;
-    private Double price;
-    private Double quantity;
+    private BigDecimal price;
+    private Integer quantity;
 }

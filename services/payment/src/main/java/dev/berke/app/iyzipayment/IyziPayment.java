@@ -153,7 +153,8 @@ public class IyziPayment {
                     iyziBasketItem.setName(item.getProductName());
                     iyziBasketItem.setCategory1(String.valueOf(item.getCategoryId()));
                     iyziBasketItem.setItemType(BasketItemType.PHYSICAL.name());
-                    iyziBasketItem.setPrice(BigDecimal.valueOf(item.getPrice()));
+                    // iyziBasketItem.setPrice(BigDecimal.valueOf(item.getPrice()));
+                    iyziBasketItem.setPrice(item.getPrice());
                     return iyziBasketItem;
                 })
                 .collect(Collectors.toList());
@@ -164,6 +165,6 @@ public class IyziPayment {
         BasketTotalPriceResponse totalPriceResponse =
                 basketClient.getTotalBasketPrice(customerId);
 
-        return BigDecimal.valueOf(totalPriceResponse.totalPrice());
+        return totalPriceResponse.totalPrice();
     }
 }

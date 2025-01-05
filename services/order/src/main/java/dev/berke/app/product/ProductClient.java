@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface ProductClient {
 
     @GetMapping("/{product-id}/available-quantity")
-    double getAvailableQuantityByProductId(@PathVariable("product-id") Integer productId);
+    Integer getAvailableQuantityByProductId(@PathVariable("product-id") Integer productId);
 
 }

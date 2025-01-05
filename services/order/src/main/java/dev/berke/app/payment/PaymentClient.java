@@ -12,8 +12,5 @@ public interface PaymentClient {
 
     @PostMapping("/create-iyzipayment")
     PaymentResponse createPayment(
-            @RequestParam("customerId") String customerId
-            // @RequestParam("amount") BigDecimal amount
-    );
+            @RequestParam("customerId") String customerId);
 }
-

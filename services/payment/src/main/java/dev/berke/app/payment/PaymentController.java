@@ -30,39 +30,6 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getCreditCardsByCustomerId(customerId));
     }
 
-    /*
-     * @PostMapping
-     * public ResponseEntity<Integer> createPayment(
-     * 
-     * @RequestBody @Valid PaymentRequest paymentRequest
-     * ) {
-     * return ResponseEntity.ok(paymentService.createPayment(paymentRequest));
-     * }
-     */
-
-    /*
-     * old with CreatePaymentRequest
-     * 
-     * @PostMapping("/create-iyzipayment")
-     * public ResponseEntity<CreatePaymentRequest> createPayment(
-     * 
-     * @RequestParam String customerId
-     * ) {
-     * try {
-     * CreatePaymentRequest paymentResponse =
-     * iyzipayService.createPaymentRequestWithCard(customerId);
-     * 
-     * return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
-     * 
-     * } catch (Exception e) {
-     * // Log the exception for debugging purposes
-     * e.printStackTrace();
-     * // Return a user-friendly error message
-     * return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-     * }
-     * }
-     */
-
     @PostMapping("/create-iyzipayment")
     public ResponseEntity<PaymentResponse> createPayment(
             @RequestParam String customerId) {

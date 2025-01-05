@@ -1,7 +1,8 @@
 package dev.berke.app.basket;
 
+import java.math.BigDecimal;
+
 public record BasketTotalPriceResponse(
-            String customerId,
-            Double totalPrice
-) {
+        String customerId,
+        BigDecimal totalPrice) {
 }
