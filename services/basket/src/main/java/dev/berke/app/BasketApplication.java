@@ -2,16 +2,15 @@ package dev.berke.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-@SpringBootApplication
-@EnableJpaAuditing
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients
-public class PaymentApplication {
+public class BasketApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PaymentApplication.class, args);
+		SpringApplication.run(BasketApplication.class, args);
 	}
 
 }
