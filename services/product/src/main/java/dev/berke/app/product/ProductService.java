@@ -103,4 +103,12 @@ public class ProductService {
                         ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
                 ));
     }
+
+    public Integer getAvailableQuantityByProductId(Integer productId) {
+        return productRepository.findById(productId)
+                .map(Product::getAvailableQuantity)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
+                ));
+    }
 }
