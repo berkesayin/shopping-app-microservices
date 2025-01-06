@@ -1,5 +1,6 @@
 package dev.berke.app.customer;
 
+import dev.berke.app.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +19,15 @@ public class Customer {
 
     @Id
     private String id;
-    private String firstname;
-    private String lastname;
+    private String name;
+    private String surname;
+    private String gsmNumber;
     private String email;
-    private Address address;
+    private String identityNumber;
+    private String registrationAddress;
+    private String city;
+    private String country;
+    private String zipCode;
+    private Address billingAddress;
+    private Address shippingAddress;
 }

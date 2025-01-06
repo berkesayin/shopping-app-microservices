@@ -1,21 +1,40 @@
 package dev.berke.app.customer;
 
-import dev.berke.app.constants.CustomerConstants;
-import jakarta.validation.constraints.Email;
+import dev.berke.app.address.Address;
 import jakarta.validation.constraints.NotNull;
 
-public record CustomerRequest(
+public record CustomerRequest (
         String id,
 
-        @NotNull(message = CustomerConstants.CUSTOMER_FIRSTNAME_REQUIRED)
-        String firstname,
+        @NotNull
+        String name,
 
-        @NotNull(message = CustomerConstants.CUSTOMER_LASTNAME_REQUIRED)
-        String lastname,
+        @NotNull
+        String surname,
 
-        @Email(message = CustomerConstants.CUSTOMER_EMAIL_INVALID)
+        @NotNull
+        String gsmNumber,
+
+        @NotNull
         String email,
 
-        Address address
-) {
+        @NotNull
+        String identityNumber,
+
+        @NotNull
+        String registrationAddress,
+
+        @NotNull
+        String city,
+
+        @NotNull
+        String country,
+
+        @NotNull
+        String zipCode,
+
+        Address billingAddress,
+
+        Address shippingAddress
+){
 }
