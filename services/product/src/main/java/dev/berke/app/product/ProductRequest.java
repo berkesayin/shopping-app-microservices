@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 public record ProductRequest(
-
         Integer id,
 
         @NotNull(message = ProductConstants.PRODUCT_NAME_REQUIRED)
@@ -18,7 +17,7 @@ public record ProductRequest(
         String description,
 
         @Positive(message = ProductConstants.AVAILABLE_QUANTITY_POSITIVE)
-        double availableQuantity,
+        Integer availableQuantity,
 
         @Positive(message = ProductConstants.PRICE_POSITIVE)
         BigDecimal price,
