@@ -45,4 +45,11 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
+    @GetMapping("/{product-id}/category-id")
+    public ResponseEntity<Integer> getCategoryIdOfProduct(
+            @PathVariable("product-id") Integer productId
+    ) {
+        return ResponseEntity.ok(productService.getCategoryIdOfProduct(productId));
+    }
+
 }

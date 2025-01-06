@@ -95,4 +95,12 @@ public class ProductService {
                 .map(productMapper::toProductResponse)
                 .collect(Collectors.toList());
     }
+
+    public Integer getCategoryIdOfProduct(Integer productId) {
+        return productRepository.findById(productId)
+                .map(product -> product.getCategory().getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
+                ));
+    }
 }
