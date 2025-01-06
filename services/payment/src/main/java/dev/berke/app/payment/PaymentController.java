@@ -2,8 +2,10 @@ package dev.berke.app.payment;
 
 import dev.berke.app.card.CreditCardRequest;
 import dev.berke.app.card.CreditCardResponse;
+import dev.berke.app.iyzipay.IyzipayService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final IyzipayService iyzipayService;
 
     @PostMapping("/credit-cards")
     public ResponseEntity<Integer> createCreditCard(
@@ -30,6 +33,16 @@ public class PaymentController {
         return ResponseEntity.ok(
                 paymentService.getCreditCardsByCustomerId(customerId)
         );
+    }
+
+    @PostMapping("/create-iyzipayment")
+    public ResponseEntity<PaymentResponse> createPayment(
+            @RequestParam String customerId
+    ) {
+        PaymentResponse paymentResponse =
+                iyzipayService.createPaymentRequestWithCard(customerId);
+
+        return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
     }
 
 }
