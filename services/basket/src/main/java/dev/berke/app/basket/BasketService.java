@@ -5,6 +5,7 @@ import dev.berke.app.product.ProductClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -96,5 +97,18 @@ public class BasketService {
         Basket updatedBasket = basketRepository.save(basket);
 
         return new BasketResponse(updatedBasket.getCustomerId(), updatedBasket.getItems());
+    }
+
+    public BasketTotalPriceResponse calculateTotalBasketPrice(
+            String customerId
+    ) {
+        Basket basket = basketRepository.findById(customerId)
+                .orElseThrow(() -> new RuntimeException("Basket not found for customer id: " + customerId));
+
+        BigDecimal totalPrice = basket.getItems().stream()
+                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new BasketTotalPriceResponse(customerId, totalPrice);
     }
 }

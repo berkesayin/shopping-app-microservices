@@ -35,4 +35,14 @@ public class BasketController {
         BasketResponse basketResponse = basketService.addItemToBasket(addItemToBasketRequest);
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
+
+    @GetMapping("/{customer-id}/total-price")
+    public ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(
+            @PathVariable("customer-id") String customerId
+    ) {
+        BasketTotalPriceResponse totalPriceResponse =
+                basketService.calculateTotalBasketPrice(customerId);
+
+        return new ResponseEntity<>(totalPriceResponse, HttpStatus.OK);
+    }
 }
