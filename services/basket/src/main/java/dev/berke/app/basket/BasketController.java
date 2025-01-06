@@ -19,4 +19,12 @@ public class BasketController {
         BasketResponse basketResponse = basketService.createBasket(basketRequest);
         return new ResponseEntity<>(basketResponse, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{customer-id}")
+    public ResponseEntity<BasketResponse> getBasketByCustomerId(
+            @PathVariable("customer-id") String customerId
+    ){
+        BasketResponse basketResponse = basketService.getBasketByCustomerId(customerId);
+        return new ResponseEntity<>(basketResponse, HttpStatus.OK);
+    }
 }

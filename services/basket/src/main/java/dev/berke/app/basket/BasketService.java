@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,5 +41,14 @@ public class BasketService {
         Basket basket = new Basket(customerResponse.id(), basketItems);
         Basket savedBasket = basketRepository.save(basket);
         return new BasketResponse(savedBasket.getCustomerId(), savedBasket.getItems());
+    }
+
+    public BasketResponse getBasketByCustomerId(String customerId) {
+        Optional<Basket> basket = basketRepository.findByCustomerId(customerId);
+        return basket.map(value -> new BasketResponse(
+                    value.getCustomerId(),
+                    value.getItems()
+                ))
+                .orElse(null);
     }
 }
