@@ -18,3 +18,7 @@ spring:
         spring.json.type.mapping: paymentConfirmation:dev.berke.app.kafka.PaymentNotificationRequest
 server:
   port: 8060
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers
+    basket-url: http://localhost:8040/api/v1/baskets
