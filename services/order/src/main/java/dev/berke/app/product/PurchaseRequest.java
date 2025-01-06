@@ -9,6 +9,6 @@ public record PurchaseRequest(
         Integer productId,
 
         @Positive(message = OrderConstants.QUANTITY_POSITIVE_MESSAGE)
-        double quantity
+        Integer quantity
 ) {
 }

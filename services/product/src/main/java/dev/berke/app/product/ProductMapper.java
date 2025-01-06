@@ -16,21 +16,18 @@ public class ProductMapper {
                 .category(
                         Category.builder()
                                 .id(productRequest.categoryId())
-                                .build()
-                )
+                                .build())
                 .build();
     }
 
     public ProductPurchaseResponse toProductPurchaseResponse(
-            Product product, double quantity
-    ) {
+            Product product, Integer quantity) {
         return new ProductPurchaseResponse(
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
-                quantity
-        );
+                quantity);
     }
 
     public ProductResponse toProductResponse(Product product) {
@@ -42,7 +39,6 @@ public class ProductMapper {
                 product.getPrice(),
                 product.getCategory().getId(),
                 product.getCategory().getName(),
-                product.getCategory().getDescription()
-        );
+                product.getCategory().getDescription());
     }
 }
