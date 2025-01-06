@@ -27,4 +27,12 @@ public class BasketController {
         BasketResponse basketResponse = basketService.getBasketByCustomerId(customerId);
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
+
+    @PostMapping("/items")
+    public ResponseEntity<BasketResponse> addItemToBasket(
+            @RequestBody AddItemToBasketRequest addItemToBasketRequest
+    ) {
+        BasketResponse basketResponse = basketService.addItemToBasket(addItemToBasketRequest);
+        return new ResponseEntity<>(basketResponse, HttpStatus.OK);
+    }
 }
