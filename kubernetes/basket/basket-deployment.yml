@@ -1,0 +1,46 @@
+# kubernetes/basket/basket-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basket-deployment
+  labels:
+    app: basket
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basket
+  template:
+    metadata:
+      labels:
+        app: basket
+    spec:
+      containers:
+        - name: basket
+          image: berkesayin/basket:latest
+          ports:
+            - containerPort: 8092
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                 configMapKeyRef:
+                    name: redis-config
+                    key: redis-host
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                    name: redis-config
+                    key: redis-port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basket-service
+spec:
+  type: NodePort
+  selector:
+    app: basket
+  ports:
+    - protocol: TCP
+      port: 8092
+      targetPort: 8092
