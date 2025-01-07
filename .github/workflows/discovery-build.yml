@@ -1,0 +1,20 @@
+name: Discovery Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/discovery/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/discovery/**'
+
+jobs:
+  discovery-build:
+    uses: ./.github/workflows/config-base-build.yml
+    with:
+      service-name: discovery
+      java-version: 21

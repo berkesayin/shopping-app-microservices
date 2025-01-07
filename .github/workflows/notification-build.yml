@@ -1,0 +1,20 @@
+name: Notification Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/notification/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/notification/**'
+
+jobs:
+  notification-build:
+    uses: ./.github/workflows/app-base-build.yml
+    with:
+      service-name: notification
+      java-version: 21

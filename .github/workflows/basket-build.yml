@@ -1,0 +1,20 @@
+name: Basket Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/basket/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/basket/**'
+
+jobs:
+  basket-build:
+    uses: ./.github/workflows/app-base-build.yml
+    with:
+      service-name: basket
+      java-version: 21

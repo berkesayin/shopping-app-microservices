@@ -1,0 +1,20 @@
+name: Gateway Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/gateway/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/gateway/**'
+
+jobs:
+  gateway-build:
+    uses: ./.github/workflows/app-base-build.yml
+    with:
+      service-name: gateway
+      java-version: 21

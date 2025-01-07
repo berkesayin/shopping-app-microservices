@@ -1,0 +1,20 @@
+name: Payment Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/payment/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/payment/**'
+
+jobs:
+  payment-build:
+    uses: ./.github/workflows/app-base-build.yml
+    with:
+      service-name: payment
+      java-version: 21

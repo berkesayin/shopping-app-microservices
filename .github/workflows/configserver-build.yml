@@ -1,0 +1,20 @@
+name: Config Server Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/config-server/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/config-server/**'
+
+jobs:
+  configserver-build:
+    uses: ./.github/workflows/config-base-build.yml
+    with:
+      service-name: config-server
+      java-version: 21
