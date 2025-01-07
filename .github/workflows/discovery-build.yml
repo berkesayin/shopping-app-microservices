@@ -1,0 +1,23 @@
+name: Discovery Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/discovery/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/discovery/**'
+
+jobs:
+  discovery-build:
+    uses: ./.github/workflows/main.yml
+    with:
+      service-name: 'discovery'
+      java-version: '21'
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
