@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-deployment
+  labels:
+    app: product
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product
+  template:
+    metadata:
+      labels:
+        app: product
+    spec:
+      containers:
+        - name: product
+          image: berkesayin/product:latest
+          ports:
+            - containerPort: 8050
+          env:
+            - name: USER_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: product-postgres-secret
+                  key: postgres-user
+            - name: USER_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: product-postgres-secret
+                  key: postgres-password
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: product-postgres-config
+                  key: postgres-url
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: product-postgres-config
+                  key: postgres-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+spec:
+  type: NodePort
+  selector:
+    app: product
+  ports:
+    - protocol: TCP
+      port: 8050
+      targetPort: 8050
