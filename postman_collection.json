@@ -1,0 +1,645 @@
+{
+	"info": {
+		"_postman_id": "d925442c-126f-4dd0-ad06-37ad4b00920a",
+		"name": "shopping-app-ms",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32612836"
+	},
+	"item": [
+		{
+			"name": "config-server",
+			"item": [
+				{
+					"name": "ConfigServerPort",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "discovery",
+			"item": [
+				{
+					"name": "DiscoveryServerPort",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8761/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8761",
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "createCustomer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Berke\",\n  \"surname\": \"Sayin\",\n  \"gsmNumber\": \"+905551234567\",\n  \"email\": \"berkesayin@gmail.com\",\n  \"identityNumber\": \"12345678901\",\n  \"registrationAddress\": \"Istanbul\",\n  \"city\": \"Istanbul\",\n  \"country\": \"Turkey\",\n  \"zipCode\": \"34000\",\n  \"billingAddress\": {\n    \"contactName\": \"Berke Sayin Billing\",\n    \"city\": \"Istanbul\",\n    \"country\": \"Turkey\",\n    \"address\": \"Bulgurlu district, new street\",\n    \"zipCode\": \"34000\"\n  },\n  \"shippingAddress\": {\n    \"contactName\": \"Berke Sayin Shipping\",\n    \"city\": \"Istanbul\",\n    \"country\": \"Turkey\",\n    \"address\": \"Bulgurlu district, new street\",\n    \"zipCode\": \"34000\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/v1/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateCustomer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"676ac3ac06f7c377345450f8\",\n    \"firstname\": \"Berke\",\n    \"lastname\": \"Sayin\",\n    \"email\": \"sayinberke@gmail.com\",\n    \"address\": {\n        \"street\": \"Sample Street Address\",\n        \"houseNumber\": \"Sample Number\",\n        \"zipCode\": \"12345\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8090/api/v1/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllCustomers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/v1/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkCustomerById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/v1/customers/exists/676ac3ac06f7c377345450f8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"exists",
+								"676ac3ac06f7c377345450f8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCustomerById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/v1/customers/6773e2ed49f60868522c918a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"6773e2ed49f60868522c918a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteCustomerById",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8090/api/v1/customers/676934a7428e4e5a7ee35353",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"v1",
+								"customers",
+								"676934a7428e4e5a7ee35353"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "createProduct",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Wireless Ergonomic Keyboard\",\n  \"description\": \"Wireless ergonomic keyboard with split layout for enhanced comfort\",\n  \"availableQuantity\": 30,\n  \"price\": 129.99,\n  \"categoryId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8050/api/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8050",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "purchaseProducts",
+					"request": {
+						"method": "POST",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "getProductById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8050/api/v1/products/51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8050",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllProducts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8050/api/v1/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8050",
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCategoryIdOfProduct",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8050/api/v1/products/351/category-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8050",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"351",
+								"category-id"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAvailableQuantityByProductId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8050/api/v1/products/1201/available-quantity",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8050",
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"1201",
+								"available-quantity"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Note: purchaseProducts() method at product service is used at createOrder() method at order service. Order service sends http request to product service using RestTemplate."
+		},
+		{
+			"name": "basket",
+			"item": [
+				{
+					"name": "createBasket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerId\": \"677d77b7bfe40551dd28b0d1\",\n    \"items\": [\n      {\n        \"productId\": 51,\n        \"quantity\": 1\n      }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8040/api/v1/baskets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8040",
+							"path": [
+								"api",
+								"v1",
+								"baskets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBasketByCustomerId",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8040/api/v1/baskets/677d77b7bfe40551dd28b0d1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8040",
+							"path": [
+								"api",
+								"v1",
+								"baskets",
+								"677d77b7bfe40551dd28b0d1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addItemToBasket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerId\": \"677d77b7bfe40551dd28b0d1\",\n  \"items\": [\n    {\n        \"productId\": 951,\n        \"quantity\": 3\n    },\n    {\n        \"productId\": 1151,\n        \"quantity\": 5\n    },\n    {\n        \"productId\": 1201,\n        \"quantity\": 4\n    },\n    {\n        \"productId\": 901,\n        \"quantity\": 3\n    }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8040/api/v1/baskets/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8040",
+							"path": [
+								"api",
+								"v1",
+								"baskets",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calculateTotalBasketPrice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8040/api/v1/baskets/677d77b7bfe40551dd28b0d1/total-price",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8040",
+							"path": [
+								"api",
+								"v1",
+								"baskets",
+								"677d77b7bfe40551dd28b0d1",
+								"total-price"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "order",
+			"item": [
+				{
+					"name": "createOrder",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reference\": \"ORD-20241027-1\",\n  \"customerId\": \"677d77b7bfe40551dd28b0d1\",\n  \"paymentMethod\": \"IYZICO_PAYMENT\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8070/api/v1/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8070",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllOrders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8070/api/v1/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8070",
+							"path": [
+								"api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getOrderById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8070/api/v1/orders/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8070",
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "payment",
+			"item": [
+				{
+					"name": "createPayment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8060/api/v1/payments/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8060",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createCreditCard",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customerId\": \"677d77b7bfe40551dd28b0d1\",\n  \"cardHolderName\": \"Berke Sayin\",\n  \"cardNumber\": \"5168880000000002\",\n  \"expireMonth\": \"11\",\n  \"expireYear\": \"2028\",\n  \"cvc\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8060/api/v1/payments/credit-cards",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8060",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"credit-cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCreditCardsByCustomerId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8060/api/v1/payments/customer/677d77b7bfe40551dd28b0d1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8060",
+							"path": [
+								"api",
+								"v1",
+								"payments",
+								"customer",
+								"677d77b7bfe40551dd28b0d1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Note: createPayment() method at payment service is used at createOrder() method at order service. Order service sends http request to payment service using FeignClient."
+		},
+		{
+			"name": "notification",
+			"item": [],
+			"description": "Note:\n\n- Kafka Listener is used to consume order confirmation messages from the order-topic\n    \n- Kafka Listener is also used to consume payment confirmation messages from the payment-topic"
+		},
+		{
+			"name": "gateway",
+			"item": []
+		}
+	]
+}

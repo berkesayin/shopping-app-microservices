@@ -118,3 +118,23 @@ Load maven projects for each service
 ./mvnw clean install
 ./mvnw spring-boot:run
 ```
+
+## Basket Data With Redis
+
+![img](./images/img-4.png)
+
+## Postman Collection
+
+Postman collection is included at the root directory of repository.
+
+![img](./images/img-5.png)
+## New Features 
+
+These features will be released soon:
+
+- Adding Redis cache for frequently accessed endpoints
+- Implementing spring security
+- Using Helm charts for kubernetes deployments
+- Applying container orchestration best practices
+- Adding consumer at notification service to consume order-topic and payment-topic
+- Updating CI/CD pipelines to run linting, static analysis tools and tests.
