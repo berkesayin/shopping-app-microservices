@@ -1,0 +1,23 @@
+name: Customer Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/customer/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/customer/**'
+
+jobs:
+  customer-build:
+    uses: ./.github/workflows/main.yml
+    with:
+      service-name: 'customer'
+      java-version: '21'
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

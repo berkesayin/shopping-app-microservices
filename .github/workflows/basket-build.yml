@@ -1,0 +1,23 @@
+name: Basket Service Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/basket/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/basket/**'
+
+jobs:
+  basket-build:
+    uses: ./.github/workflows/main.yml
+    with:
+      service-name: 'basket'
+      java-version: '21'
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

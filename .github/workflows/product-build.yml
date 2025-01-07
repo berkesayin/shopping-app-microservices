@@ -1,0 +1,23 @@
+name: Product Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/product/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/product/**'
+
+jobs:
+  product-build:
+    uses: ./.github/workflows/main.yml
+    with:
+      service-name: 'product'
+      java-version: '21'
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

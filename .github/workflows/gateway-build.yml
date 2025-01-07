@@ -1,0 +1,23 @@
+name: Gateway Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/gateway/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/gateway/**'
+
+jobs:
+  gateway-build:
+    uses: ./.github/workflows/main.yml
+    with:
+      service-name: 'gateway'
+      java-version: '21'
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
