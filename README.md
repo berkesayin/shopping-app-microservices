@@ -2,6 +2,8 @@
 
 The shopping application is designed using microservices architecture, where each service is responsible for a specific business function. This method promotes loosely coupling and separation of concerns principles, allows for independent scaling, and facilitates faster development cycles.
 
+## Iyzico Payment
+
 `iyzico, iyzipay-java` package is used with maven at payment service to process and handle customer, order, and payment operations.
 
 ```xml
@@ -11,6 +13,13 @@ The shopping application is designed using microservices architecture, where eac
   <version>2.0.132</version>
 </dependency>
 ```
+*   **Library:** `iyzipay-java` is included as a dependency for the payment microservice.
+*   **Configuration:** The iyzico API keys and secret keys are managed through the config-server, enabling externalized configuration.
+*   **Functionality:** The payment service handles operations such as:
+    *   Creating payment request.
+    *   Managing payment cards.
+    *   Handling customer data coming from customer service.
+    *   Communicating with basket service to process basket products.
 
 **Reference:** https://github.com/iyzico/iyzipay-java
 
@@ -48,18 +57,6 @@ The following technologies were used during the development of this project:
     *   **Open Feign:** For synchronous communication between services.
 
 
-## Iyzico Payment Integration
-
-The `payment` service integrates with the iyzico payment gateway using the `iyzipay-java` package. The following are the key points about the integration:
-
-*   **Library:** `iyzipay-java` is included as a dependency for the payment microservice.
-*   **Configuration:** The iyzico API keys and secret keys are managed through the config-server, enabling externalized configuration.
-*   **Functionality:** The payment service handles operations such as:
-    *   Creating payment request.
-    *   Managing payment cards.
-    *   Handling customer data coming from customer service.
-    *   Communicating with basket service to process basket products.
-
 ## Business Flow
 
 The typical business flow for a user shopping on the platform would follow these steps:
@@ -83,9 +80,8 @@ The typical business flow for a user shopping on the platform would follow these
 * Proceed to checkout (order)
 * Create order 
 
+POST   http://localhost:8222/api/v1/orders
 ```json
-# POST   http://localhost:8222/api/v1/orders
-
 {
   "reference": "ORD-20241027-1",
   "customerId": "677d77b7bfe40551dd28b0d1",
