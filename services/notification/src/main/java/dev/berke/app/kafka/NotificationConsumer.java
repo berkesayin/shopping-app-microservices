@@ -2,8 +2,8 @@ package dev.berke.app.kafka;
 
 import dev.berke.app.email.OrderConfirmationEmail;
 import dev.berke.app.email.PaymentSuccessEmail;
-import dev.berke.app.kafka.order.OrderConfirmation;
-import dev.berke.app.kafka.payment.PaymentConfirmation;
+import dev.berke.app.kafka.order.OrderConfirmationRequest;
+import dev.berke.app.kafka.payment.PaymentConfirmationRequest;
 import dev.berke.app.notification.Notification;
 import dev.berke.app.notification.NotificationRepository;
 import dev.berke.app.notification.NotificationType;
@@ -27,53 +27,50 @@ public class NotificationConsumer {
     // Kafka listener to consume order confirmation messages from the order-topic
     @KafkaListener(topics = "order-topic")
     public void consumeOrderConfirmationNotification(
-            OrderConfirmation orderConfirmation
+            OrderConfirmationRequest orderConfirmationRequest
     ) throws MessagingException {
-        log.info(String.format("Consuming the message from order-topic,  Topic:: %s", orderConfirmation));
+        log.info(String.format("Consuming the message from order-topic,  Topic:: %s", orderConfirmationRequest));
         notificationRepository.save(
                 Notification.builder()
                         .type(NotificationType.ORDER_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
-                        .orderConfirmation(orderConfirmation)
+                        .orderConfirmationRequest(orderConfirmationRequest)
                         .build()
         );
 
         // send email ==>  for consumeOrderConfirmationNotification() method
-        var customerName = orderConfirmation.customer().firstname() + " "
-                + orderConfirmation.customer().lastname();
-
+        var customerEmail = "berkesayin@gmail.com";
         orderConfirmationEmail.sendOrderConfirmationEmail(
-                orderConfirmation.customer().email(),
-                customerName,
-                orderConfirmation.totalAmount(),
-                orderConfirmation.orderReference(),
-                orderConfirmation.products()
+                orderConfirmationRequest.customerEmail(),
+                orderConfirmationRequest.customerId(),
+                orderConfirmationRequest.reference(),
+                orderConfirmationRequest.paymentMethod()
         );
     }
 
     // Kafka listener to consume payment success messages from the payment-topic
     @KafkaListener(topics = "payment-topic")
     public void consumePaymentSuccessNotification(
-            PaymentConfirmation paymentConfirmation
+            PaymentConfirmationRequest paymentConfirmationRequest
     ) throws MessagingException {
-        log.info(String.format("Consuming the message from payment-topic,  Topic:: %s", paymentConfirmation));
+        log.info(String.format("Consuming the message from payment-topic,  Topic:: %s", paymentConfirmationRequest));
         notificationRepository.save(
                 Notification.builder()
                         .type(NotificationType.PAYMENT_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
-                        .paymentConfirmation(paymentConfirmation)
+                        .paymentConfirmationRequest(paymentConfirmationRequest)
                         .build()
         );
 
         // send email ==>  for sendPaymentSuccessEmail() method
-        var customerName = paymentConfirmation.customerFirstname() + " "
-                + paymentConfirmation.customerLastname();
+        var customerName = paymentConfirmationRequest.name() + " "
+                + paymentConfirmationRequest.surname();
 
         paymentSuccessEmail.sendPaymentSuccessEmail(
-                paymentConfirmation.customerEmail(),
+                paymentConfirmationRequest.email(),
                 customerName,
-                paymentConfirmation.amount(),
-                paymentConfirmation.orderReference()
+                paymentConfirmationRequest.totalBasketPrice(),
+                paymentConfirmationRequest.basketItems()
         );
     }
 }

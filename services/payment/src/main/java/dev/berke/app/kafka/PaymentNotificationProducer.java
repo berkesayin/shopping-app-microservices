@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 public class PaymentNotificationProducer {
 
     // KafkaTemplate for sending messages to Kafka broker
-    private final KafkaTemplate<String, PaymentNotificationRequest> kafkaTemplate;
+    private final KafkaTemplate<String, PaymentConfirmationRequest> kafkaTemplate;
 
     // Send a payment notification to the Kafka topic
-    public void sendPaymentNotification(PaymentNotificationRequest paymentNotificationRequest) {
-        log.info("Sending notification with body <{}>", paymentNotificationRequest);
+    public void sendPaymentNotification(PaymentConfirmationRequest paymentConfirmationRequest) {
+        log.info("Sending notification with body <{}>", paymentConfirmationRequest);
 
         // Create a message to be sent to Kafka
-        Message<PaymentNotificationRequest> message = MessageBuilder
+        Message<PaymentConfirmationRequest> message = MessageBuilder
                 // Sets the payload of the message to the provided request
-                .withPayload(paymentNotificationRequest)
+                .withPayload(paymentConfirmationRequest)
                 .setHeader(KafkaHeaders.TOPIC, "payment-topic")
                 .build();
 

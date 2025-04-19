@@ -1,7 +1,7 @@
 package dev.berke.app.notification;
 
-import dev.berke.app.kafka.order.OrderConfirmation;
-import dev.berke.app.kafka.payment.PaymentConfirmation;
+import dev.berke.app.kafka.order.OrderConfirmationRequest;
+import dev.berke.app.kafka.payment.PaymentConfirmationRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class Notification {
     private String id;
     private NotificationType type;
     private LocalDateTime notificationDate;
-    private OrderConfirmation orderConfirmation;
-    private PaymentConfirmation paymentConfirmation;
+    private OrderConfirmationRequest orderConfirmationRequest;
+    private PaymentConfirmationRequest paymentConfirmationRequest;
 }
 

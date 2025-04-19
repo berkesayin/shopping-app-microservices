@@ -11,16 +11,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderProducer {
+public class OrderNotificationProducer {
 
-    private final KafkaTemplate<String, OrderConfirmation> kafkaTemplate;
+    private final KafkaTemplate<String, OrderConfirmationRequest> kafkaTemplate;
 
-    public void sendOrderConfirmation (OrderConfirmation orderConfirmation) {
+    public void sendOrderConfirmation (OrderConfirmationRequest orderConfirmationRequest) {
         log.info("Sending order confirmation");
 
         // Create a Kafka message using MessageBuilder
-        Message<OrderConfirmation> message = MessageBuilder
-                .withPayload(orderConfirmation) // Set the payload to be the orderConfirmation
+        Message<OrderConfirmationRequest> message = MessageBuilder
+                .withPayload(orderConfirmationRequest) // Set the payload to be the orderConfirmationRequest
                 .setHeader(KafkaHeaders.TOPIC, "order-topic") // Set the Kafka topic header to "order-topic"
                 .build(); // Build the Kafka message
 

@@ -1,6 +1,7 @@
 package dev.berke.app.email;
 
 import dev.berke.app.kafka.order.Product;
+import dev.berke.app.kafka.payment.PaymentMethod;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -29,22 +30,20 @@ public class OrderConfirmationEmail {
     @Async
     public void sendOrderConfirmationEmail(
             String destinationEmail,
-            String customerName,
-            BigDecimal amount,
-            String orderReference,
-            List<Product> products
+            String customerId,
+            String reference,
+            PaymentMethod paymentMethod
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper =
                 new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
-        mimeMessageHelper.setFrom("test@gmail.com");
+        mimeMessageHelper.setFrom("berkesayin@gmail.com");
         final String templateName = EmailTemplates.ORDER_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("customerName", customerName);
-        variables.put("totalAmount", amount);
-        variables.put("orderReference", orderReference);
-        variables.put("products", products);
+        variables.put("customerId", customerId);
+        variables.put("reference", reference);
+        variables.put("paymentMethod", paymentMethod);
 
         Context context = new Context();
         context.setVariables(variables);

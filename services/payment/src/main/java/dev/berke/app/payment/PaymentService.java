@@ -3,7 +3,6 @@ package dev.berke.app.payment;
 import dev.berke.app.card.CreditCardRequest;
 import dev.berke.app.card.CreditCardResponse;
 import dev.berke.app.kafka.PaymentNotificationProducer;
-import dev.berke.app.kafka.PaymentNotificationRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
