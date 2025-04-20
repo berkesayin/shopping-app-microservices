@@ -37,13 +37,16 @@ public class Order {
     @GeneratedValue
     private Integer id;
 
-    @Column(unique = true,  nullable = false)
+    @Column(unique = true, nullable = false)
     private String reference;
 
+    @Column(nullable = false)
     private String customerId;
 
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
+    @Column(name = "payment_method", nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
@@ -51,10 +54,10 @@ public class Order {
     private List<OrderLine> orderLines;
 
     @CreatedDate
-    @Column(updatable = false, nullable = false)
+    @Column(name = "created_date", updatable = false, nullable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @Column(insertable = false)
+    @Column(name = "last_modified_date")
     private LocalDateTime lastModifiedDate;
 }
