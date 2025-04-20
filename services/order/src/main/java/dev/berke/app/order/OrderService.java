@@ -95,8 +95,10 @@ public class OrderService {
         paymentClient.createPayment(customer.id());
 
         // 8. send the order confirmation to notification service
+        var customerEmail = "berkesayin@gmail.com";
         orderNotificationProducer.sendOrderConfirmation(
                 new OrderConfirmationRequest(
+                        customerEmail,
                         orderRequest.customerId(),
                         orderRequest.reference(),
                         orderRequest.paymentMethod()

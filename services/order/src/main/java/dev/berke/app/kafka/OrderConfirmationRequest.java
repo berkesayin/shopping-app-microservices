@@ -5,6 +5,7 @@ import dev.berke.app.order.PaymentMethod;
 
 public record OrderConfirmationRequest(
         // CustomerResponse customer
+        String customerEmail,
         String customerId,
         String reference,
         PaymentMethod paymentMethod
