@@ -17,6 +17,9 @@ public record AddressRequest(
         String address,
 
         @NotNull
-        String zipCode
+        String zipCode,
+
+        // New field with default false from client side
+        Boolean isActive  // expected to be false on creation
 ) {
 }

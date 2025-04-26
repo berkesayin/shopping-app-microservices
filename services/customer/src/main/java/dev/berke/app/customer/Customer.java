@@ -28,9 +28,6 @@ public class Customer {
     private String password;
     private String identityNumber;
     private String registrationAddress;
-    private String city;
-    private String country;
-    private String zipCode;
     private List<Address> billingAddresses;
     private List<Address> shippingAddresses;
     private String activeBillingAddressId;

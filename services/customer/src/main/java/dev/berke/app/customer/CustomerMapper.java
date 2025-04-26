@@ -5,27 +5,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerMapper {
 
-    public Customer toCustomer(CustomerRequest customerRequest) {
-        if (customerRequest == null) {
+    public Customer toCustomer(CustomerCreateRequest customerCreateRequest) {
+        if (customerCreateRequest == null) {
             return null;
         }
 
         return Customer.builder()
-                .id(customerRequest.id())
-                .name(customerRequest.name())
-                .surname(customerRequest.surname())
-                .gsmNumber(customerRequest.gsmNumber())
-                .email(customerRequest.email())
-                .password(customerRequest.password()) // added mapping
-                .identityNumber(customerRequest.identityNumber())
-                .registrationAddress(customerRequest.registrationAddress())
-                .city(customerRequest.city())
-                .country(customerRequest.country())
-                .zipCode(customerRequest.zipCode())
-                .billingAddresses(customerRequest.billingAddresses())
-                .shippingAddresses(customerRequest.shippingAddresses())
-                .activeBillingAddressId(customerRequest.activeBillingAddressId()) // updated mapping
-                .activeShippingAddressId(customerRequest.activeShippingAddressId()) // updated mapping
+                .name(customerCreateRequest.name())
+                .surname(customerCreateRequest.surname())
+                .gsmNumber(customerCreateRequest.gsmNumber())
+                .email(customerCreateRequest.email())
+                .password(customerCreateRequest.password())
                 .build();
     }
 
@@ -36,15 +26,13 @@ public class CustomerMapper {
                 customer.getSurname(),
                 customer.getGsmNumber(),
                 customer.getEmail(),
+                customer.getPassword(),
                 customer.getIdentityNumber(),
                 customer.getRegistrationAddress(),
-                customer.getCity(),
-                customer.getCountry(),
-                customer.getZipCode(),
                 customer.getBillingAddresses(),
                 customer.getShippingAddresses(),
-                customer.getActiveBillingAddressId(), // updated mapping
-                customer.getActiveShippingAddressId()  // updated mapping
+                customer.getActiveBillingAddressId(),
+                customer.getActiveShippingAddressId()
         );
     }
 }

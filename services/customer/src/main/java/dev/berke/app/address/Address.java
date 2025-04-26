@@ -15,9 +15,11 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class Address {
 
+    private String id;         // new field
     private String contactName;
     private String city;
     private String country;
     private String address;
     private String zipCode;
+    private Boolean isActive;  // new field
 }

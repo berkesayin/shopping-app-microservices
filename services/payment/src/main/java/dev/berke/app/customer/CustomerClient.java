@@ -14,4 +14,10 @@ public interface CustomerClient {
     @GetMapping("/{customer-id}")
     Map<String, Object> getCustomerById(@PathVariable("customer-id") String customerId);
 
+    @GetMapping("/{customerId}/billing-addresses/active")
+    AddressResponse getActiveBillingAddress(@PathVariable("customerId") String customerId);
+
+    @GetMapping("/{customerId}/shipping-addresses/active")
+    AddressResponse getActiveShippingAddress(@PathVariable("customerId") String customerId);
+
 }

@@ -88,14 +88,15 @@ public class IyzipayService {
                 )
         );
 
-
         return new PaymentResponse(payment.getPaymentStatus(), payment.getPaymentId());
     }
 
     private Buyer createBuyer(String customerId) {
+        Buyer buyer = new Buyer();
+
         Map<String, Object> customer = customerClient.getCustomerById(customerId);
 
-        Buyer buyer = new Buyer();
+        var activeShippingAddress = customerClient.getActiveShippingAddress(customerId);
 
         buyer.setId(customer.get("id").toString());
         buyer.setName(customer.get("name").toString());
@@ -104,39 +105,37 @@ public class IyzipayService {
         buyer.setEmail(customer.get("email").toString());
         buyer.setIdentityNumber(customer.get("identityNumber").toString());
         buyer.setRegistrationAddress(customer.get("registrationAddress").toString());
-        buyer.setCity(customer.get("city").toString());
-        buyer.setCountry(customer.get("country").toString());
-        buyer.setZipCode(customer.get("zipCode").toString());
+        buyer.setCity(activeShippingAddress.city());
+        buyer.setCountry(activeShippingAddress.country());
+        buyer.setZipCode(activeShippingAddress.zipCode());
 
         return buyer;
     }
 
     private Address createBillingAddress(String customerId) {
-        Map<String, Object> customer = customerClient.getCustomerById(customerId);
-        Map<String, String> billingAddressData = (Map<String, String>) customer.get("billingAddress");
-
         Address billingAddress = new Address();
 
-        billingAddress.setContactName(billingAddressData.get("contactName"));
-        billingAddress.setCity(billingAddressData.get("city"));
-        billingAddress.setCountry(billingAddressData.get("country"));
-        billingAddress.setAddress(billingAddressData.get("address"));
-        billingAddress.setZipCode(billingAddressData.get("zipCode"));
+        var activeBillingAddress = customerClient.getActiveBillingAddress(customerId);
+
+        billingAddress.setContactName(activeBillingAddress.contactName());
+        billingAddress.setCity(activeBillingAddress.city());
+        billingAddress.setCountry(activeBillingAddress.country());
+        billingAddress.setAddress(activeBillingAddress.address());
+        billingAddress.setZipCode(activeBillingAddress.zipCode());
 
         return billingAddress;
     }
 
     private Address createShippingAddress(String customerId) {
-        Map<String, Object> customer = customerClient.getCustomerById(customerId);
-        Map<String, String> shippingAddressData = (Map<String, String>) customer.get("shippingAddress");
-
         Address shippingAddress = new Address();
 
-        shippingAddress.setContactName(shippingAddressData.get("contactName"));
-        shippingAddress.setCity(shippingAddressData.get("city"));
-        shippingAddress.setCountry(shippingAddressData.get("country"));
-        shippingAddress.setAddress(shippingAddressData.get("address"));
-        shippingAddress.setZipCode(shippingAddressData.get("zipCode"));
+        var activeShippingAddress = customerClient.getActiveShippingAddress(customerId);
+
+        shippingAddress.setContactName(activeShippingAddress.contactName());
+        shippingAddress.setCity(activeShippingAddress.city());
+        shippingAddress.setCountry(activeShippingAddress.country());
+        shippingAddress.setAddress(activeShippingAddress.address());
+        shippingAddress.setZipCode(activeShippingAddress.zipCode());
 
         return shippingAddress;
     }

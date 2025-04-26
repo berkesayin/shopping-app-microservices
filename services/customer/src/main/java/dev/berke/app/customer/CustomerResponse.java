@@ -9,14 +9,11 @@ public record CustomerResponse(
         String surname,
         String gsmNumber,
         String email,
+        String password,
         String identityNumber,
         String registrationAddress,
-        String city,
-        String country,
-        String zipCode,
         List<Address> billingAddresses,
         List<Address> shippingAddresses,
-        String activeBillingAddressId, // updated field
-        String activeShippingAddressId // updated field
-) {
-}
+        String activeBillingAddressId,
+        String activeShippingAddressId
+) {}
