@@ -16,13 +16,16 @@ public class CustomerMapper {
                 .surname(customerRequest.surname())
                 .gsmNumber(customerRequest.gsmNumber())
                 .email(customerRequest.email())
+                .password(customerRequest.password()) // added mapping
                 .identityNumber(customerRequest.identityNumber())
                 .registrationAddress(customerRequest.registrationAddress())
                 .city(customerRequest.city())
                 .country(customerRequest.country())
                 .zipCode(customerRequest.zipCode())
-                .billingAddress(customerRequest.billingAddress())
-                .shippingAddress(customerRequest.shippingAddress())
+                .billingAddresses(customerRequest.billingAddresses())
+                .shippingAddresses(customerRequest.shippingAddresses())
+                .activeBillingAddressId(customerRequest.activeBillingAddressId()) // updated mapping
+                .activeShippingAddressId(customerRequest.activeShippingAddressId()) // updated mapping
                 .build();
     }
 
@@ -38,8 +41,10 @@ public class CustomerMapper {
                 customer.getCity(),
                 customer.getCountry(),
                 customer.getZipCode(),
-                customer.getBillingAddress(),
-                customer.getShippingAddress()
+                customer.getBillingAddresses(),
+                customer.getShippingAddresses(),
+                customer.getActiveBillingAddressId(), // updated mapping
+                customer.getActiveShippingAddressId()  // updated mapping
         );
     }
 }

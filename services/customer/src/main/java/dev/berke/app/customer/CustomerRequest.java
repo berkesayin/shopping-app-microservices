@@ -2,6 +2,7 @@ package dev.berke.app.customer;
 
 import dev.berke.app.address.Address;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 
 public record CustomerRequest (
         String id,
@@ -19,6 +20,9 @@ public record CustomerRequest (
         String email,
 
         @NotNull
+        String password, // added field
+
+        @NotNull
         String identityNumber,
 
         @NotNull
@@ -33,8 +37,9 @@ public record CustomerRequest (
         @NotNull
         String zipCode,
 
-        Address billingAddress,
-
-        Address shippingAddress
+        List<Address> billingAddresses,
+        List<Address> shippingAddresses,
+        String activeBillingAddressId, // updated field
+        String activeShippingAddressId // updated field
 ){
 }

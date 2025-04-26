@@ -17,6 +17,10 @@ public class CustomerService {
     private final CustomerMapper customerMapper;
 
     public String createCustomer(CustomerRequest customerRequest) {
+        // Check for existing email
+        if(customerRepository.existsByEmail(customerRequest.email())) {
+            throw new IllegalArgumentException("Email already in use");
+        }
         var customer = customerRepository.save(customerMapper.toCustomer(customerRequest));
         return customer.getId();
     }

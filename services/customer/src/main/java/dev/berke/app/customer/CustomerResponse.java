@@ -1,6 +1,7 @@
 package dev.berke.app.customer;
 
 import dev.berke.app.address.Address;
+import java.util.List;
 
 public record CustomerResponse(
         String id,
@@ -13,7 +14,9 @@ public record CustomerResponse(
         String city,
         String country,
         String zipCode,
-        Address billingAddress,
-        Address shippingAddress
+        List<Address> billingAddresses,
+        List<Address> shippingAddresses,
+        String activeBillingAddressId, // updated field
+        String activeShippingAddressId // updated field
 ) {
 }
