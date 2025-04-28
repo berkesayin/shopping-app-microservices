@@ -17,6 +17,8 @@ public record AddressRequest(
         String address,
 
         @NotNull
-        String zipCode
+        String zipCode,
+
+        Boolean isActive
 ) {
 }

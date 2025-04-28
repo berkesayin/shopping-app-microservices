@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -23,11 +25,13 @@ public class Customer {
     private String surname;
     private String gsmNumber;
     private String email;
+    private String password;
     private String identityNumber;
     private String registrationAddress;
-    private String city;
-    private String country;
-    private String zipCode;
     private Address billingAddress;
     private Address shippingAddress;
+    private List<Address> billingAddresses;
+    private List<Address> shippingAddresses;
+    private String activeBillingAddressId;
+    private String activeShippingAddressId;
 }
