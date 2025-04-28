@@ -1,5 +1,6 @@
 package dev.berke.app.customer;
 
+import dev.berke.app.address.AddressMapper;
 import dev.berke.app.constants.CustomerConstants;
 import dev.berke.app.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,49 +16,45 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final AddressMapper addressMapper;
 
-    public String createCustomer(CustomerRequest customerRequest) {
-        var customer = customerRepository.save(customerMapper.toCustomer(customerRequest));
+    public String createCustomer(CustomerCreateRequest customerCreateRequest) {
+        if(customerRepository.existsByEmail(customerCreateRequest.email())) {
+            throw new IllegalArgumentException("Email already in use");
+        }
+        var customer = customerRepository.save(customerMapper.toCustomer(customerCreateRequest));
         return customer.getId();
     }
 
-    public void updateCustomer(CustomerRequest customerRequest) {
-        var customer = customerRepository.findById(customerRequest.id())
+    public CustomerResponse updateCustomer(CustomerUpdateRequest customerUpdateRequest) {
+        var customer = customerRepository.findById(customerUpdateRequest.id())
                 .orElseThrow(() -> new CustomerNotFoundException(
-                        String.format(CustomerConstants.CUSTOMER_NOT_FOUND_MESSAGE, customerRequest.id())
+                        String.format(CustomerConstants
+                                .CUSTOMER_NOT_FOUND_MESSAGE, customerUpdateRequest.id())
                 ));
-        mergeCustomer(customer, customerRequest);
+        if (StringUtils.isNotBlank(customerUpdateRequest.name())) {
+            customer.setName(customerUpdateRequest.name());
+        }
+        if (StringUtils.isNotBlank(customerUpdateRequest.surname())) {
+            customer.setSurname(customerUpdateRequest.surname());
+        }
+        if (StringUtils.isNotBlank(customerUpdateRequest.gsmNumber())) {
+            customer.setGsmNumber(customerUpdateRequest.gsmNumber());
+        }
+        if (StringUtils.isNotBlank(customerUpdateRequest.email())) {
+            customer.setEmail(customerUpdateRequest.email());
+        }
+        if (StringUtils.isNotBlank(customerUpdateRequest.password())) {
+            customer.setPassword(customerUpdateRequest.password());
+        }
+        if (StringUtils.isNotBlank(customerUpdateRequest.identityNumber())) {
+            customer.setIdentityNumber(customerUpdateRequest.identityNumber());
+        }
+        if (StringUtils.isNotBlank(customerUpdateRequest.registrationAddress())) {
+            customer.setRegistrationAddress(customerUpdateRequest.registrationAddress());
+        }
         customerRepository.save(customer);
-    }
-
-    private void mergeCustomer(Customer customer, CustomerRequest customerRequest) {
-        if (StringUtils.isNotBlank(customerRequest.name())) {
-            customer.setName(customerRequest.name());
-        }
-        if (StringUtils.isNotBlank(customerRequest.surname())) {
-            customer.setSurname(customerRequest.surname());
-        }
-        if (StringUtils.isNotBlank(customerRequest.gsmNumber())) {
-            customer.setGsmNumber(customerRequest.gsmNumber());
-        }
-        if (StringUtils.isNotBlank(customerRequest.email())) {
-            customer.setEmail(customerRequest.email());
-        }
-        if (StringUtils.isNotBlank(customerRequest.identityNumber())) {
-            customer.setIdentityNumber(customerRequest.identityNumber());
-        }
-        if (StringUtils.isNotBlank(customerRequest.registrationAddress())) {
-            customer.setRegistrationAddress(customerRequest.registrationAddress());
-        }
-        if (StringUtils.isNotBlank(customerRequest.city())) {
-            customer.setCity(customerRequest.city());
-        }
-        if (StringUtils.isNotBlank(customerRequest.country())) {
-            customer.setCountry(customerRequest.country());
-        }
-        if (StringUtils.isNotBlank(customerRequest.zipCode())) {
-            customer.setZipCode(customerRequest.zipCode());
-        }
+        return customerMapper.fromCustomer(customer);
     }
 
     public List<CustomerResponse> getAllCustomers() {
@@ -82,4 +79,5 @@ public class CustomerService {
     public void deleteCustomer(String customerId) {
         customerRepository.deleteById(customerId);
     }
+
 }

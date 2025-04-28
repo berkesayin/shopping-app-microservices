@@ -22,14 +22,18 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest customerRequest ) {
-        return ResponseEntity.ok(customerService.createCustomer(customerRequest));
+    public ResponseEntity<String> createCustomer(
+            @RequestBody @Valid CustomerCreateRequest customerCreateRequest
+    ) {
+        return ResponseEntity.ok(customerService.createCustomer(customerCreateRequest));
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateCustomer(@RequestBody @Valid CustomerRequest customerRequest) {
-        customerService.updateCustomer(customerRequest);
-        return ResponseEntity.accepted().build();
+    public ResponseEntity<CustomerResponse> updateCustomer(
+            @RequestBody @Valid CustomerUpdateRequest customerUpdateRequest
+    ) {
+        CustomerResponse updatedCustomer = customerService.updateCustomer(customerUpdateRequest);
+        return ResponseEntity.accepted().body(updatedCustomer);
     }
 
     @GetMapping
@@ -38,23 +42,17 @@ public class CustomerController {
     }
 
     @GetMapping("/exists/{customer-id}")
-    public ResponseEntity<Boolean> checkCustomerById(
-            @PathVariable("customer-id") String customerId
-    ) {
+    public ResponseEntity<Boolean> checkCustomerById(@PathVariable("customer-id") String customerId) {
         return ResponseEntity.ok(customerService.checkCustomerById(customerId));
     }
 
     @GetMapping("/{customer-id}")
-    public ResponseEntity<CustomerResponse> findCustomerById(
-            @PathVariable("customer-id") String customerId
-    ) {
+    public ResponseEntity<CustomerResponse> findCustomerById(@PathVariable("customer-id") String customerId) {
         return ResponseEntity.ok(customerService.findCustomerById(customerId));
     }
 
     @DeleteMapping("/{customer-id}")
-    public ResponseEntity<Void> deleteCustomerById(
-            @PathVariable("customer-id") String customerId
-    ) {
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable("customer-id") String customerId) {
         customerService.deleteCustomer(customerId);
         return ResponseEntity.accepted().build();
     }
