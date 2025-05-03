@@ -8,37 +8,31 @@ public class ProductMapper {
 
     public Product toProduct(ProductRequest productRequest) {
         return Product.builder()
-                .id(productRequest.id())
-                .name(productRequest.name())
-                .description(productRequest.description())
-                .availableQuantity(productRequest.availableQuantity())
-                .price(productRequest.price())
+                .productName(productRequest.productName())
+                .basePrice(productRequest.basePrice())
+                .minPrice(productRequest.minPrice())
+                .manufacturer(productRequest.manufacturer())
+                .sku(productRequest.sku())
+                .createdOn(productRequest.createdOn())
+                .status(productRequest.status())
                 .category(
                         Category.builder()
-                                .id(productRequest.categoryId())
+                                .categoryId(productRequest.categoryId())
                                 .build())
                 .build();
     }
 
-    public ProductPurchaseResponse toProductPurchaseResponse(
-            Product product, Integer quantity) {
-        return new ProductPurchaseResponse(
-                product.getId(),
-                product.getName(),
-                product.getDescription(),
-                product.getPrice(),
-                quantity);
-    }
-
     public ProductResponse toProductResponse(Product product) {
         return new ProductResponse(
-                product.getId(),
-                product.getName(),
-                product.getDescription(),
-                product.getAvailableQuantity(),
-                product.getPrice(),
-                product.getCategory().getId(),
-                product.getCategory().getName(),
-                product.getCategory().getDescription());
+                product.getProductId(),
+                product.getProductName(),
+                product.getBasePrice(),
+                product.getMinPrice(),
+                product.getManufacturer(),
+                product.getSku(),
+                product.getCreatedOn(),
+                product.getStatus(),
+                product.getCategory().getCategoryId()
+        );
     }
 }

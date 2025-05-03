@@ -1,14 +1,17 @@
 package dev.berke.app.product;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 public record ProductResponse(
-        Integer id,
-        String name,
-        String description,
-        Integer availableQuantity,
-        BigDecimal price,
-        Integer categoryId,
-        String categoryName,
-        String categoryDescription) {
+        Integer productId,
+        String productName,
+        BigDecimal basePrice,
+        BigDecimal minPrice,
+        String manufacturer,
+        String sku,
+        Instant createdOn,
+        Integer status,
+        Integer categoryId
+) {
 }

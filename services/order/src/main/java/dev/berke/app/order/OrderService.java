@@ -34,15 +34,13 @@ public class OrderService {
     // Business logic to create order
     // 1. check the customer: Check if we have our customer or not (use OpenFeign)
     // 2. check customer's basket: If empty, tell customer basket is empty, and can not create order
-    // 3. check each product's available quantity in the database
-    // 4. calculate total basket price
-    // 5. persist order: save the order object
-    // 6. persist order lines: Persist (save) the order lines (like purchasing or saving order lines)
-    // 7. start payment process: After persisting the order lines, start payment process.
+    // 3. calculate total basket price
+    // 4. persist order: save the order object
+    // 5. persist order lines: Persist (save) the order lines (like purchasing or saving order lines)
+    // 6. start payment process: After persisting the order lines, start payment process.
     // Use payment service -> IyziPayment.java -> createPaymentRequest() with async method
-    // 8. send the order confirmation: If payment is successfully processed, send order confirmation
+    // 7. send the order confirmation: If payment is successfully processed, send order confirmation
     // to notification microservice (use kafka)
-    // 9. calculate the new available quantities for each product after order confirmation
 
     public OrderResponse createOrder(
             OrderRequest orderRequest
@@ -61,10 +59,7 @@ public class OrderService {
 
         System.out.println("Step 2: " + basket.customerId() + basket.items());
 
-        // 3. check each product's available quantity
-        checkProductQuantities(basket);
-
-        // 4. calculate total basket price
+        // 3. calculate total basket price
         ResponseEntity<BasketTotalPriceResponse> basketTotalPriceResponse =
                 basketClient.calculateTotalBasketPrice(orderRequest.customerId());
 
@@ -72,7 +67,7 @@ public class OrderService {
 
         System.out.println("Step 4: " + totalPrice);
 
-        // 5. persist order save the order object
+        // 4. persist order save the order object
         var order = orderMapper.toOrder(orderRequest);
         order.setTotalAmount(totalPrice);
 
@@ -80,7 +75,7 @@ public class OrderService {
 
         System.out.println("Step 5: " + order.getCustomerId() + order.getPaymentMethod());
 
-        // 6. persist order lines: Save the order lines
+        // 5. persist order lines: Save the order lines
         for (BasketItem basketItem : basket.items()) {
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
@@ -90,32 +85,17 @@ public class OrderService {
                             basketItem.getQuantity()));
         }
 
-        // 7. start payment process: After persisting the order lines, start payment
+        // 6. start payment process: After persisting the order lines, start payment
         paymentClient.createPayment(customer.id());
+
+        // 7. send order confirmation
+
+
 
         return new OrderResponse(
                 savedOrder.getId(),
                 savedOrder.getReference()
         );
-    }
-
-    private void checkProductQuantities(
-            BasketResponse basket
-    ) {
-        List<BasketItem> basketItems = basket.items();
-
-        for (BasketItem item : basketItems) {
-            Integer availableQuantity = productClient
-                    .getAvailableQuantityByProductId(item.getProductId());
-
-            System.out.println("Step 3: " + availableQuantity);
-
-            if (item.getQuantity() > availableQuantity) {
-                throw new BusinessException(
-                        OrderConstants
-                                .PRODUCT_QUANTITY_NOT_AVAILABLE + item.getProductId());
-            }
-        }
     }
 
     public List<OrderResponse> getAllOrders() {

@@ -20,17 +20,10 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<Integer> createProduct(
+    public ResponseEntity<ProductResponse> createProduct(
             @RequestBody @Valid ProductRequest productRequest
     ) {
         return ResponseEntity.ok(productService.createProduct(productRequest));
-    }
-
-    @PostMapping("/purchase")
-    public ResponseEntity<List<ProductPurchaseResponse>> purchaseProducts(
-            @RequestBody List<ProductPurchaseRequest> productPurchaseRequest
-    ) {
-        return ResponseEntity.ok(productService.purchaseProducts(productPurchaseRequest));
     }
 
     @GetMapping("/{product-id}")
@@ -51,12 +44,4 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productService.getCategoryIdOfProduct(productId));
     }
-
-    @GetMapping("/{product-id}/available-quantity")
-    public ResponseEntity<Integer> getAvailableQuantityByProductId(
-            @PathVariable("product-id") Integer productId
-    ) {
-        return ResponseEntity.ok(productService.getAvailableQuantityByProductId(productId));
-    }
-
 }
