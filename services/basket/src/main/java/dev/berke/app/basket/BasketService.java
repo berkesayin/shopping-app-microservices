@@ -1,7 +1,7 @@
 package dev.berke.app.basket;
 
-import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.product.ProductClient;
+import dev.berke.app.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,34 +16,7 @@ import java.util.stream.Collectors;
 public class BasketService {
 
     private final BasketRepository basketRepository;
-    private final CustomerClient customerClient;
     private final ProductClient productClient;
-
-    public BasketResponse createBasket(BasketRequest basketRequest) {
-
-        // 1. Validate if customer exists
-        CustomerResponse customerResponse = customerClient.getCustomerById(basketRequest.customerId());
-
-        // 2. Transform items
-        List<BasketItem> basketItems = basketRequest.items().stream()
-                .map(basketItemRequest -> {
-                    ProductResponse productResponse = productClient.getProductById(basketItemRequest.productId());
-
-                    return new BasketItem(
-                            productResponse.id(),
-                            productResponse.name(),
-                            productResponse.categoryId(),
-                            ItemType.PHYSICAL,
-                            productResponse.price(),
-                            basketItemRequest.quantity()
-                    );
-                }).collect(Collectors.toList());
-
-        // 3. Create basket
-        Basket basket = new Basket(customerResponse.id(), basketItems);
-        Basket savedBasket = basketRepository.save(basket);
-        return new BasketResponse(savedBasket.getCustomerId(), savedBasket.getItems());
-    }
 
     public BasketResponse getBasketByCustomerId(String customerId) {
         Optional<Basket> basket = basketRepository.findByCustomerId(customerId);
@@ -54,30 +27,30 @@ public class BasketService {
                 .orElse(null);
     }
 
-    public BasketResponse addItemToBasket(AddItemToBasketRequest addItemToBasketRequest) {
-        String customerId = addItemToBasketRequest.customerId();
+    public BasketResponse addItemToBasket(BasketAddItemRequest basketAddItemRequest) {
+        String customerId = basketAddItemRequest.customerId();
 
-        // 1. Retrieve existing basket
+        // If basket doesn't exist, create a new one.
         Basket basket = basketRepository.findById(customerId)
-                .orElseThrow(() -> new RuntimeException("Basket not found for customer id: " + customerId));
+                .orElse(new Basket(customerId, new ArrayList<>()));
 
-        // 2. Transform new items
-        List<BasketItem> newBasketItems = addItemToBasketRequest.items().stream()
+        // Transform new items
+        List<BasketItem> newBasketItems = basketAddItemRequest.items().stream()
                 .map(basketItemRequest -> {
                     ProductResponse productResponse = productClient
                             .getProductById(basketItemRequest.productId());
-
                     return new BasketItem(
-                            productResponse.id(),
-                            productResponse.name(),
+                            productResponse.productId(),
+                            productResponse.productName(),
+                            productResponse.basePrice(),
+                            productResponse.manufacturer(),
                             productResponse.categoryId(),
                             ItemType.PHYSICAL,
-                            productResponse.price(),
                             basketItemRequest.quantity()
                     );
                 }).collect(Collectors.toList());
 
-        // 3. Add/Update items
+        // Add/Update items
         List<BasketItem> existingItems = basket.getItems() != null ? basket.getItems() : new ArrayList<>();
         for(BasketItem newBasketItem : newBasketItems){
             boolean itemExists = false;
@@ -99,6 +72,7 @@ public class BasketService {
         return new BasketResponse(updatedBasket.getCustomerId(), updatedBasket.getItems());
     }
 
+
     public BasketTotalPriceResponse calculateTotalBasketPrice(
             String customerId
     ) {
@@ -106,7 +80,7 @@ public class BasketService {
                 .orElseThrow(() -> new RuntimeException("Basket not found for customer id: " + customerId));
 
         BigDecimal totalPrice = basket.getItems().stream()
-                .map(item -> item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .map(item -> item.getBasePrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return new BasketTotalPriceResponse(customerId, totalPrice);
