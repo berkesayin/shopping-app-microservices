@@ -12,14 +12,6 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @PostMapping
-    public ResponseEntity<BasketResponse> createBasket(
-            @RequestBody BasketRequest basketRequest
-    ) {
-        BasketResponse basketResponse = basketService.createBasket(basketRequest);
-        return new ResponseEntity<>(basketResponse, HttpStatus.CREATED);
-    }
-
     @GetMapping("/{customer-id}")
     public ResponseEntity<BasketResponse> getBasketByCustomerId(
             @PathVariable("customer-id") String customerId
@@ -30,9 +22,9 @@ public class BasketController {
 
     @PostMapping("/items")
     public ResponseEntity<BasketResponse> addItemToBasket(
-            @RequestBody AddItemToBasketRequest addItemToBasketRequest
+            @RequestBody BasketAddItemRequest basketAddItemRequest
     ) {
-        BasketResponse basketResponse = basketService.addItemToBasket(addItemToBasketRequest);
+        BasketResponse basketResponse = basketService.addItemToBasket(basketAddItemRequest);
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
 
