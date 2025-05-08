@@ -29,7 +29,7 @@ public class PaymentSuccessEmail {
             String destinationEmail,
             String customerName,
             BigDecimal amount,
-            String orderReference
+            String reference
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper =
@@ -40,7 +40,7 @@ public class PaymentSuccessEmail {
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);
         variables.put("amount", amount);
-        variables.put("orderReference", orderReference);
+        variables.put("reference", reference);
 
         Context context = new Context();
         context.setVariables(variables);

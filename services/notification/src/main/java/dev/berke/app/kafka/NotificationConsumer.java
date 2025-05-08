@@ -46,7 +46,7 @@ public class NotificationConsumer {
                 orderConfirmation.customer().email(),
                 customerName,
                 orderConfirmation.totalAmount(),
-                orderConfirmation.orderReference(),
+                orderConfirmation.reference(),
                 orderConfirmation.products()
         );
     }
@@ -73,7 +73,7 @@ public class NotificationConsumer {
                 paymentConfirmation.customerEmail(),
                 customerName,
                 paymentConfirmation.amount(),
-                paymentConfirmation.orderReference()
+                paymentConfirmation.reference()
         );
     }
 }

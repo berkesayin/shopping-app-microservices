@@ -4,11 +4,10 @@ import dev.berke.app.basket.*;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.exception.BusinessException;
-// import dev.berke.app.kafka.OrderProducer;
+import dev.berke.app.kafka.OrderProducer;
 import dev.berke.app.orderline.OrderLineRequest;
 import dev.berke.app.orderline.OrderLineService;
 import dev.berke.app.payment.PaymentClient;
-import dev.berke.app.product.ProductClient;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +25,9 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderMapper orderMapper;
     private final CustomerClient customerClient;
-    private final ProductClient productClient;
     private final BasketClient basketClient;
     private final PaymentClient paymentClient;
-    // private final OrderProducer orderProducer;
+    private final OrderProducer orderProducer;
 
     // Business logic to create order
     // 1. check the customer: Check if we have our customer or not (use OpenFeign)
@@ -67,7 +65,7 @@ public class OrderService {
 
         System.out.println("Step 4: " + totalPrice);
 
-        // 4. persist order save the order object
+        // 4. save the order object
         var order = orderMapper.toOrder(orderRequest);
         order.setTotalAmount(totalPrice);
 
@@ -75,7 +73,7 @@ public class OrderService {
 
         System.out.println("Step 5: " + order.getCustomerId() + order.getPaymentMethod());
 
-        // 5. persist order lines: Save the order lines
+        // 5. save the order lines
         for (BasketItem basketItem : basket.items()) {
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
@@ -85,7 +83,7 @@ public class OrderService {
                             basketItem.getQuantity()));
         }
 
-        // 6. start payment process: After persisting the order lines, start payment
+        // 6. start payment process: after saving the order lines, start payment
         paymentClient.createPayment(customer.id());
 
         // 7. send order confirmation

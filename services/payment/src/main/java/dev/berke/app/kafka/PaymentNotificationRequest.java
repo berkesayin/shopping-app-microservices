@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public record PaymentNotificationRequest(
 
-        String orderReference,
+        String reference,
         BigDecimal amount,
         PaymentMethod paymentMethod,
         String customerFirstname,

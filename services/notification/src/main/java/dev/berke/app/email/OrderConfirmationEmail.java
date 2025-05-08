@@ -31,7 +31,7 @@ public class OrderConfirmationEmail {
             String destinationEmail,
             String customerName,
             BigDecimal amount,
-            String orderReference,
+            String reference,
             List<Product> products
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -43,7 +43,7 @@ public class OrderConfirmationEmail {
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);
         variables.put("totalAmount", amount);
-        variables.put("orderReference", orderReference);
+        variables.put("reference", reference);
         variables.put("products", products);
 
         Context context = new Context();
