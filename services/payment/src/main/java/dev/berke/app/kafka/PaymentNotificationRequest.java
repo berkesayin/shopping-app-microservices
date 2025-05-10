@@ -1,15 +1,15 @@
 package dev.berke.app.kafka;
 
-import dev.berke.app.payment.PaymentMethod;
+import com.iyzipay.model.BasketItem;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public record PaymentNotificationRequest(
-
-        String reference,
-        BigDecimal amount,
-        PaymentMethod paymentMethod,
-        String customerFirstname,
-        String customerLastname,
-        String customerEmail
+        String name,
+        String surname,
+        String email,
+        List<BasketItem> basketItems,
+        BigDecimal totalBasketPrice
 ) {
 }
