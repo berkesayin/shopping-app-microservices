@@ -43,6 +43,9 @@ public class Order {
     @Column(nullable = false)
     private String customerId;
 
+    @Column(nullable = false)
+    private String customerEmail;
+
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
 

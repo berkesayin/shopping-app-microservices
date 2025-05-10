@@ -90,6 +90,7 @@ public class OrderService {
         // 7. send order confirmation
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
+                        orderRequest.customerEmail(),
                         orderRequest.customerId(),
                         orderRequest.reference(),
                         orderRequest.paymentMethod()
