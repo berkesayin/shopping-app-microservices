@@ -4,6 +4,7 @@ import dev.berke.app.basket.*;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.exception.BusinessException;
+import dev.berke.app.kafka.OrderConfirmation;
 import dev.berke.app.kafka.OrderProducer;
 import dev.berke.app.orderline.OrderLineRequest;
 import dev.berke.app.orderline.OrderLineService;
@@ -87,7 +88,13 @@ public class OrderService {
         paymentClient.createPayment(customer.id());
 
         // 7. send order confirmation
-
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmation(
+                        orderRequest.customerId(),
+                        orderRequest.reference(),
+                        orderRequest.paymentMethod()
+                )
+        );
 
 
         return new OrderResponse(
