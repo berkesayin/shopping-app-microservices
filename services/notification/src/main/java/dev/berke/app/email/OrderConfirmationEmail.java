@@ -1,6 +1,6 @@
 package dev.berke.app.email;
 
-import dev.berke.app.kafka.order.Product;
+import dev.berke.app.kafka.payment.PaymentMethod;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -11,9 +11,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -29,22 +27,20 @@ public class OrderConfirmationEmail {
     @Async
     public void sendOrderConfirmationEmail(
             String destinationEmail,
-            String customerName,
-            BigDecimal amount,
+            String customerId,
             String reference,
-            List<Product> products
+            PaymentMethod paymentMethod
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper =
                 new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
-        mimeMessageHelper.setFrom("test@gmail.com");
+        mimeMessageHelper.setFrom("online.shopping.app@gmail.com");
         final String templateName = EmailTemplates.ORDER_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
-        variables.put("customerName", customerName);
-        variables.put("totalAmount", amount);
+        variables.put("customerId", customerId);
         variables.put("reference", reference);
-        variables.put("products", products);
+        variables.put("paymentMethod", paymentMethod);
 
         Context context = new Context();
         context.setVariables(variables);

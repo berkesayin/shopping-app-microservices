@@ -1,5 +1,6 @@
 package dev.berke.app.email;
 
+import dev.berke.app.kafka.basket.BasketItem;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -28,19 +30,19 @@ public class PaymentSuccessEmail {
     public void sendPaymentSuccessEmail(
             String destinationEmail,
             String customerName,
-            BigDecimal amount,
-            String reference
+            BigDecimal totalBasketPrice,
+            List<BasketItem> basketItems
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper =
                 new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
-        mimeMessageHelper.setFrom("test@gmail.com");
+        mimeMessageHelper.setFrom("online.shopping.app@gmail.com");
         final String templateName = EmailTemplates.PAYMENT_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);
-        variables.put("amount", amount);
-        variables.put("reference", reference);
+        variables.put("totalBasketPrice", totalBasketPrice);
+        variables.put("basketItems", basketItems);
 
         Context context = new Context();
         context.setVariables(variables);

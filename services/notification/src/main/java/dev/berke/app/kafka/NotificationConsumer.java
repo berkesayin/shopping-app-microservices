@@ -38,20 +38,15 @@ public class NotificationConsumer {
                         .build()
         );
 
-        // send email ==>  for consumeOrderConfirmationNotification() method
-        var customerName = orderConfirmation.customer().firstname() + " "
-                + orderConfirmation.customer().lastname();
-
         orderConfirmationEmail.sendOrderConfirmationEmail(
-                orderConfirmation.customer().email(),
-                customerName,
-                orderConfirmation.totalAmount(),
+                orderConfirmation.customerEmail(),
+                orderConfirmation.customerId(),
                 orderConfirmation.reference(),
-                orderConfirmation.products()
+                orderConfirmation.paymentMethod()
         );
     }
 
-    // Kafka listener to consume payment success messages from the payment-topic
+    // Kafka listener to consume payment confirmation messages from the payment-topic
     @KafkaListener(topics = "payment-topic")
     public void consumePaymentSuccessNotification(
             PaymentConfirmation paymentConfirmation
@@ -66,14 +61,14 @@ public class NotificationConsumer {
         );
 
         // send email ==>  for sendPaymentSuccessEmail() method
-        var customerName = paymentConfirmation.customerFirstname() + " "
-                + paymentConfirmation.customerLastname();
+        var customerName = paymentConfirmation.name() + " "
+                + paymentConfirmation.surname();
 
         paymentSuccessEmail.sendPaymentSuccessEmail(
-                paymentConfirmation.customerEmail(),
+                paymentConfirmation.email(),
                 customerName,
-                paymentConfirmation.amount(),
-                paymentConfirmation.reference()
+                paymentConfirmation.totalBasketPrice(),
+                paymentConfirmation.basketItems()
         );
     }
 }

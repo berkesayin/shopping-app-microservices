@@ -1,14 +1,15 @@
 package dev.berke.app.kafka.payment;
 
+import dev.berke.app.kafka.basket.BasketItem;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 public record PaymentConfirmation(
-
-        String reference,
-        BigDecimal amount,
-        PaymentMethod paymentMethod,
-        String customerFirstname,
-        String customerLastname,
-        String customerEmail
+    String name,
+    String surname,
+    String email,
+    List<BasketItem> basketItems,
+    BigDecimal totalBasketPrice
 ) {
 }
