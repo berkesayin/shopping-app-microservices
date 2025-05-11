@@ -15,6 +15,6 @@ public class BasketItem {
     private String productName;
     private Integer categoryId;
     private ItemType itemType;
-    private BigDecimal price;
+    private BigDecimal basePrice;
     private Integer quantity;
 }

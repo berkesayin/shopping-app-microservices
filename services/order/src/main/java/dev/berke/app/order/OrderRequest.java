@@ -10,9 +10,6 @@ public record OrderRequest(
         @NotNull(message = "Customer id can not be null")
         String customerId,
 
-        @NotNull(message = "Customer email can not be null")
-        String customerEmail,
-
         PaymentMethod paymentMethod
 ) {
 }

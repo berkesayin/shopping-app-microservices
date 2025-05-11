@@ -9,7 +9,6 @@ public class OrderMapper {
         return Order.builder()
                 .reference(orderRequest.reference())
                 .customerId(orderRequest.customerId())
-                .customerEmail(orderRequest.customerEmail())
                 .paymentMethod(orderRequest.paymentMethod())
                 .build();
     }

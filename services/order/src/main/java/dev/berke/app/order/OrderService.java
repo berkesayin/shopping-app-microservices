@@ -49,39 +49,44 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE));
 
-        System.out.println("Step 1: " + customer.id() + customer.name());
+        var customerName = customer.name() + " " + customer.surname();
+        System.out.println("Customer name: " + customerName);
 
         // 2. check customer's basket: check if customer added products to basket or not
         var basket = this.basketClient.getBasketByCustomerId(orderRequest.customerId())
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.BASKET_EMPTY_MESSAGE));
 
-        System.out.println("Step 2: " + basket.customerId() + basket.items());
+        var productsToPurchase = basket.items();
+        System.out.println("Step 2: " + basket.customerId() + productsToPurchase);
+
 
         // 3. calculate total basket price
         ResponseEntity<BasketTotalPriceResponse> basketTotalPriceResponse =
                 basketClient.calculateTotalBasketPrice(orderRequest.customerId());
 
         BigDecimal totalPrice = basketTotalPriceResponse.getBody().totalPrice();
-
         System.out.println("Step 4: " + totalPrice);
 
         // 4. save the order object
         var order = orderMapper.toOrder(orderRequest);
+        order.setCustomerEmail(customer.email());
         order.setTotalAmount(totalPrice);
 
         var savedOrder = this.orderRepository.save(order);
 
         System.out.println("Step 5: " + order.getCustomerId() + order.getPaymentMethod());
 
-        // 5. save the order lines
+        // 5. save the order lines (products purchased by customer)
         for (BasketItem basketItem : basket.items()) {
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
                             null,
                             savedOrder.getId(),
                             basketItem.getProductId(),
-                            basketItem.getQuantity()));
+                            basketItem.getQuantity()
+                    )
+            );
         }
 
         // 6. start payment process: after saving the order lines, start payment
@@ -90,10 +95,12 @@ public class OrderService {
         // 7. send order confirmation
         orderProducer.sendOrderConfirmation(
                 new OrderConfirmation(
-                        orderRequest.customerEmail(),
-                        orderRequest.customerId(),
+                        customerName,
+                        customer.email(),
                         orderRequest.reference(),
-                        orderRequest.paymentMethod()
+                        orderRequest.paymentMethod(),
+                        productsToPurchase,
+                        totalPrice
                 )
         );
 
