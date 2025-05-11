@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order Details</title>
@@ -41,7 +41,7 @@
       }
 
       th {
-        background-color: #007bff;
+        background-color: #4994ce;
         color: #fff;
       }
 
@@ -52,35 +52,40 @@
         text-align: center;
       }
     </style>
-</head>
+  </head>
 
-<body>
-<div class="container">
-    <h1>Order Details</h1>
-    <p>Customer: <span th:text="${customerName}"></span></p>
-    <p>Order ID: <span th:text="${orderReference}"></span></p>
+  <body>
+    <div class="container">
+      <h1>Order Details</h1>
+      <!-- <p>Customer ID: <span th:text="${customerId}"></span></p> -->
+      <p>Order Reference: <span th:text="${reference}"></span></p>
+      <p>Payment Method: <span th:text="${paymentMethod}"></span></p>
+      <p>Total Price: $<span th:text="${totalPrice}"></span></p>
 
-    <table>
+      <table>
         <thead>
-        <tr>
+          <tr>
             <th>Product Name</th>
             <th>Quantity</th>
-            <th>Price</th>
-        </tr>
+            <th>Unit Price</th>
+          </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}">
-            <td th:text="${product.name}"></td>
+          <tr th:each="product : ${productsToPurchase}">
+            <td>
+              <span th:text="${product.productName}"></span>
+            </td>
             <td th:text="${product.quantity}"></td>
-            <td th:text="${product.price}"></td>
-        </tr>
+            <td th:text="${product.basePrice}"></td>
+          </tr>
         </tbody>
-    </table>
+      </table>
 
-    <div class="footer">
-        <p>Total Amount: $<span th:text="${totalAmount}"></span></p>
+      <p>Thank you for your order! If you have any questions, please contact our support team.</p>
+
+      <div class="footer">
         <p>This is an automated message. Please do not reply to this email.</p>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>

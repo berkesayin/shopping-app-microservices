@@ -1,5 +1,6 @@
 package dev.berke.app.email;
 
+import dev.berke.app.kafka.payment.PaymentMethod;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -19,28 +20,28 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PaymentSuccessEmail {
+public class PaymentConfirmationEmail {
 
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine springTemplateEngine;
 
     @Async
     public void sendPaymentSuccessEmail(
-            String destinationEmail,
             String customerName,
-            BigDecimal amount,
-            String orderReference
+            String destinationEmail,
+            BigDecimal totalPrice,
+            PaymentMethod paymentMethod
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper =
                 new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
-        mimeMessageHelper.setFrom("test@gmail.com");
+        mimeMessageHelper.setFrom("online.shopping.app@gmail.com");
         final String templateName = EmailTemplates.PAYMENT_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);
-        variables.put("amount", amount);
-        variables.put("orderReference", orderReference);
+        variables.put("totalPrice", totalPrice);
+        variables.put("paymentMethod", paymentMethod);
 
         Context context = new Context();
         context.setVariables(variables);
@@ -53,7 +54,7 @@ public class PaymentSuccessEmail {
             mimeMessageHelper.setTo(destinationEmail);
             javaMailSender.send(mimeMessage);
             log.info(String.format
-                    ("INFO - Email successfully sent to %s with template %s, ", destinationEmail, templateName ));
+                    ("INFO - Email sent to %s with template %s, ", destinationEmail, templateName ));
         } catch (MessagingException exp) {
             log.warn("WARNING - Cannot send email to {}", destinationEmail);
         }

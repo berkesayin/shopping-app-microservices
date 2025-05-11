@@ -7,9 +7,8 @@ public class OrderMapper {
 
     public Order toOrder(OrderRequest orderRequest) {
         return Order.builder()
-                //.id(orderRequest.id())
-                .customerId(orderRequest.customerId())
                 .reference(orderRequest.reference())
+                .customerId(orderRequest.customerId())
                 .paymentMethod(orderRequest.paymentMethod())
                 .build();
     }

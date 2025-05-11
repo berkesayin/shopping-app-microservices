@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   kafka:
@@ -15,7 +15,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: paymentConfirmation:dev.berke.app.kafka.PaymentNotificationRequest
+        spring.json.type.mapping: paymentConfirmation:dev.berke.app.kafka.PaymentConfirmRequest
 iyzipay:
   api:
     key: sandbox-q6L1GCFJrBE3OUTW8lxbPS5bCDzqeBZZ

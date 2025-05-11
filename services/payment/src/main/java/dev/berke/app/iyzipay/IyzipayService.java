@@ -14,6 +14,9 @@ import dev.berke.app.basket.BasketResponse;
 import dev.berke.app.basket.BasketTotalPriceResponse;
 import dev.berke.app.card.CreditCardResponse;
 import dev.berke.app.customer.CustomerClient;
+import dev.berke.app.kafka.PaymentProducer;
+import dev.berke.app.kafka.PaymentConfirmRequest;
+import dev.berke.app.payment.PaymentMethod;
 import dev.berke.app.payment.PaymentResponse;
 import dev.berke.app.payment.PaymentService;
 
@@ -36,6 +39,7 @@ public class IyzipayService {
     private final PaymentService paymentService;
     private final CustomerClient customerClient;
     private final BasketClient basketClient;
+    private final PaymentProducer paymentProducer;
 
 
     public PaymentResponse createPaymentRequestWithCard(
@@ -74,6 +78,18 @@ public class IyzipayService {
 
         // Create payment using the injected options
         Payment payment = Payment.create(request, useIyzipayOptions);
+
+        var customerName = request.getBuyer().getName() + " " + request.getBuyer().getSurname();
+        var paymentMethod = PaymentMethod.IYZICO_PAYMENT;
+
+        paymentProducer.sendPaymentNotification(
+                new PaymentConfirmRequest(
+                        customerName,
+                        request.getBuyer().getEmail(),
+                        totalBasketPrice,
+                        paymentMethod
+                )
+        );
 
         return new PaymentResponse(payment.getPaymentStatus(), payment.getPaymentId());
     }
@@ -162,7 +178,7 @@ public class IyzipayService {
                     iyziBasketItem.setCategory1(String.valueOf(item.getCategoryId()));
                     iyziBasketItem.setItemType(BasketItemType.PHYSICAL.name());
                     iyziBasketItem.setPrice(item
-                            .getPrice()
+                            .getBasePrice()
                             .multiply(BigDecimal.valueOf(item.getQuantity())
                             ));
                     return iyziBasketItem;

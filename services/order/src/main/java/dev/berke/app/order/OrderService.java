@@ -4,11 +4,11 @@ import dev.berke.app.basket.*;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.exception.BusinessException;
-// import dev.berke.app.kafka.OrderProducer;
+import dev.berke.app.kafka.OrderConfirmRequest;
+import dev.berke.app.kafka.OrderProducer;
 import dev.berke.app.orderline.OrderLineRequest;
 import dev.berke.app.orderline.OrderLineService;
 import dev.berke.app.payment.PaymentClient;
-import dev.berke.app.product.ProductClient;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,10 +26,9 @@ public class OrderService {
     private final OrderLineService orderLineService;
     private final OrderMapper orderMapper;
     private final CustomerClient customerClient;
-    private final ProductClient productClient;
     private final BasketClient basketClient;
     private final PaymentClient paymentClient;
-    // private final OrderProducer orderProducer;
+    private final OrderProducer orderProducer;
 
     // Business logic to create order
     // 1. check the customer: Check if we have our customer or not (use OpenFeign)
@@ -50,46 +49,60 @@ public class OrderService {
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE));
 
-        System.out.println("Step 1: " + customer.id() + customer.name());
+        var customerName = customer.name() + " " + customer.surname();
+        System.out.println("Customer name: " + customerName);
 
         // 2. check customer's basket: check if customer added products to basket or not
         var basket = this.basketClient.getBasketByCustomerId(orderRequest.customerId())
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.BASKET_EMPTY_MESSAGE));
 
-        System.out.println("Step 2: " + basket.customerId() + basket.items());
+        var productsToPurchase = basket.items();
+        System.out.println("Step 2: " + basket.customerId() + productsToPurchase);
+
 
         // 3. calculate total basket price
         ResponseEntity<BasketTotalPriceResponse> basketTotalPriceResponse =
                 basketClient.calculateTotalBasketPrice(orderRequest.customerId());
 
         BigDecimal totalPrice = basketTotalPriceResponse.getBody().totalPrice();
-
         System.out.println("Step 4: " + totalPrice);
 
-        // 4. persist order save the order object
+        // 4. save the order object
         var order = orderMapper.toOrder(orderRequest);
+        order.setCustomerEmail(customer.email());
         order.setTotalAmount(totalPrice);
 
         var savedOrder = this.orderRepository.save(order);
 
         System.out.println("Step 5: " + order.getCustomerId() + order.getPaymentMethod());
 
-        // 5. persist order lines: Save the order lines
+        // 5. save the order lines (products purchased by customer)
         for (BasketItem basketItem : basket.items()) {
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
                             null,
                             savedOrder.getId(),
                             basketItem.getProductId(),
-                            basketItem.getQuantity()));
+                            basketItem.getQuantity()
+                    )
+            );
         }
 
-        // 6. start payment process: After persisting the order lines, start payment
+        // 6. start payment process: after saving the order lines, start payment
         paymentClient.createPayment(customer.id());
 
         // 7. send order confirmation
-
+        orderProducer.sendOrderConfirmation(
+                new OrderConfirmRequest(
+                        customerName,
+                        customer.email(),
+                        orderRequest.reference(),
+                        orderRequest.paymentMethod(),
+                        productsToPurchase,
+                        totalPrice
+                )
+        );
 
 
         return new OrderResponse(

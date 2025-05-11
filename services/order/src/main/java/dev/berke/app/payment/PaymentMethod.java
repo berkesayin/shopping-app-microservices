@@ -1,4 +1,4 @@
-package dev.berke.app.order;
+package dev.berke.app.payment;
 
 public enum PaymentMethod {
     IYZICO_PAYMENT

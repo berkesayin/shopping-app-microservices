@@ -4,8 +4,8 @@ import lombok.Getter;
 
 public enum EmailTemplates {
 
-    PAYMENT_CONFIRMATION("payment-confirmation.html", "Payment successfully processed"),
-    ORDER_CONFIRMATION("order-confirmation.html", "Order confirmation");
+    PAYMENT_CONFIRMATION("payment-confirmation.html", "Payment Received"),
+    ORDER_CONFIRMATION("order-confirmation.html", "Order Confirmation");
 
     @Getter
     private final String template;
