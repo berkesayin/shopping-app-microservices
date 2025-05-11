@@ -1,7 +1,7 @@
 package dev.berke.app.kafka;
 
 import dev.berke.app.email.PaymentConfirmationEmail;
-import dev.berke.app.kafka.payment.PaymentConfirmation;
+import dev.berke.app.kafka.payment.PaymentConfirmRequest;
 import dev.berke.app.notification.Notification;
 import dev.berke.app.notification.NotificationRepository;
 import dev.berke.app.notification.NotificationType;
@@ -24,23 +24,23 @@ public class PaymentConsumer {
     // Kafka listener to consume payment confirmation messages from the payment-topic
     @KafkaListener(topics = "payment-topic")
     public void consumePaymentSuccessNotification(
-            PaymentConfirmation paymentConfirmation
+            PaymentConfirmRequest paymentConfirmRequest
     ) throws MessagingException {
-        log.info(String.format("Consuming the message from payment-topic,  Topic:: %s", paymentConfirmation));
+        log.info(String.format("Consuming the message from payment-topic,  Topic:: %s", paymentConfirmRequest));
         notificationRepository.save(
                 Notification.builder()
                         .type(NotificationType.PAYMENT_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
-                        .paymentConfirmation(paymentConfirmation)
+                        .paymentConfirmRequest(paymentConfirmRequest)
                         .build()
         );
 
 
         paymentConfirmationEmail.sendPaymentSuccessEmail(
-                paymentConfirmation.customerName(),
-                paymentConfirmation.email(),
-                paymentConfirmation.totalPrice(),
-                paymentConfirmation.paymentMethod()
+                paymentConfirmRequest.customerName(),
+                paymentConfirmRequest.email(),
+                paymentConfirmRequest.totalPrice(),
+                paymentConfirmRequest.paymentMethod()
         );
     }
 }

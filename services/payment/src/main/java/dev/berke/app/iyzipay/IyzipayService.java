@@ -14,8 +14,8 @@ import dev.berke.app.basket.BasketResponse;
 import dev.berke.app.basket.BasketTotalPriceResponse;
 import dev.berke.app.card.CreditCardResponse;
 import dev.berke.app.customer.CustomerClient;
-import dev.berke.app.kafka.PaymentNotificationProducer;
-import dev.berke.app.kafka.PaymentNotificationRequest;
+import dev.berke.app.kafka.PaymentProducer;
+import dev.berke.app.kafka.PaymentConfirmRequest;
 import dev.berke.app.payment.PaymentMethod;
 import dev.berke.app.payment.PaymentResponse;
 import dev.berke.app.payment.PaymentService;
@@ -39,7 +39,7 @@ public class IyzipayService {
     private final PaymentService paymentService;
     private final CustomerClient customerClient;
     private final BasketClient basketClient;
-    private final PaymentNotificationProducer paymentNotificationProducer;
+    private final PaymentProducer paymentProducer;
 
 
     public PaymentResponse createPaymentRequestWithCard(
@@ -82,8 +82,8 @@ public class IyzipayService {
         var customerName = request.getBuyer().getName() + " " + request.getBuyer().getSurname();
         var paymentMethod = PaymentMethod.IYZICO_PAYMENT;
 
-        paymentNotificationProducer.sendPaymentNotification(
-                new PaymentNotificationRequest(
+        paymentProducer.sendPaymentNotification(
+                new PaymentConfirmRequest(
                         customerName,
                         request.getBuyer().getEmail(),
                         totalBasketPrice,
