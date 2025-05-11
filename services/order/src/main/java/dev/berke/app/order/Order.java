@@ -1,6 +1,7 @@
 package dev.berke.app.order;
 
 import dev.berke.app.orderline.OrderLine;
+import dev.berke.app.payment.PaymentMethod;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

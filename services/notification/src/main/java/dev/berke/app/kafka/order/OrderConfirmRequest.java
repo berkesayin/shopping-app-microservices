@@ -6,7 +6,7 @@ import dev.berke.app.kafka.payment.PaymentMethod;
 import java.math.BigDecimal;
 import java.util.List;
 
-public record OrderConfirmation(
+public record OrderConfirmRequest(
         String customerName,
         String customerEmail,
         String reference,

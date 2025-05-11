@@ -1,7 +1,7 @@
 package dev.berke.app.kafka;
 
 import dev.berke.app.email.OrderConfirmationEmail;
-import dev.berke.app.kafka.order.OrderConfirmation;
+import dev.berke.app.kafka.order.OrderConfirmRequest;
 import dev.berke.app.notification.Notification;
 import dev.berke.app.notification.NotificationRepository;
 import dev.berke.app.notification.NotificationType;
@@ -24,24 +24,24 @@ public class OrderConsumer {
     // Kafka listener to consume order confirmation messages from the order-topic
     @KafkaListener(topics = "order-topic")
     public void consumeOrderConfirmationNotification(
-            OrderConfirmation orderConfirmation
+            OrderConfirmRequest orderConfirmRequest
     ) throws MessagingException {
-        log.info(String.format("Consuming the message from order-topic,  Topic:: %s", orderConfirmation));
+        log.info(String.format("Consuming the message from order-topic,  Topic:: %s", orderConfirmRequest));
         notificationRepository.save(
                 Notification.builder()
                         .type(NotificationType.ORDER_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
-                        .orderConfirmation(orderConfirmation)
+                        .orderConfirmRequest(orderConfirmRequest)
                         .build()
         );
 
         orderConfirmationEmail.sendOrderConfirmationEmail(
-                orderConfirmation.customerName(),
-                orderConfirmation.customerEmail(),
-                orderConfirmation.reference(),
-                orderConfirmation.paymentMethod(),
-                orderConfirmation.productsToPurchase(),
-                orderConfirmation.totalPrice()
+                orderConfirmRequest.customerName(),
+                orderConfirmRequest.customerEmail(),
+                orderConfirmRequest.reference(),
+                orderConfirmRequest.paymentMethod(),
+                orderConfirmRequest.productsToPurchase(),
+                orderConfirmRequest.totalPrice()
         );
     }
 }

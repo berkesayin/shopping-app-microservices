@@ -1,12 +1,12 @@
 package dev.berke.app.kafka;
 
 import dev.berke.app.basket.BasketItem;
-import dev.berke.app.order.PaymentMethod;
+import dev.berke.app.payment.PaymentMethod;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public record OrderConfirmation(
+public record OrderConfirmRequest(
         String customerName,
         String customerEmail,
         String reference,
