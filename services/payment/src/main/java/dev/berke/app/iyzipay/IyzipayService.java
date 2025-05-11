@@ -16,6 +16,7 @@ import dev.berke.app.card.CreditCardResponse;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.kafka.PaymentNotificationProducer;
 import dev.berke.app.kafka.PaymentNotificationRequest;
+import dev.berke.app.payment.PaymentMethod;
 import dev.berke.app.payment.PaymentResponse;
 import dev.berke.app.payment.PaymentService;
 
@@ -78,13 +79,15 @@ public class IyzipayService {
         // Create payment using the injected options
         Payment payment = Payment.create(request, useIyzipayOptions);
 
+        var customerName = request.getBuyer().getName() + " " + request.getBuyer().getSurname();
+        var paymentMethod = PaymentMethod.IYZICO_PAYMENT;
+
         paymentNotificationProducer.sendPaymentNotification(
                 new PaymentNotificationRequest(
-                        request.getBuyer().getName(),
-                        request.getBuyer().getSurname(),
+                        customerName,
                         request.getBuyer().getEmail(),
-                        request.getBasketItems(),
-                        totalBasketPrice
+                        totalBasketPrice,
+                        paymentMethod
                 )
         );
 
