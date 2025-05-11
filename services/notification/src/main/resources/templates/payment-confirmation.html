@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment Confirmation</title>
@@ -23,7 +23,8 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
-      h1 {
+      h1,
+      h3 {
         color: #333;
       }
 
@@ -44,29 +45,26 @@
         text-align: center;
       }
     </style>
-</head>
+  </head>
 
-<body>
-<div class="container">
-    <h1>Payment Confirmation</h1>
-    <p>Dear <span th:text="${customerName}"></span>,</p>
-    <p>
-        Your payment has been received. Your products are being prepared. 
-    </p>
-    <p>Payment Method: <span th:text="${paymentMethod}"></span></p>
-    <p>Total Price: $<span th:text="${totalPrice}"></span></p>
+  <body>
+    <div class="container">
+      <h1>Payment Confirmation</h1>
+      <p>Dear <span th:text="${customerName}"></span>,</p>
+      <p>Your payment has been received. Your products are being prepared.</p>
 
-    <div class="footer">
-        
+      <h3>Payment Details</h3>
+
+      <p>Payment Method: <span th:text="${paymentMethod}"></span></p>
+      <p>Total Price: $<span th:text="${totalPrice}"></span></p>
+      <p>
+        Thank you for choosing our service! If you have any questions, please
+        contact our support team.
+      </p>
+
+      <div class="footer">
+        <p>This is an automated message. Please do not reply to this email.</p>
+      </div>
     </div>
-
-    <div class="footer">
-      <p>Thank you for choosing our service!</p>
-      <p>If you have any questions, please contact our support team.</p>
-
-      <br /> 
-      <p>This is an automated message. Please do not reply to this email.</p> 
-    </div>
-</div>
-</body>
+  </body>
 </html>
