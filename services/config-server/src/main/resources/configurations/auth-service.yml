@@ -9,9 +9,16 @@ spring:
       ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  data:
+    redis:
+      host: localhost
+      port: 6379
 token:
   app:
     jwtSecret: ${JWT_SECRET}
     jwtExpirationMs: 86400000
 server:
   port: 8030
+application:
+  config:
+    customer-url: http://localhost:8222/api/v1/customers
