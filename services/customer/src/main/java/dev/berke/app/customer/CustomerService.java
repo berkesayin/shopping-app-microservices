@@ -9,6 +9,7 @@ import dev.berke.app.exception.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +23,16 @@ public class CustomerService {
     private final CustomerMapper customerMapper;
     private final AddressMapper addressMapper;
 
-    public String createCustomer(CustomerCreateRequest customerCreateRequest) {
-        if(customerRepository.existsByEmail(customerCreateRequest.email())) {
-            throw new IllegalArgumentException("Email already in use");
-        }
-        var customer = customerRepository.save(customerMapper.toCustomer(customerCreateRequest));
-        return customer.getId();
+    @Transactional
+    public CustomerCreateResponse createCustomer(CustomerDataRequest customerDataRequest) {
+        var customer = customerMapper.toCustomer(customerDataRequest);
+        Customer savedCustomer = customerRepository.save(customer);
+
+        System.out.println("Customer profile created with ID: "
+                + savedCustomer.getId() + " for email: "
+                + savedCustomer.getEmail());
+
+        return new CustomerCreateResponse(savedCustomer.getId());
     }
 
     public CustomerResponse updateCustomer(CustomerUpdateRequest customerUpdateRequest) {
@@ -73,7 +78,7 @@ public class CustomerService {
                 .isPresent();
     }
 
-    public CustomerResponse findCustomerById(String customerId) {
+    public CustomerResponse getCustomerById(String customerId) {
         return customerRepository.findById(customerId)
                 .map(customerMapper::fromCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(

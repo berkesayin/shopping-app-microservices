@@ -17,13 +17,12 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
@@ -36,6 +35,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "customer_id")
+    private String customerId;
 
     @NotBlank
     @Column(name = "username", length = 20, nullable = false)
@@ -56,9 +58,21 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String email, String password) {
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "surname")
+    private String surname;
+
+    @Column(name = "gsm_number")
+    private String gsmNumber;
+
+    public User(String username, String email, String name, String surname, String gsmNumber, String password) {
         this.username = username;
         this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.gsmNumber = gsmNumber;
         this.password = password;
     }
 }

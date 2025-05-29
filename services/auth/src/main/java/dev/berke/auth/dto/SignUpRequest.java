@@ -5,17 +5,28 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.Set;
 
+// client -> gateway -> auth
 public record SignUpRequest(
         @NotBlank
         String username,
 
+        Set<String> role, // default ROLE_USER
+
+        @NotBlank
+        String password,
+
+        // email, name, surname, gsmNumber are sent to customer service
         @NotBlank
         @Email
         String email,
 
-        Set<String> role,
+        @NotBlank
+        String name,
 
         @NotBlank
-        String password
+        String surname,
+
+        @NotBlank
+        String gsmNumber
 ) {
 }

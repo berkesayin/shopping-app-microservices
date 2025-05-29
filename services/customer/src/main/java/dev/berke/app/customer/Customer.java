@@ -34,4 +34,11 @@ public class Customer {
     private List<Address> shippingAddresses;
     private String activeBillingAddressId;
     private String activeShippingAddressId;
+
+    public Customer(String name, String surname, String gsmNumber, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.gsmNumber = gsmNumber;
+        this.email = email;
+    }
 }
