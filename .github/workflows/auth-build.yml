@@ -13,7 +13,7 @@ on:
       - 'services/auth/**'
 
 jobs:
-  customer-build:
+  auth-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'auth'
