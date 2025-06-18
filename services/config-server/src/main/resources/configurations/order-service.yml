@@ -23,4 +23,4 @@ application:
     customer-url: http://localhost:8222/api/v1/customers
     product-url: http://localhost:8222/api/v1/products
     payment-url: http://localhost:8222/api/v1/payments
-    basket-url: http://localhost:8040/api/v1/baskets
+    basket-url: http://localhost:8222/api/v1/baskets
