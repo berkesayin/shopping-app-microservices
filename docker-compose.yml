@@ -83,9 +83,10 @@ services:
       - "22181:2181"
     networks:
       - be-net
-
+      
   kafka:
-    image: confluentinc/cp-kafka:latest
+    build:
+      context: ./kafka-jolokia
     container_name: be-kafka
     environment:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -96,19 +97,19 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: kafka
-      JMX_PORT: 9999 
+      KAFKA_JMX_HOSTNAME: localhost
     volumes:
       - kafka_data:/var/lib/kafka/data 
     ports:
       - "9092:9092"
       - "29092:29092"
       - "9999:9999" 
+      - "8778:8778" # jolokia port
     networks:
       - be-net
     depends_on:
       - zookeeper
-
+      
   maildev:
     image: maildev/maildev:latest
     container_name: be-maildev

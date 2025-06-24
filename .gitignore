@@ -38,3 +38,6 @@ notes/
 
 ### Environment Variables ###
 .env 
+
+# kafka-jolokia
+kafka-jolokia/*.jar
