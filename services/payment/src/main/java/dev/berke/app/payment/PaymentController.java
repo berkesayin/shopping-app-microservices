@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,26 +21,37 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final IyzipayService iyzipayService;
 
-    @PostMapping("/credit-cards")
+    @PostMapping("/credit-cards/{customerId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Integer> createCreditCard(
-            @RequestBody @Valid CreditCardRequest creditCardRequest
+            @RequestBody @Valid CreditCardRequest creditCardRequest,
+            //@PathVariable("customerId") String customerId
+            @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        return ResponseEntity.ok(paymentService.createCreditCard(creditCardRequest));
+        String customerId = customerIdPrincipal;
+        return ResponseEntity.ok(paymentService.createCreditCard(creditCardRequest, customerId));
     }
 
-    @GetMapping("/customer/{customer-id}")
+    @GetMapping("/customer/{customerId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<CreditCardResponse>> getCreditCardsByCustomerId(
-            @PathVariable("customer-id") String customerId
+            //@PathVariable("customerId") String customerId
+            @AuthenticationPrincipal String customerIdPrincipal
     ) {
+        String customerId = customerIdPrincipal;
         return ResponseEntity.ok(
                 paymentService.getCreditCardsByCustomerId(customerId)
         );
     }
 
     @PostMapping("/create-iyzipayment")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<PaymentResponse> createPayment(
-            @RequestParam String customerId
+            // @RequestParam String customerId
+            @AuthenticationPrincipal String customerIdPrincipal
     ) {
+        String customerId = customerIdPrincipal;
+
         PaymentResponse paymentResponse =
                 iyzipayService.createPaymentRequestWithCard(customerId);
 

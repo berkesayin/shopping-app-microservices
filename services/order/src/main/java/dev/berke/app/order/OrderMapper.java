@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderMapper {
 
-    public Order toOrder(OrderRequest orderRequest) {
+    public Order toOrder(OrderRequest orderRequest, String customerId) {
         return Order.builder()
                 .reference(orderRequest.reference())
-                .customerId(orderRequest.customerId())
+                .customerId(customerId)
                 .paymentMethod(orderRequest.paymentMethod())
                 .build();
     }

@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "basket-service", url = "${application.config.basket-url}")
 public interface BasketClient {
 
-    @GetMapping("/{customer-id}")
-    BasketResponse getBasketByCustomerId(@PathVariable("customer-id") String customerId);
+    @GetMapping("/{customerId}")
+    BasketResponse getBasketByCustomerId(@PathVariable("customerId") String customerId);
 
-    @GetMapping("/{customer-id}/total-price")
-    BasketTotalPriceResponse getTotalBasketPrice(@PathVariable("customer-id") String customerId);
+    @GetMapping("/{customerId}/total-price")
+    BasketTotalPriceResponse getTotalBasketPrice(@PathVariable("customerId") String customerId);
 }

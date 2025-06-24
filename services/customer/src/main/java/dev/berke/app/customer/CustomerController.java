@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/customers")
@@ -27,7 +27,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<CustomerCreateResponse> createCustomer(
             @RequestBody @Valid CustomerDataRequest customerDataRequest
     ) {
@@ -52,23 +52,26 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
-    @GetMapping("/exists/{customer-id}")
-    public ResponseEntity<Boolean> checkCustomerById(@PathVariable("customer-id") String customerId) {
+    @GetMapping("/exists/{customerId}")
+    public ResponseEntity<Boolean> checkCustomerById(@PathVariable("customerId") String customerId) {
         return ResponseEntity.ok(customerService.checkCustomerById(customerId));
     }
 
-    @GetMapping("customer/id")
+    @GetMapping("{customerId}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<CustomerResponse> getCustomerById(Authentication authentication) {
-        @SuppressWarnings("unchecked")
-        Map<String, String> details = (Map<String, String>) authentication.getDetails();
-        String customerId = details.get("customerId");
+    public ResponseEntity<CustomerResponse> getCustomerById(
+            @AuthenticationPrincipal String customerIdPrincipal
+    ) {
+        // @SuppressWarnings("unchecked")
+        // Map<String, String> details = (Map<String, String>) authentication.getDetails();
+        // String customerId = details.get("customerId");
 
+        String customerId = customerIdPrincipal;
         return ResponseEntity.ok(customerService.getCustomerById(customerId));
     }
 
-    @DeleteMapping("/{customer-id}")
-    public ResponseEntity<Void> deleteCustomerById(@PathVariable("customer-id") String customerId) {
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable("customerId") String customerId) {
         customerService.deleteCustomer(customerId);
         return ResponseEntity.accepted().build();
     }
@@ -126,6 +129,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/billing-addresses/active")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<AddressResponse> getActiveBillingAddress(
             @PathVariable("customerId") String customerId
     ) {
@@ -134,9 +138,11 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/shipping-addresses/active")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<AddressResponse> getActiveShippingAddress(
-            @PathVariable("customerId") String customerId
+            @AuthenticationPrincipal String customerIdPrincipal
     ) {
+        String customerId = customerIdPrincipal;
         var response = customerService.getActiveShippingAddress(customerId);
         return ResponseEntity.ok(response);
     }
