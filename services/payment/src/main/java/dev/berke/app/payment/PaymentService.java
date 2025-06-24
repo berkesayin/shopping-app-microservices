@@ -16,8 +16,8 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
 
-    public Integer createCreditCard(CreditCardRequest creditCardRequest) {
-        var creditCard = paymentMapper.toCreditCard(creditCardRequest);
+    public Integer createCreditCard(CreditCardRequest creditCardRequest, String customerId) {
+        var creditCard = paymentMapper.toCreditCard(creditCardRequest, customerId);
         return paymentRepository.save(creditCard).getId();
     }
 

@@ -10,9 +10,9 @@ import java.util.Optional;
 @FeignClient(name = "basket-service", url = "${application.config.basket-url}")
 public interface BasketClient {
 
-    @GetMapping("/{customer-id}")
-    Optional<BasketResponse> getBasketByCustomerId(@PathVariable("customer-id") String customerId);
+    @GetMapping("/{customerId}")
+    Optional<BasketResponse> getBasketByCustomerId(@PathVariable("customerId") String customerId);
 
-    @GetMapping("/{customer-id}/total-price")
-    ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(@PathVariable("customer-id") String customerId);
+    @GetMapping("/{customerId}/total-price")
+    ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(@PathVariable("customerId") String customerId);
 }

@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 @Service
 public class PaymentMapper {
 
-    public Payment toCreditCard(CreditCardRequest creditCardRequest) {
+    public Payment toCreditCard(CreditCardRequest creditCardRequest, String customerId) {
         return Payment.builder()
-                .customerId(creditCardRequest.customerId())
+                .customerId(customerId)
                 .cardHolderName(creditCardRequest.cardHolderName())
                 .cardNumber(creditCardRequest.cardNumber())
                 .expireMonth(creditCardRequest.expireMonth())

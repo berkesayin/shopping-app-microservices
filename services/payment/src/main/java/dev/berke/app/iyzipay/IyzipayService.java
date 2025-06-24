@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
@@ -34,18 +33,15 @@ import java.util.stream.Collectors;
 public class IyzipayService {
 
     private static final Logger logger = LoggerFactory.getLogger(IyzipayService.class);
-
     private final Options useIyzipayOptions;
-    private final PaymentService paymentService;
     private final CustomerClient customerClient;
     private final BasketClient basketClient;
+    private final PaymentService paymentService;
     private final PaymentProducer paymentProducer;
-
 
     public PaymentResponse createPaymentRequestWithCard(
             String customerId
     ) {
-
         CreatePaymentRequest request = new CreatePaymentRequest();
 
         // create and set buyer info
@@ -97,17 +93,19 @@ public class IyzipayService {
     private Buyer createBuyer(String customerId) {
         Buyer buyer = new Buyer();
 
-        Map<String, Object> customer = customerClient.getCustomerById(customerId);
+        var customer = this.customerClient.getCustomerById(customerId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Customer not found"));
 
         var activeShippingAddress = customerClient.getActiveShippingAddress(customerId);
 
-        buyer.setId(customer.get("id").toString());
-        buyer.setName(customer.get("name").toString());
-        buyer.setSurname(customer.get("surname").toString());
-        buyer.setGsmNumber(customer.get("gsmNumber").toString());
-        buyer.setEmail(customer.get("email").toString());
-        buyer.setIdentityNumber(customer.get("identityNumber").toString());
-        buyer.setRegistrationAddress(customer.get("registrationAddress").toString());
+        buyer.setId(customerId);
+        buyer.setName(customer.name());
+        buyer.setSurname(customer.surname());
+        buyer.setGsmNumber(customer.gsmNumber().toString());
+        buyer.setEmail(customer.email());
+        buyer.setIdentityNumber(customer.identityNumber());
+        buyer.setRegistrationAddress(customer.registrationAddress().toString());
         buyer.setCity(activeShippingAddress.city());
         buyer.setCountry(activeShippingAddress.country());
         buyer.setZipCode(activeShippingAddress.zipCode());

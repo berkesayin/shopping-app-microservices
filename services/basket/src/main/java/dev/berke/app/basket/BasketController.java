@@ -3,6 +3,8 @@ package dev.berke.app.basket;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -12,10 +14,14 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("/{customer-id}")
+    @GetMapping("/{customerId}")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BasketResponse> getBasketByCustomerId(
-            @PathVariable("customer-id") String customerId
+            // @PathVariable("customerId") String customerId
+            @AuthenticationPrincipal String customerIdPrincipal
     ){
+        String customerId = customerIdPrincipal;
+
         BasketResponse basketResponse = basketService.getBasketByCustomerId(customerId);
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
@@ -28,10 +34,14 @@ public class BasketController {
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{customer-id}/total-price")
+    @GetMapping("/{customerId}/total-price")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(
-            @PathVariable("customer-id") String customerId
+            // @PathVariable("customerId") String customerId
+            @AuthenticationPrincipal String customerIdPrincipal
     ) {
+        String customerId = customerIdPrincipal;
+
         BasketTotalPriceResponse totalPriceResponse =
                 basketService.calculateTotalBasketPrice(customerId);
 
