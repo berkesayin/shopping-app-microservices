@@ -39,11 +39,16 @@ public class CustomerController {
         }
     }
 
-    @PutMapping
+    @PutMapping("/me")
     public ResponseEntity<CustomerResponse> updateCustomer(
-            @RequestBody @Valid CustomerUpdateRequest customerUpdateRequest
+            @RequestBody @Valid CustomerUpdateRequest customerUpdateRequest,
+            @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        CustomerResponse updatedCustomer = customerService.updateCustomer(customerUpdateRequest);
+        String customerId = customerIdPrincipal;
+
+        CustomerResponse updatedCustomer =
+                customerService.updateCustomer(customerUpdateRequest, customerId);
+
         return ResponseEntity.accepted().body(updatedCustomer);
     }
 

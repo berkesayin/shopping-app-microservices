@@ -35,11 +35,15 @@ public class CustomerService {
         return new CustomerCreateResponse(savedCustomer.getId());
     }
 
-    public CustomerResponse updateCustomer(CustomerUpdateRequest customerUpdateRequest) {
-        var customer = customerRepository.findById(customerUpdateRequest.id())
+    public CustomerResponse updateCustomer(
+            CustomerUpdateRequest customerUpdateRequest,
+            String customerId
+
+    ) {
+        var customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         String.format(CustomerConstants
-                                .CUSTOMER_NOT_FOUND_MESSAGE, customerUpdateRequest.id())
+                                .CUSTOMER_NOT_FOUND_MESSAGE, customerId)
                 ));
         if (StringUtils.isNotBlank(customerUpdateRequest.name())) {
             customer.setName(customerUpdateRequest.name());
