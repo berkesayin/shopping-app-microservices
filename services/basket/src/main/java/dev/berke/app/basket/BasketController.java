@@ -14,30 +14,34 @@ public class BasketController {
 
     private final BasketService basketService;
 
-    @GetMapping("/{customerId}")
+    @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<BasketResponse> getBasketByCustomerId(
-            // @PathVariable("customerId") String customerId
+    public ResponseEntity<BasketResponse> getBasket(
             @AuthenticationPrincipal String customerIdPrincipal
     ){
         String customerId = customerIdPrincipal;
 
-        BasketResponse basketResponse = basketService.getBasketByCustomerId(customerId);
+        BasketResponse basketResponse = basketService.getBasket(customerId);
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
 
     @PostMapping("/items")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BasketResponse> addItemToBasket(
+            @AuthenticationPrincipal String customerIdPrincipal,
             @RequestBody BasketAddItemRequest basketAddItemRequest
     ) {
-        BasketResponse basketResponse = basketService.addItemToBasket(basketAddItemRequest);
+        String customerId = customerIdPrincipal;
+
+        BasketResponse basketResponse =
+                basketService.addItemToBasket(customerId, basketAddItemRequest);
+
         return new ResponseEntity<>(basketResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/{customerId}/total-price")
+    @GetMapping("/total-price")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(
-            // @PathVariable("customerId") String customerId
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
         String customerId = customerIdPrincipal;
