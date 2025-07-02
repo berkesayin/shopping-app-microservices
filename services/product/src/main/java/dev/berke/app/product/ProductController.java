@@ -3,6 +3,7 @@ package dev.berke.app.product;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,15 +21,16 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
+    @PreAuthorize("hasRole('BACKOFFICE')")
     public ResponseEntity<ProductResponse> createProduct(
             @RequestBody @Valid ProductRequest productRequest
     ) {
         return ResponseEntity.ok(productService.createProduct(productRequest));
     }
 
-    @GetMapping("/{product-id}")
+    @GetMapping("/{productId}")
     public ResponseEntity<ProductResponse> getProductById(
-            @PathVariable("product-id") Integer productId
+            @PathVariable("productId") Integer productId
     ) {
         return ResponseEntity.ok(productService.getProductById(productId));
     }
@@ -38,9 +40,10 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping("/{product-id}/category-id")
+    @GetMapping("/{productId}/category-id")
+    @PreAuthorize("hasRole('BACKOFFICE')")
     public ResponseEntity<Integer> getCategoryIdOfProduct(
-            @PathVariable("product-id") Integer productId
+            @PathVariable("productId") Integer productId
     ) {
         return ResponseEntity.ok(productService.getCategoryIdOfProduct(productId));
     }
