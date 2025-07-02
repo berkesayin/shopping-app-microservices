@@ -30,13 +30,15 @@ public class OrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('BACKOFFICE')")
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    @GetMapping("/{order-id}")
+    @GetMapping("/{orderId}")
+    @PreAuthorize("hasRole('BACKOFFICE')")
     public ResponseEntity<OrderResponse> getOrderById(
-            @PathVariable("order-id") Integer orderId
+            @PathVariable("orderId") Integer orderId
     ) {
         return ResponseEntity.ok(orderService.getOrderById(orderId));
     }
