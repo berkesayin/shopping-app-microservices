@@ -21,33 +21,32 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final IyzipayService iyzipayService;
 
-    @PostMapping("/credit-cards/{customerId}")
+    @PostMapping("/me/credit-cards")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Integer> createCreditCard(
             @RequestBody @Valid CreditCardRequest creditCardRequest,
-            //@PathVariable("customerId") String customerId
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
         String customerId = customerIdPrincipal;
+
         return ResponseEntity.ok(paymentService.createCreditCard(creditCardRequest, customerId));
     }
 
-    @GetMapping("/customer/{customerId}")
+    @GetMapping("/me/credit-cards")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<CreditCardResponse>> getCreditCardsByCustomerId(
-            //@PathVariable("customerId") String customerId
+    public ResponseEntity<List<CreditCardResponse>> getCreditCards(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
         String customerId = customerIdPrincipal;
+
         return ResponseEntity.ok(
-                paymentService.getCreditCardsByCustomerId(customerId)
+                paymentService.getCreditCards(customerId)
         );
     }
 
     @PostMapping("/create-iyzipayment")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<PaymentResponse> createPayment(
-            // @RequestParam String customerId
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
         String customerId = customerIdPrincipal;
