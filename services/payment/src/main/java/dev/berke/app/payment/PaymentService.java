@@ -21,7 +21,7 @@ public class PaymentService {
         return paymentRepository.save(creditCard).getId();
     }
 
-    public List<CreditCardResponse> getCreditCardsByCustomerId(String customerId) {
+    public List<CreditCardResponse> getCreditCards(String customerId) {
         log.info("Fetching credit cards for customer ID: {}", customerId);
 
         List<Payment> creditCards = paymentRepository.findByCustomerId(customerId);

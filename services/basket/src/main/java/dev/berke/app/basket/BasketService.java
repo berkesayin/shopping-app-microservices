@@ -18,7 +18,7 @@ public class BasketService {
     private final BasketRepository basketRepository;
     private final ProductClient productClient;
 
-    public BasketResponse getBasketByCustomerId(String customerId) {
+    public BasketResponse getBasket(String customerId) {
         Optional<Basket> basket = basketRepository.findByCustomerId(customerId);
         return basket.map(value -> new BasketResponse(
                         value.getCustomerId(),
@@ -27,9 +27,10 @@ public class BasketService {
                 .orElse(null);
     }
 
-    public BasketResponse addItemToBasket(BasketAddItemRequest basketAddItemRequest) {
-        String customerId = basketAddItemRequest.customerId();
-
+    public BasketResponse addItemToBasket(
+            String customerId,
+            BasketAddItemRequest basketAddItemRequest
+    ) {
         Basket basket = basketRepository.findById(customerId)
                 .orElse(new Basket(customerId, new ArrayList<>()));
 

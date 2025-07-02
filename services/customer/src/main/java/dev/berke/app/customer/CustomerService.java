@@ -35,11 +35,14 @@ public class CustomerService {
         return new CustomerCreateResponse(savedCustomer.getId());
     }
 
-    public CustomerResponse updateCustomer(CustomerUpdateRequest customerUpdateRequest) {
-        var customer = customerRepository.findById(customerUpdateRequest.id())
+    public CustomerResponse updateProfile(
+            CustomerUpdateRequest customerUpdateRequest,
+            String customerId
+    ) {
+        var customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         String.format(CustomerConstants
-                                .CUSTOMER_NOT_FOUND_MESSAGE, customerUpdateRequest.id())
+                                .CUSTOMER_NOT_FOUND_MESSAGE, customerId)
                 ));
         if (StringUtils.isNotBlank(customerUpdateRequest.name())) {
             customer.setName(customerUpdateRequest.name());
@@ -78,14 +81,14 @@ public class CustomerService {
                 .isPresent();
     }
 
-    public CustomerResponse getCustomerById(String customerId) {
+    public CustomerResponse getProfile(String customerId) {
         return customerRepository.findById(customerId)
                 .map(customerMapper::fromCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(
                         String.format(CustomerConstants.CUSTOMER_NOT_FOUND_BY_ID, customerId)));
     }
 
-    public void deleteCustomer(String customerId) {
+    public void deleteProfile(String customerId) {
         customerRepository.deleteById(customerId);
     }
 
@@ -127,7 +130,7 @@ public class CustomerService {
         return addressMapper.toAddressResponse(newAddress);
     }
 
-    public List<AddressResponse> getBillingAddressesByCustomerId(String customerId) {
+    public List<AddressResponse> getBillingAddresses(String customerId) {
         var customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
 
@@ -139,7 +142,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public List<AddressResponse> getShippingAddressesByCustomerId(String customerId) {
+    public List<AddressResponse> getShippingAddresses(String customerId) {
         var customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
 
@@ -151,7 +154,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public void chooseActiveBillingAddress(String customerId, String billingAddressId) {
+    public void setActiveBillingAddress(String customerId, String billingAddressId) {
         var customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
 
@@ -177,7 +180,7 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
-    public void chooseActiveShippingAddress(String customerId, String shippingAddressId) {
+    public void setActiveShippingAddress(String customerId, String shippingAddressId) {
         var customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer not found"));
 

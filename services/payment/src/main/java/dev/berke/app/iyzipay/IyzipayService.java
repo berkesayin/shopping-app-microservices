@@ -143,7 +143,7 @@ public class IyzipayService {
 
     private PaymentCard createPaymentCard(String customerId) {
         List<CreditCardResponse> creditCards = paymentService
-                .getCreditCardsByCustomerId(customerId);
+                .getCreditCards(customerId);
 
         if (creditCards != null && !creditCards.isEmpty()) {
             // Use the first credit card in the list
