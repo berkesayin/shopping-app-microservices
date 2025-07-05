@@ -10,7 +10,6 @@ public record ProductRequest(
         String manufacturer,
         String sku,
         Instant createdOn,
-        Integer status,
         Integer categoryId
 ) {
 }

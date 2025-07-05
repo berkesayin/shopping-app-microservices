@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: search-service
+  elasticsearch:
+    uris: https://localhost:9200
+    username: elastic
+    password: 5Ddtx05yH9wsv2MofHuZ
+    ssl:
+      ca-certificate: /Users/berkesayin/Documents/apps/elasticsearch-8.17.4/config/certs/http_ca.crt
+      verification-mode: certificate
+    connection-timeout: 5s
+    socket-timeout: 3s
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: search-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "dev.berke.app.events.*"
+            type:
+              mapping: >
+                productPublished:dev.berke.app.events.ProductPublishedEvent,
+                productUnpublished:dev.berke.app.events.ProductUnpublishedEvent
+app:
+  kafka:
+    topics:
+      product-events: product-events
+server:
+  port: 8015
+
