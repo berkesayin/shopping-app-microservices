@@ -20,6 +20,17 @@ public class ProductService {
         return productMapper.toProductResponse(savedProduct);
     }
 
+    public ProductResponse setProductStatus(Integer productId, Integer status) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
+                ));
+
+        product.setStatus(status);
+        Product updatedProduct = productRepository.save(product);
+        return productMapper.toProductResponse(updatedProduct);
+    }
+
     public ProductResponse getProductById(Integer productId) {
         return productRepository.findById(productId)
                 .map(productMapper::toProductResponse)

@@ -4,12 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +21,15 @@ public class ProductController {
             @RequestBody @Valid ProductRequest productRequest
     ) {
         return ResponseEntity.ok(productService.createProduct(productRequest));
+    }
+
+    @PatchMapping("/{productId}/status")
+    @PreAuthorize("hasRole('BACKOFFICE')")
+    public ResponseEntity<ProductResponse> setProductStatus(
+            @PathVariable("productId") Integer productId,
+            @RequestBody @Valid ProductStatusUpdateRequest request
+    ) {
+        return ResponseEntity.ok(productService.setProductStatus(productId, request.status()));
     }
 
     @GetMapping("/{productId}")
@@ -47,4 +51,5 @@ public class ProductController {
     ) {
         return ResponseEntity.ok(productService.getCategoryIdOfProduct(productId));
     }
+
 }
