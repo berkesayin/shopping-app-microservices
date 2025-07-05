@@ -14,7 +14,7 @@ public class ProductMapper {
                 .manufacturer(productRequest.manufacturer())
                 .sku(productRequest.sku())
                 .createdOn(productRequest.createdOn())
-                .status(productRequest.status())
+                .status(0)
                 .category(
                         Category.builder()
                                 .categoryId(productRequest.categoryId())
