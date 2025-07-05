@@ -21,9 +21,15 @@ spring:
         spring:
           json:
             trusted:
-              packages: "dev.berke.app.events.product.*"
+              packages: "dev.berke.app.events.*"
             type:
-              mapping: productPublished:dev.berke.app.events.product.ProductPublishedEvent,productUnpublished:dev.berke.app.events.product.ProductUnpublishedEvent
+              mapping: >
+                productPublished:dev.berke.app.events.ProductPublishedEvent,
+                productUnpublished:dev.berke.app.events.ProductUnpublishedEvent
+app:
+  kafka:
+    topics:
+      product-events: product-events
 server:
   port: 8015
 

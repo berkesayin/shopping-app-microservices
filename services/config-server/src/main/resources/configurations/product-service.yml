@@ -9,5 +9,21 @@ spring:
       ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring:
+          json:
+            type:
+              mapping: >
+                productPublished:dev.berke.app.events.ProductPublishedEvent,
+                productUnpublished:dev.berke.app.events.ProductUnpublishedEvent
+app:
+  kafka:
+    topics:
+      product-events: product-events
 server:
   port: 8050
