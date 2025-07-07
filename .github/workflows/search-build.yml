@@ -1,0 +1,23 @@
+name: Search Build
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'services/search/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'services/search/**'
+
+jobs:
+  search-build:
+    uses: ./.github/workflows/main.yml
+    with:
+      service-name: 'search'
+      java-version: '21'
+    secrets:
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
