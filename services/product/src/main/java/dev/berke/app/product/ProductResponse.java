@@ -11,7 +11,7 @@ public record ProductResponse(
         String manufacturer,
         String sku,
         Instant createdOn,
-        Integer status,
+        Boolean status,
         Integer categoryId
 ) {
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,23 +27,25 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse setProductStatus(Integer productId, Integer newStatus) {
+    public ProductResponse setProductStatus(Integer productId, boolean newStatus) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         ProductConstants.PRODUCT_NOT_FOUND_MESSAGE + productId
                 ));
 
-        if (product.getStatus().equals(newStatus)) {
-            throw new InvalidRequestException("Product status is already " + newStatus);
+        if (Objects.equals(product.getStatus(), newStatus)) {
+            throw new InvalidRequestException("Product status is already " +
+                    (newStatus ? "Published (Active)" : "Unpublished (Inactive)"));
         }
 
-        Integer oldStatus = product.getStatus();
+        boolean oldStatus = product.getStatus() != null && product.getStatus();
+
         product.setStatus(newStatus);
         Product updatedProduct = productRepository.save(product);
 
-        if (oldStatus == 0 && newStatus == 1) {
+        if (!oldStatus && newStatus) {
             productEventProducer.sendProductPublishedEvent(updatedProduct);
-        } else if (oldStatus == 1 && newStatus == 0) {
+        } else if (oldStatus && !newStatus) {
             productEventProducer.sendProductUnpublishedEvent(updatedProduct.getProductId());
         }
 

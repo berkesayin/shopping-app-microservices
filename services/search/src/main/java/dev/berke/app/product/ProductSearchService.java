@@ -15,11 +15,15 @@ public class ProductSearchService {
     public void indexProduct(ProductPublishedEvent event) {
         log.info("INDEX event received for product ID: {}", event.productId());
 
+        ProductDocument.CategoryDocument categoryDocument = ProductDocument.CategoryDocument.builder()
+                .id(event.categoryId().toString())
+                .name(event.categoryName())
+                .build();
+
         ProductDocument document = ProductDocument.builder()
                 .productId(event.productId())
                 .productName(event.productName())
-                .categoryId(event.categoryId())
-                .categoryName(event.categoryName())
+                .category(categoryDocument)
                 .basePrice(event.basePrice())
                 .minPrice(event.minPrice())
                 .manufacturer(event.manufacturer())
