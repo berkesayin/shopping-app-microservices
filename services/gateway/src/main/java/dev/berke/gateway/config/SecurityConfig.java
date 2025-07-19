@@ -42,6 +42,8 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/api/v1/customers").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/products/*").permitAll() // /api/v1/products/{product-id}
+                        .pathMatchers(HttpMethod.POST, "/api/v1/search/products").permitAll()
+                        .pathMatchers(HttpMethod.GET, "/api/v1/search/products/autocomplete").permitAll()
                         .pathMatchers("/actuator/health").permitAll()
                         .pathMatchers("/eureka/**").permitAll()
                         .anyExchange().authenticated()

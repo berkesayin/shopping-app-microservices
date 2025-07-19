@@ -1,4 +1,5 @@
-package dev.berke.app.product;
+package dev.berke.app.product.document;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,7 +63,16 @@ public class ProductDocument {
     @Field(type = FieldType.Boolean, name = "status")
     private Boolean status;
 
-    @Field(type = FieldType.Date, name = "created_on", format = DateFormat.date_time)
+    @Field(
+            type = FieldType.Date,
+            name = "created_on",
+            format = {},
+            pattern = {
+                    "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                    "yyyy-MM-dd'T'HH:mm:ssXXX",
+                    "yyyy-MM-dd'T'HH:mm:ss'Z'"
+            }
+    )
     @JsonProperty("created_on")
     private Instant createdOn;
 

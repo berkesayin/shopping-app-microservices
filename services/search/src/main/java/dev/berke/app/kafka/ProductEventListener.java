@@ -2,7 +2,7 @@ package dev.berke.app.kafka;
 
 import dev.berke.app.events.ProductPublishedEvent;
 import dev.berke.app.events.ProductUnpublishedEvent;
-import dev.berke.app.product.ProductSearchService;
+import dev.berke.app.product.service.ProductSearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
