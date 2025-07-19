@@ -56,7 +56,7 @@ public class Product {
     private Instant createdOn;
 
     @Column(name = "status")
-    private Integer status;
+    private Boolean status;
 
     @ManyToOne(optional = false) // a product must have a category
     @JoinColumn(

@@ -3,3 +3,6 @@ spring:
     import: optional:configserver:http://localhost:8888
   application:
     name: search-service
+  cloud:
+    compatibility-verifier:
+      enabled: false

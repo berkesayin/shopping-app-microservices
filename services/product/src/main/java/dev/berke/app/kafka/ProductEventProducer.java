@@ -37,7 +37,7 @@ public class ProductEventProducer {
                     product.getMinPrice(),
                     product.getManufacturer(),
                     product.getSku(),
-                    1,
+                    true,
                     product.getCreatedOn()
             );
             kafkaTemplate.send(productEventsTopic, String.valueOf(event.productId()), event);

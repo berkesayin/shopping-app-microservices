@@ -12,7 +12,7 @@ public record ProductPublishedEvent(
         BigDecimal minPrice,
         String manufacturer,
         String sku,
-        Integer status,
+        Boolean status,
         Instant createdOn
 ) {
 }
