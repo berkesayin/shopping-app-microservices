@@ -42,37 +42,42 @@ public class IyzipayService {
     public PaymentResponse createPaymentRequestWithCard(
             String customerId
     ) {
-        CreatePaymentRequest request = new CreatePaymentRequest();
-
-        // create and set buyer info
+        // creating and setting buyer info for iyzipayment
         // paymentCard, buyer, billingAddress, shippingAddress, basketItems, totalBasketPrice
+
+        // for calls within the service, passing customerId explicitly
+
+        // for calls to other services with feign requests, customerId is not explicitly sent
+        // instead, FeignClientInterceptor propagates the user's JWT
+
+        CreatePaymentRequest request = new CreatePaymentRequest();
 
         PaymentCard paymentCard = createPaymentCard(customerId);
         request.setPaymentCard(paymentCard);
         logger.info("Payment Card: {}", paymentCard);
 
-        Buyer buyer = createBuyer(customerId); // Passing the dynamic ID
+        Buyer buyer = createBuyer();
         request.setBuyer(buyer);
         logger.info("Buyer: {}", buyer);
 
-        Address billingAddress = createBillingAddress(customerId);
+        Address billingAddress = createBillingAddress();
         request.setBillingAddress(billingAddress);
         logger.info("Billing Address: {}", billingAddress);
 
-        Address shippingAddress = createShippingAddress(customerId);
+        Address shippingAddress = createShippingAddress();
         request.setShippingAddress(shippingAddress);
         logger.info("Shipping Address: {}", shippingAddress);
 
-        List<BasketItem> basketItems = createBasketItems(customerId);
+        List<BasketItem> basketItems = createBasketItems();
         request.setBasketItems(basketItems);
         logger.info("Basket Items: {}", basketItems);
 
-        BigDecimal totalBasketPrice = calculateTotalBasketPrice(customerId);
+        BigDecimal totalBasketPrice = calculateTotalBasketPrice();
         request.setPrice(totalBasketPrice);
         request.setPaidPrice(totalBasketPrice);
         logger.info("Total Basket Price: {}", totalBasketPrice);
 
-        // Create payment using the injected options
+        // create payment using the injected options
         Payment payment = Payment.create(request, useIyzipayOptions);
 
         var customerName = request.getBuyer().getName() + " " + request.getBuyer().getSurname();
@@ -90,7 +95,7 @@ public class IyzipayService {
         return new PaymentResponse(payment.getPaymentStatus(), payment.getPaymentId());
     }
 
-    private Buyer createBuyer(String customerId) {
+    private Buyer createBuyer() {
         Buyer buyer = new Buyer();
 
         var customer = this.customerClient.getProfile()
@@ -99,7 +104,7 @@ public class IyzipayService {
 
         var activeShippingAddress = customerClient.getActiveShippingAddress();
 
-        buyer.setId(customerId);
+        buyer.setId(customer.id());
         buyer.setName(customer.name());
         buyer.setSurname(customer.surname());
         buyer.setGsmNumber(customer.gsmNumber().toString());
@@ -113,7 +118,7 @@ public class IyzipayService {
         return buyer;
     }
 
-    private Address createBillingAddress(String customerId) {
+    private Address createBillingAddress() {
         Address billingAddress = new Address();
 
         var activeBillingAddress = customerClient.getActiveBillingAddress();
@@ -127,7 +132,7 @@ public class IyzipayService {
         return billingAddress;
     }
 
-    private Address createShippingAddress(String customerId) {
+    private Address createShippingAddress() {
         Address shippingAddress = new Address();
 
         var activeShippingAddress = customerClient.getActiveBillingAddress();
@@ -146,7 +151,7 @@ public class IyzipayService {
                 .getCreditCards(customerId);
 
         if (creditCards != null && !creditCards.isEmpty()) {
-            // Use the first credit card in the list
+            // use the first credit card in the list
             CreditCardResponse creditCardResponse = creditCards.get(0);
 
             PaymentCard paymentCard = new PaymentCard();
@@ -164,7 +169,7 @@ public class IyzipayService {
         }
     }
 
-    private List<com.iyzipay.model.BasketItem> createBasketItems(String customerId) {
+    private List<com.iyzipay.model.BasketItem> createBasketItems() {
         BasketResponse basketResponse = basketClient.getBasket();
         List<dev.berke.app.basket.BasketItem> fetchedBasketItems = basketResponse.items();
 
@@ -185,7 +190,7 @@ public class IyzipayService {
         return basketItems;
     }
 
-    private BigDecimal calculateTotalBasketPrice(String customerId) {
+    private BigDecimal calculateTotalBasketPrice() {
         BasketTotalPriceResponse totalPriceResponse =
                 basketClient.getTotalBasketPrice();
 
