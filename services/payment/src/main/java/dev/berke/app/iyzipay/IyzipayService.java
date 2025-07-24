@@ -93,11 +93,11 @@ public class IyzipayService {
     private Buyer createBuyer(String customerId) {
         Buyer buyer = new Buyer();
 
-        var customer = this.customerClient.getCustomerById(customerId)
+        var customer = this.customerClient.getProfile()
                 .orElseThrow(() -> new RuntimeException(
                         "Customer not found"));
 
-        var activeShippingAddress = customerClient.getActiveShippingAddress(customerId);
+        var activeShippingAddress = customerClient.getActiveShippingAddress();
 
         buyer.setId(customerId);
         buyer.setName(customer.name());
@@ -116,7 +116,7 @@ public class IyzipayService {
     private Address createBillingAddress(String customerId) {
         Address billingAddress = new Address();
 
-        var activeBillingAddress = customerClient.getActiveBillingAddress(customerId);
+        var activeBillingAddress = customerClient.getActiveBillingAddress();
 
         billingAddress.setContactName(activeBillingAddress.contactName());
         billingAddress.setCity(activeBillingAddress.city());
@@ -130,7 +130,7 @@ public class IyzipayService {
     private Address createShippingAddress(String customerId) {
         Address shippingAddress = new Address();
 
-        var activeShippingAddress = customerClient.getActiveBillingAddress(customerId);
+        var activeShippingAddress = customerClient.getActiveBillingAddress();
 
         shippingAddress.setContactName(activeShippingAddress.contactName());
         shippingAddress.setCity(activeShippingAddress.city());
@@ -165,7 +165,7 @@ public class IyzipayService {
     }
 
     private List<com.iyzipay.model.BasketItem> createBasketItems(String customerId) {
-        BasketResponse basketResponse = basketClient.getBasketByCustomerId(customerId);
+        BasketResponse basketResponse = basketClient.getBasket();
         List<dev.berke.app.basket.BasketItem> fetchedBasketItems = basketResponse.items();
 
         List<com.iyzipay.model.BasketItem> basketItems = fetchedBasketItems.stream()
@@ -187,7 +187,7 @@ public class IyzipayService {
 
     private BigDecimal calculateTotalBasketPrice(String customerId) {
         BasketTotalPriceResponse totalPriceResponse =
-                basketClient.getTotalBasketPrice(customerId);
+                basketClient.getTotalBasketPrice();
 
         return totalPriceResponse.totalPrice();
     }

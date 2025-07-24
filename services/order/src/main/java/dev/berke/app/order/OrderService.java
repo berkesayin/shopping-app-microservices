@@ -46,16 +46,21 @@ public class OrderService {
             OrderRequest orderRequest,
             String customerId
     ) {
-        // 1. check the customer: check if we have our customer or not
-        var customer = this.customerClient.getCustomerById(customerId)
+        // 1. check the customer
+        var customer = this.customerClient.getProfile()
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.CUSTOMER_NOT_FOUND_MESSAGE));
+
+        if (!customer.id().equals(customerId)) {
+            throw new IllegalStateException("Auth token mismatch: " +
+                    "Token owner does not match the operation.");
+        }
 
         var customerName = customer.name() + " " + customer.surname();
         System.out.println("Customer name: " + customerName);
 
-        // 2. check customer's basket: check if customer added products to basket or not
-        var basket = this.basketClient.getBasketByCustomerId(customerId)
+        // 2. check the customer's basket
+        var basket = this.basketClient.getBasket()
                 .orElseThrow(() -> new BusinessException(
                         OrderConstants.BASKET_EMPTY_MESSAGE));
 
@@ -64,21 +69,24 @@ public class OrderService {
 
         // 3. calculate total basket price
         ResponseEntity<BasketTotalPriceResponse> basketTotalPriceResponse =
-                basketClient.calculateTotalBasketPrice(customerId);
+                basketClient.getTotalBasketPrice();
 
         BigDecimal totalPrice = basketTotalPriceResponse.getBody().totalPrice();
         System.out.println("Step 4: " + totalPrice);
 
         // 4. save the order object
-        var order = orderMapper.toOrder(orderRequest, customerId);
-        order.setCustomerEmail(customer.email());
-        order.setTotalAmount(totalPrice);
+        var order = orderMapper.toOrder(
+                orderRequest,
+                customerId,
+                customer.email(),
+                totalPrice
+        );
 
         var savedOrder = this.orderRepository.save(order);
 
         System.out.println("Step 5: " + order.getCustomerId() + order.getPaymentMethod());
 
-        // 5. save the order lines (products purchased by customer)
+        // 5. save order lines (products purchased by customer)
         for (BasketItem basketItem : basket.items()) {
             orderLineService.saveOrderLine(
                     new OrderLineRequest(
@@ -90,8 +98,8 @@ public class OrderService {
             );
         }
 
-        // 6. start payment process: after saving the order lines, start payment
-        paymentClient.createPayment(customer.id());
+        // 6. start payment process
+        paymentClient.createPayment();
 
         // 7. send order confirmation
         orderProducer.sendOrderConfirmation(
