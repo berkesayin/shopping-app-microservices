@@ -1,5 +1,6 @@
 package dev.berke.app.kafka;
 
+import dev.berke.app.events.OrderReceivedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,16 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderProducer {
+public class OrderEventProducer {
 
-    private final KafkaTemplate<String, OrderConfirmRequest> kafkaTemplate;
+    private final KafkaTemplate<String, OrderReceivedEvent> kafkaTemplate;
 
-    public void sendOrderConfirmation (OrderConfirmRequest orderConfirmRequest) {
+    public void sendOrderConfirmation (OrderReceivedEvent orderReceivedEvent) {
         log.info("Sending order confirmation");
 
         // Create a Kafka message using MessageBuilder
-        Message<OrderConfirmRequest> message = MessageBuilder
-                .withPayload(orderConfirmRequest) // Set the payload to be the orderConfirmRequest
+        Message<OrderReceivedEvent> message = MessageBuilder
+                .withPayload(orderReceivedEvent) // Set the payload to be the orderReceivedEvent
                 .setHeader(KafkaHeaders.TOPIC, "order-topic") // Set the Kafka topic header to "order-topic"
                 .build(); // Build the Kafka message
 

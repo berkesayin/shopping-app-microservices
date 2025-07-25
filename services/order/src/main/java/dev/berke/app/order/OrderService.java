@@ -4,8 +4,8 @@ import dev.berke.app.basket.*;
 import dev.berke.app.constants.OrderConstants;
 import dev.berke.app.customer.CustomerClient;
 import dev.berke.app.exception.BusinessException;
-import dev.berke.app.kafka.OrderConfirmRequest;
-import dev.berke.app.kafka.OrderProducer;
+import dev.berke.app.events.OrderReceivedEvent;
+import dev.berke.app.kafka.OrderEventProducer;
 import dev.berke.app.orderline.OrderLineRequest;
 import dev.berke.app.orderline.OrderLineService;
 import dev.berke.app.payment.PaymentClient;
@@ -28,7 +28,7 @@ public class OrderService {
     private final CustomerClient customerClient;
     private final BasketClient basketClient;
     private final PaymentClient paymentClient;
-    private final OrderProducer orderProducer;
+    private final OrderEventProducer orderEventProducer;
 
     // Business logic to create order
     // 1. check the customer: check if we have our customer or not (with OpenFeign)
@@ -102,8 +102,8 @@ public class OrderService {
         paymentClient.createPayment();
 
         // 7. send order confirmation
-        orderProducer.sendOrderConfirmation(
-                new OrderConfirmRequest(
+        orderEventProducer.sendOrderConfirmation(
+                new OrderReceivedEvent(
                         customerName,
                         customer.email(),
                         orderRequest.reference(),
