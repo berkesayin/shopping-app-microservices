@@ -57,6 +57,10 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatus status;
+
     @CreatedDate
     @Column(name = "created_date", updatable = false, nullable = false)
     private LocalDateTime createdDate;

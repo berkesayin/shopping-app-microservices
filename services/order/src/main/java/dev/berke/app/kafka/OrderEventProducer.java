@@ -1,7 +1,10 @@
 package dev.berke.app.kafka;
 
+import dev.berke.app.events.OrderCreatedEvent;
 import dev.berke.app.events.OrderReceivedEvent;
+import dev.berke.app.events.OrderStatusUpdatedEvent;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -16,16 +19,47 @@ public class OrderEventProducer {
 
     private final KafkaTemplate<String, OrderReceivedEvent> kafkaTemplate;
 
-    public void sendOrderConfirmation (OrderReceivedEvent orderReceivedEvent) {
-        log.info("Sending order confirmation");
+    @Value("${app.kafka.topics.order-received}")
+    private String orderReceivedTopic;
 
-        // Create a Kafka message using MessageBuilder
-        Message<OrderReceivedEvent> message = MessageBuilder
-                .withPayload(orderReceivedEvent) // Set the payload to be the orderReceivedEvent
-                .setHeader(KafkaHeaders.TOPIC, "order-topic") // Set the Kafka topic header to "order-topic"
-                .build(); // Build the Kafka message
+    @Value("${app.kafka.topics.order-created}")
+    private String orderCreatedTopic;
 
-        // Send the message to Kafka using the KafkaTemplate
-        kafkaTemplate.send(message);
+    @Value("${app.kafka.topics.order-status-updated}")
+    private String orderStatusUpdatedTopic;
+
+    public void sendOrderConfirmation(OrderReceivedEvent event) {
+        log.info("Sending order received event to topic: {} for order reference: {}",
+                orderReceivedTopic, event.reference());
+
+        sendMessage(orderReceivedTopic, event);
+    }
+
+    public void sendOrderCreated(OrderCreatedEvent event) {
+        log.info("Sending order created event to topic: {} for order reference: {}",
+                orderCreatedTopic, event.reference());
+
+        sendMessage(orderCreatedTopic, event);
+    }
+
+    public void sendOrderStatusUpdate(OrderStatusUpdatedEvent event) {
+        log.info("Sending order status updated event to topic: {} for order ID: {}. New status: {}",
+                orderStatusUpdatedTopic, event.orderId(), event.newStatus());
+
+        sendMessage(orderStatusUpdatedTopic, event);
+    }
+
+    private <T> void sendMessage(String topic, T payload) {
+        try {
+            Message<T> message = MessageBuilder
+                    .withPayload(payload)
+                    .setHeader(KafkaHeaders.TOPIC, topic)
+                    .build();
+
+            kafkaTemplate.send(message);
+            log.debug("Sent message to topic: {}", topic);
+        } catch (Exception e) {
+            log.error("Failed to send message to Kafka topic: {}", topic, e);
+        }
     }
 }

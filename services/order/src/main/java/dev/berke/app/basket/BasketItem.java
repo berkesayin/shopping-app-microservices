@@ -2,19 +2,13 @@ package dev.berke.app.basket;
 
 import java.math.BigDecimal;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class BasketItem {
-
-    private Integer productId;
-    private String productName;
-    private Integer categoryId;
-    private ItemType itemType;
-    private BigDecimal basePrice;
-    private Integer quantity;
+public record BasketItem(
+        Integer productId,
+        String productName,
+        String manufacturer,
+        Integer categoryId,
+        ItemType itemType,
+        BigDecimal pricePerUnit,
+        Integer quantity
+) {
 }
