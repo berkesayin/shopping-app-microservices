@@ -170,7 +170,7 @@ public class OrderService {
                         item.manufacturer(),
                         item.categoryId(),
                         item.quantity(),
-                        item.pricePerUnit()
+                        item.basePrice()
                 )).collect(Collectors.toList());
 
         return OrderCreatedEvent.builder()

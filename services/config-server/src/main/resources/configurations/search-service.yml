@@ -25,11 +25,13 @@ spring:
             type:
               mapping: >
                 productPublished:dev.berke.app.events.ProductPublishedEvent,
-                productUnpublished:dev.berke.app.events.ProductUnpublishedEvent
+                productUnpublished:dev.berke.app.events.ProductUnpublishedEvent,
+                orderCreated:dev.berke.app.events.OrderCreatedEvent
 app:
   kafka:
     topics:
       product-events: product-events
+      order-created: order-creations
 server:
   port: 8015
 

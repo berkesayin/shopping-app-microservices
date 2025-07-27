@@ -8,7 +8,7 @@ public record BasketItem(
         String manufacturer,
         Integer categoryId,
         ItemType itemType,
-        BigDecimal pricePerUnit,
+        BigDecimal basePrice,
         Integer quantity
 ) {
 }
