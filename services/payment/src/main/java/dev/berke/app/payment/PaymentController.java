@@ -44,7 +44,7 @@ public class PaymentController {
         );
     }
 
-    @PostMapping("/create-iyzipayment")
+    @PostMapping("/iyzi-payment")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<PaymentResponse> createPayment(
             @AuthenticationPrincipal String customerIdPrincipal

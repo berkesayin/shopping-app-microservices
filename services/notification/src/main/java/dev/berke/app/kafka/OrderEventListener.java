@@ -1,7 +1,7 @@
 package dev.berke.app.kafka;
 
 import dev.berke.app.email.OrderConfirmationEmail;
-import dev.berke.app.kafka.order.OrderConfirmRequest;
+import dev.berke.app.events.OrderReceivedEvent;
 import dev.berke.app.notification.Notification;
 import dev.berke.app.notification.NotificationRepository;
 import dev.berke.app.notification.NotificationType;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OrderConsumer {
+public class OrderEventListener {
 
     private final NotificationRepository notificationRepository;
     private final OrderConfirmationEmail orderConfirmationEmail;
@@ -24,24 +24,24 @@ public class OrderConsumer {
     // Kafka listener to consume order confirmation messages from the order-topic
     @KafkaListener(topics = "order-topic")
     public void consumeOrderConfirmationNotification(
-            OrderConfirmRequest orderConfirmRequest
+            OrderReceivedEvent orderReceivedEvent
     ) throws MessagingException {
-        log.info(String.format("Consuming the message from order-topic,  Topic:: %s", orderConfirmRequest));
+        log.info(String.format("Consuming the message from order-topic,  Topic:: %s", orderReceivedEvent));
         notificationRepository.save(
                 Notification.builder()
                         .type(NotificationType.ORDER_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
-                        .orderConfirmRequest(orderConfirmRequest)
+                        .orderReceivedEvent(orderReceivedEvent)
                         .build()
         );
 
         orderConfirmationEmail.sendOrderConfirmationEmail(
-                orderConfirmRequest.customerName(),
-                orderConfirmRequest.customerEmail(),
-                orderConfirmRequest.reference(),
-                orderConfirmRequest.paymentMethod(),
-                orderConfirmRequest.productsToPurchase(),
-                orderConfirmRequest.totalPrice()
+                orderReceivedEvent.customerName(),
+                orderReceivedEvent.customerEmail(),
+                orderReceivedEvent.reference(),
+                orderReceivedEvent.paymentMethod(),
+                orderReceivedEvent.productsToPurchase(),
+                orderReceivedEvent.totalPrice()
         );
     }
 }

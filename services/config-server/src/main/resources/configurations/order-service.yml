@@ -15,7 +15,19 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: orderConfirmation:dev.berke.app.kafka.OrderConfirmRequest
+        spring:
+          json:
+            type:
+              mapping: >
+                orderCreated:dev.berke.app.events.OrderCreatedEvent,
+                orderReceived:dev.berke.app.events.OrderReceivedEvent,
+                orderStatusUpdated:dev.berke.app.events.OrderStatusUpdatedEvent
+app:
+  kafka:
+    topics:
+      order-received: order-confirmations
+      order-created: order-creations
+      order-status-updated: order-status-updates
 server:
   port: 8070
 application:

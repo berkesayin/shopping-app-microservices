@@ -1,12 +1,12 @@
-package dev.berke.app.kafka.order;
+package dev.berke.app.events;
 
-import dev.berke.app.kafka.basket.BasketItem;
-import dev.berke.app.kafka.payment.PaymentMethod;
+import dev.berke.app.basket.BasketItem;
+import dev.berke.app.payment.PaymentMethod;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public record OrderConfirmRequest(
+public record OrderReceivedEvent(
         String customerName,
         String customerEmail,
         String reference,

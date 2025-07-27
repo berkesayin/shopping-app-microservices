@@ -15,8 +15,16 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "*"
-        spring.json.type.mapping: orderConfirmation:dev.berke.app.kafka.order.OrderConfirmRequest,paymentConfirmation:dev.berke.app.kafka.payment.PaymentConfirmRequest
+        spring:
+          json:
+            trusted:
+              packages: "dev.berke.app.events.*"
+            type:
+              mapping: >
+                orderCreated:dev.berke.app.events.OrderCreatedEvent,
+                orderReceived:dev.berke.app.events.OrderReceivedEvent,
+                orderStatusUpdated:dev.berke.app.events.OrderStatusUpdatedEvent,
+                paymentReceived:dev.berke.app.events.PaymentReceivedEvent
   mail:
     host: localhost
     port: 1025

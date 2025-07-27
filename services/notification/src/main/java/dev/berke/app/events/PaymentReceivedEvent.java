@@ -1,8 +1,10 @@
-package dev.berke.app.kafka.payment;
+package dev.berke.app.events;
+
+import dev.berke.app.payment.PaymentMethod;
 
 import java.math.BigDecimal;
 
-public record PaymentConfirmRequest(
+public record PaymentReceivedEvent(
         String customerName,
         String email,
         BigDecimal totalPrice,

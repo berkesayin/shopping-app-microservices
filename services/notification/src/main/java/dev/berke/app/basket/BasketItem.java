@@ -1,4 +1,4 @@
-package dev.berke.app.kafka.basket;
+package dev.berke.app.basket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

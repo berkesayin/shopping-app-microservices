@@ -1,7 +1,7 @@
 package dev.berke.app.kafka;
 
 import dev.berke.app.email.PaymentConfirmationEmail;
-import dev.berke.app.kafka.payment.PaymentConfirmRequest;
+import dev.berke.app.events.PaymentReceivedEvent;
 import dev.berke.app.notification.Notification;
 import dev.berke.app.notification.NotificationRepository;
 import dev.berke.app.notification.NotificationType;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PaymentConsumer {
+public class PaymentEventListener {
 
     private final NotificationRepository notificationRepository;
     private final PaymentConfirmationEmail paymentConfirmationEmail;
@@ -24,23 +24,23 @@ public class PaymentConsumer {
     // Kafka listener to consume payment confirmation messages from the payment-topic
     @KafkaListener(topics = "payment-topic")
     public void consumePaymentSuccessNotification(
-            PaymentConfirmRequest paymentConfirmRequest
+            PaymentReceivedEvent paymentReceivedEvent
     ) throws MessagingException {
-        log.info(String.format("Consuming the message from payment-topic,  Topic:: %s", paymentConfirmRequest));
+        log.info(String.format("Consuming the message from payment-topic,  Topic:: %s", paymentReceivedEvent));
         notificationRepository.save(
                 Notification.builder()
                         .type(NotificationType.PAYMENT_CONFIRMATION)
                         .notificationDate(LocalDateTime.now())
-                        .paymentConfirmRequest(paymentConfirmRequest)
+                        .paymentReceivedEvent(paymentReceivedEvent)
                         .build()
         );
 
 
         paymentConfirmationEmail.sendPaymentSuccessEmail(
-                paymentConfirmRequest.customerName(),
-                paymentConfirmRequest.email(),
-                paymentConfirmRequest.totalPrice(),
-                paymentConfirmRequest.paymentMethod()
+                paymentReceivedEvent.customerName(),
+                paymentReceivedEvent.email(),
+                paymentReceivedEvent.totalPrice(),
+                paymentReceivedEvent.paymentMethod()
         );
     }
 }

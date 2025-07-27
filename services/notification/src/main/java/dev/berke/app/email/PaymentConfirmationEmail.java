@@ -1,6 +1,6 @@
 package dev.berke.app.email;
 
-import dev.berke.app.kafka.payment.PaymentMethod;
+import dev.berke.app.payment.PaymentMethod;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
