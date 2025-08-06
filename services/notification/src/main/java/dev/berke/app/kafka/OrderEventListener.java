@@ -20,9 +20,8 @@ public class OrderEventListener {
 
     private final NotificationRepository notificationRepository;
     private final OrderConfirmationEmail orderConfirmationEmail;
-
-    // Kafka listener to consume order confirmation messages from the order-topic
-    @KafkaListener(topics = "order-topic")
+    
+    @KafkaListener(topics = "order-confirmations")
     public void consumeOrderConfirmationNotification(
             OrderReceivedEvent orderReceivedEvent
     ) throws MessagingException {
