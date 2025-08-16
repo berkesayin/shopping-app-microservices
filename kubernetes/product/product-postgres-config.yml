@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: product-postgres-config
-data:
-  postgres-url: postgres-product-service
-  postgres-db: product
