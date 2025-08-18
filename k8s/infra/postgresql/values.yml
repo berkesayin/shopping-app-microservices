@@ -1,0 +1,19 @@
+auth:
+  enablePostgresUser: false
+  existingSecret: "postgres-credentials"
+  secretKeys:
+    adminUserKey: "username"
+    adminPasswordKey: "password"
+
+primary:
+  persistence:
+    enabled: true
+    size: 5Gi 
+
+  initdb:
+    scripts:
+      init.sql: |
+        CREATE DATABASE auth;
+        CREATE DATABASE product;
+        CREATE DATABASE payment;
+        CREATE DATABASE order;
