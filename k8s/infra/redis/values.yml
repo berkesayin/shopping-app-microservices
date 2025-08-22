@@ -1,0 +1,15 @@
+# global:
+#  storageClass: "storage-class"
+
+auth:
+  enabled: true
+  existingSecret: "redis-credentials"
+  existingSecretPasswordKey: "redis-password"
+
+# single-pod setup
+architecture: standalone
+
+master:
+  persistence:
+    enabled: true
+    size: 2Gi 
