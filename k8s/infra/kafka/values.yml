@@ -1,0 +1,30 @@
+replicaCount: 1
+
+kraft:
+  enabled: true
+
+# single pod
+controller:
+  replicaCount: 1
+  controllerOnly: true
+
+zookeeper:
+  enabled: false
+
+# single pod as controller and broker
+architecture: combined
+
+auth:
+  clientProtocol: sasl
+  interBrokerProtocol: sasl
+  interBroker:
+    existingSecret: "kafka-credentials"
+    secretKeys:
+      userKey: "username"
+      passwordKey: "password"
+
+persistence:
+  enabled: true
+  size: 8Gi
+
+autoCreateTopicsEnable: false

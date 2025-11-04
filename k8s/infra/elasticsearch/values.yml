@@ -1,0 +1,31 @@
+auth:
+  existingSecret: "elasticsearch-credentials"
+  secretKeys:
+    elasticPasswordKey: "elastic-password"
+
+master:
+  masterOnly: false
+  replicaCount: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+    limits:
+      cpu: "1000m"
+      memory: "1Gi"
+      
+  env:
+    - name: JAVA_OPTS
+      value: "-Xms512m -Xmx512m"
+
+# single-node cluster
+data:
+  replicaCount: 0
+coordinating:
+  replicaCount: 0
+ingest:
+  replicaCount: 0
