@@ -9,8 +9,8 @@ import dev.berke.app.events.OrderCreatedEvent;
 import dev.berke.app.exception.BusinessException;
 import dev.berke.app.events.OrderReceivedEvent;
 import dev.berke.app.kafka.OrderEventProducer;
-import dev.berke.app.orderline.OrderLineRequest;
-import dev.berke.app.orderline.OrderLineService;
+import dev.berke.app.orderline.OrderlineRequest;
+import dev.berke.app.orderline.OrderlineService;
 import dev.berke.app.payment.PaymentClient;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderLineService orderLineService;
+    private final OrderlineService orderLineService;
     private final OrderMapper orderMapper;
     private final CustomerClient customerClient;
     private final BasketClient basketClient;
@@ -90,7 +90,7 @@ public class OrderService {
 
         for (BasketItem basketItem : basket.items()) {
             orderLineService.saveOrderLine(
-                    new OrderLineRequest(
+                    new OrderlineRequest(
                             null,
                             savedOrder.getId(),
                             basketItem.productId(),

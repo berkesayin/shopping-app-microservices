@@ -1,6 +1,6 @@
 package dev.berke.app.orderline;
 
-public record OrderLineRequest(
+public record OrderlineRequest(
         Integer id,
         Integer orderId,
         Integer productId,

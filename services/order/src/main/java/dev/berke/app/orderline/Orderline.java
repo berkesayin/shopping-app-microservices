@@ -21,7 +21,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "orderlines")
-public class OrderLine {
+public class Orderline {
 
     @Id
     @GeneratedValue

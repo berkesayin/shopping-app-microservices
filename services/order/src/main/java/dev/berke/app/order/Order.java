@@ -1,6 +1,6 @@
 package dev.berke.app.order;
 
-import dev.berke.app.orderline.OrderLine;
+import dev.berke.app.orderline.Orderline;
 import dev.berke.app.payment.PaymentMethod;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -55,7 +55,7 @@ public class Order {
     private PaymentMethod paymentMethod;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderLine> orderLines;
+    private List<Orderline> orderlines;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

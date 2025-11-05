@@ -1,6 +1,6 @@
 package dev.berke.app.orderline;
 
-public record OrderLineResponse(
+public record OrderlineResponse(
         Integer id,
         Integer quantity
 ) {
