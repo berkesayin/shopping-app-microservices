@@ -1,4 +1,4 @@
-package dev.berke.app.exception;
+package dev.berke.app.customer.application.exception;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

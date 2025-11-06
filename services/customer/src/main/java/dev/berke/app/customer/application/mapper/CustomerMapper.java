@@ -1,5 +1,8 @@
-package dev.berke.app.customer;
+package dev.berke.app.customer.application.mapper;
 
+import dev.berke.app.customer.domain.model.Customer;
+import dev.berke.app.customer.api.dto.CustomerDataRequest;
+import dev.berke.app.customer.api.dto.CustomerResponse;
 import org.springframework.stereotype.Service;
 
 @Service

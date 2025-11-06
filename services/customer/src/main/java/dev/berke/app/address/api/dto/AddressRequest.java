@@ -1,4 +1,4 @@
-package dev.berke.app.address;
+package dev.berke.app.address.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 

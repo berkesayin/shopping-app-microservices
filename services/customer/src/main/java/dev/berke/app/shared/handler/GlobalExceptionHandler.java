@@ -1,6 +1,6 @@
-package dev.berke.app.handler;
+package dev.berke.app.shared.handler;
 
-import dev.berke.app.exception.CustomerNotFoundException;
+import dev.berke.app.customer.application.exception.CustomerNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

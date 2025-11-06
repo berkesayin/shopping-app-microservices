@@ -1,6 +1,6 @@
-package dev.berke.app.customer;
+package dev.berke.app.customer.domain.model;
 
-import dev.berke.app.address.Address;
+import dev.berke.app.address.domain.model.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

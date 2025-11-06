@@ -1,4 +1,4 @@
-package dev.berke.app.handler;
+package dev.berke.app.shared.handler;
 
 import java.util.Map;
 

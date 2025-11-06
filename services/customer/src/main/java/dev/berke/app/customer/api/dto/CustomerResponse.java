@@ -1,6 +1,6 @@
-package dev.berke.app.customer;
+package dev.berke.app.customer.api.dto;
 
-import dev.berke.app.address.Address;
+import dev.berke.app.address.domain.model.Address;
 
 import java.util.List;
 

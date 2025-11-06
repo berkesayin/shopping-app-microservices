@@ -1,4 +1,4 @@
-package dev.berke.app.address;
+package dev.berke.app.address.api.dto;
 
 public record AddressResponse(
         String id,

@@ -1,4 +1,4 @@
-package dev.berke.app.address;
+package dev.berke.app.address.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

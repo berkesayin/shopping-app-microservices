@@ -1,5 +1,8 @@
-package dev.berke.app.address;
+package dev.berke.app.address.application.mapper;
 
+import dev.berke.app.address.api.dto.AddressRequest;
+import dev.berke.app.address.api.dto.AddressResponse;
+import dev.berke.app.address.domain.model.Address;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 

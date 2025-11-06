@@ -1,7 +1,12 @@
-package dev.berke.app.customer;
+package dev.berke.app.customer.api;
 
-import dev.berke.app.address.AddressRequest;
-import dev.berke.app.address.AddressResponse;
+import dev.berke.app.address.api.dto.AddressRequest;
+import dev.berke.app.address.api.dto.AddressResponse;
+import dev.berke.app.customer.api.dto.CustomerCreateResponse;
+import dev.berke.app.customer.api.dto.CustomerDataRequest;
+import dev.berke.app.customer.api.dto.CustomerResponse;
+import dev.berke.app.customer.api.dto.CustomerUpdateRequest;
+import dev.berke.app.customer.application.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

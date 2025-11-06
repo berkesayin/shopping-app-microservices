@@ -1,11 +1,18 @@
-package dev.berke.app.customer;
+package dev.berke.app.customer.application;
 
-import dev.berke.app.address.Address;
-import dev.berke.app.address.AddressMapper;
-import dev.berke.app.address.AddressRequest;
-import dev.berke.app.address.AddressResponse;
-import dev.berke.app.constants.CustomerConstants;
-import dev.berke.app.exception.CustomerNotFoundException;
+import dev.berke.app.address.domain.model.Address;
+import dev.berke.app.address.application.mapper.AddressMapper;
+import dev.berke.app.address.api.dto.AddressRequest;
+import dev.berke.app.address.api.dto.AddressResponse;
+import dev.berke.app.shared.constants.CustomerConstants;
+import dev.berke.app.customer.api.dto.CustomerCreateResponse;
+import dev.berke.app.customer.api.dto.CustomerDataRequest;
+import dev.berke.app.customer.api.dto.CustomerResponse;
+import dev.berke.app.customer.api.dto.CustomerUpdateRequest;
+import dev.berke.app.customer.application.exception.CustomerNotFoundException;
+import dev.berke.app.customer.application.mapper.CustomerMapper;
+import dev.berke.app.customer.domain.model.Customer;
+import dev.berke.app.customer.domain.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
