@@ -1,7 +1,12 @@
-package dev.berke.app.product;
+package dev.berke.app.product.application;
 
-import dev.berke.app.constants.ProductConstants;
-import dev.berke.app.kafka.ProductEventProducer;
+import dev.berke.app.shared.constants.ProductConstants;
+import dev.berke.app.product.domain.model.Product;
+import dev.berke.app.product.infrastructure.messaging.ProductEventProducer;
+import dev.berke.app.product.api.dto.ProductRequest;
+import dev.berke.app.product.api.dto.ProductResponse;
+import dev.berke.app.product.application.mapper.ProductMapper;
+import dev.berke.app.product.domain.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.common.errors.InvalidRequestException;

@@ -1,5 +1,9 @@
-package dev.berke.app.product;
+package dev.berke.app.product.api;
 
+import dev.berke.app.product.api.dto.ProductRequest;
+import dev.berke.app.product.api.dto.ProductResponse;
+import dev.berke.app.product.api.dto.ProductStatusUpdateRequest;
+import dev.berke.app.product.application.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

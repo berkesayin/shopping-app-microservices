@@ -1,4 +1,4 @@
-package dev.berke.app.filter;
+package dev.berke.app.shared.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

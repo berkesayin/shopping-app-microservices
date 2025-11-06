@@ -1,8 +1,8 @@
-package dev.berke.app.kafka;
+package dev.berke.app.product.infrastructure.messaging;
 
-import dev.berke.app.events.ProductPublishedEvent;
-import dev.berke.app.events.ProductUnpublishedEvent;
-import dev.berke.app.product.Product;
+import dev.berke.app.product.domain.event.ProductPublishedEvent;
+import dev.berke.app.product.domain.event.ProductUnpublishedEvent;
+import dev.berke.app.product.domain.model.Product;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

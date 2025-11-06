@@ -1,6 +1,6 @@
 package dev.berke.app.config;
 
-import dev.berke.app.filter.HeaderAuthenticationFilter;
+import dev.berke.app.shared.filter.HeaderAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

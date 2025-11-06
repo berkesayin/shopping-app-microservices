@@ -1,6 +1,9 @@
-package dev.berke.app.product;
+package dev.berke.app.product.application.mapper;
 
-import dev.berke.app.category.Category;
+import dev.berke.app.product.domain.model.Category;
+import dev.berke.app.product.domain.model.Product;
+import dev.berke.app.product.api.dto.ProductRequest;
+import dev.berke.app.product.api.dto.ProductResponse;
 import org.springframework.stereotype.Service;
 
 @Service

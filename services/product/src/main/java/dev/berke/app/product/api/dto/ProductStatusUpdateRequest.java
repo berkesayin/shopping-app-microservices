@@ -1,4 +1,4 @@
-package dev.berke.app.product;
+package dev.berke.app.product.api.dto;
 
 import jakarta.validation.constraints.NotNull;
 

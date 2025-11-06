@@ -1,6 +1,5 @@
-package dev.berke.app.product;
+package dev.berke.app.product.domain.model;
 
-import dev.berke.app.category.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
