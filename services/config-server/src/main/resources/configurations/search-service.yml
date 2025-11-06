@@ -21,12 +21,12 @@ spring:
         spring:
           json:
             trusted:
-              packages: "dev.berke.app.events.*"
+              packages: "dev.berke.app.consumer.event.*"
             type:
               mapping: >
-                productPublished:dev.berke.app.events.ProductPublishedEvent,
-                productUnpublished:dev.berke.app.events.ProductUnpublishedEvent,
-                orderCreated:dev.berke.app.events.OrderCreatedEvent
+                productPublished:dev.berke.app.consumer.event.ProductPublishedEvent,
+                productUnpublished:dev.berke.app.consumer.event.ProductUnpublishedEvent,
+                orderCreated:dev.berke.app.consumer.event.OrderCreatedEvent
 app:
   kafka:
     topics:
