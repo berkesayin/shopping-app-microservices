@@ -18,7 +18,7 @@ spring:
         spring:
           json:
             type:
-              mapping: paymentReceived:dev.berke.app.events.PaymentReceivedEvent
+              mapping: paymentReceived:dev.berke.app.payment.domain.event.PaymentReceivedEvent
 iyzipay:
   api:
     key: sandbox-q6L1GCFJrBE3OUTW8lxbPS5bCDzqeBZZ
