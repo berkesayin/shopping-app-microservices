@@ -1,4 +1,6 @@
-package dev.berke.app.basket;
+package dev.berke.app.basket.api.dto;
+
+import dev.berke.app.basket.domain.model.BasketItem;
 
 import java.util.List;
 

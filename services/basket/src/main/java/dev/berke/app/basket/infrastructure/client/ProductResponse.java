@@ -1,6 +1,6 @@
-package dev.berke.app.product;
+package dev.berke.app.basket.infrastructure.client;
 
-import dev.berke.app.basket.ItemType;
+import dev.berke.app.basket.domain.model.ItemType;
 
 import java.math.BigDecimal;
 

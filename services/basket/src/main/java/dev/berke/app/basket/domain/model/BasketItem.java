@@ -1,4 +1,4 @@
-package dev.berke.app.basket;
+package dev.berke.app.basket.domain.model;
 
 import java.math.BigDecimal;
 

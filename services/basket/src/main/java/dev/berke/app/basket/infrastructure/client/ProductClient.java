@@ -1,4 +1,4 @@
-package dev.berke.app.product;
+package dev.berke.app.basket.infrastructure.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

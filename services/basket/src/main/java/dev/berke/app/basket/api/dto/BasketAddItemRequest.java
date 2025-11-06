@@ -1,4 +1,4 @@
-package dev.berke.app.basket;
+package dev.berke.app.basket.api.dto;
 
 import java.util.List;
 
