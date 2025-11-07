@@ -1,4 +1,4 @@
-package dev.berke.app.events;
+package dev.berke.app.consumer.event;
 
 public record OrderStatusUpdatedEvent() {
 }

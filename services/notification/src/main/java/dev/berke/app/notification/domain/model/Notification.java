@@ -1,7 +1,7 @@
-package dev.berke.app.notification;
+package dev.berke.app.notification.domain.model;
 
-import dev.berke.app.events.OrderReceivedEvent;
-import dev.berke.app.events.PaymentReceivedEvent;
+import dev.berke.app.consumer.event.OrderReceivedEvent;
+import dev.berke.app.consumer.event.PaymentReceivedEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

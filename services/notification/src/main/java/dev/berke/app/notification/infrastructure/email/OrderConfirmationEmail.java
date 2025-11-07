@@ -1,6 +1,7 @@
-package dev.berke.app.email;
+package dev.berke.app.notification.infrastructure.email;
 
-import dev.berke.app.payment.PaymentMethod;
+import dev.berke.app.consumer.model.BasketItem;
+import dev.berke.app.consumer.model.PaymentMethod;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -20,32 +23,36 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PaymentConfirmationEmail {
+public class OrderConfirmationEmail {
 
     private final JavaMailSender javaMailSender;
     private final SpringTemplateEngine springTemplateEngine;
 
     @Async
-    public void sendPaymentSuccessEmail(
+    public void sendOrderConfirmationEmail(
             String customerName,
             String destinationEmail,
-            BigDecimal totalPrice,
-            PaymentMethod paymentMethod
+            String reference,
+            PaymentMethod paymentMethod,
+            List<BasketItem> productsToPurchase,
+            BigDecimal totalPrice
     ) throws MessagingException {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper =
                 new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, UTF_8.name());
         mimeMessageHelper.setFrom("online.shopping.app@gmail.com");
-        final String templateName = EmailTemplates.PAYMENT_CONFIRMATION.getTemplate();
+        final String templateName = EmailTemplates.ORDER_CONFIRMATION.getTemplate();
 
         Map<String, Object> variables = new HashMap<>();
         variables.put("customerName", customerName);
-        variables.put("totalPrice", totalPrice);
+        variables.put("reference", reference);
         variables.put("paymentMethod", paymentMethod);
+        variables.put("productsToPurchase", productsToPurchase);
+        variables.put("totalPrice", totalPrice);
 
         Context context = new Context();
         context.setVariables(variables);
-        mimeMessageHelper.setSubject(EmailTemplates.PAYMENT_CONFIRMATION.getSubject());
+        mimeMessageHelper.setSubject(EmailTemplates.ORDER_CONFIRMATION.getSubject());
 
         try {
             String htmlTemplate = springTemplateEngine.process(templateName, context);
@@ -59,4 +66,5 @@ public class PaymentConfirmationEmail {
             log.warn("WARNING - Cannot send email to {}", destinationEmail);
         }
     }
+
 }

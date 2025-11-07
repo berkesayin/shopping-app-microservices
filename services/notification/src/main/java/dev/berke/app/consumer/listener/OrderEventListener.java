@@ -1,10 +1,10 @@
-package dev.berke.app.kafka;
+package dev.berke.app.consumer.listener;
 
-import dev.berke.app.email.OrderConfirmationEmail;
-import dev.berke.app.events.OrderReceivedEvent;
-import dev.berke.app.notification.Notification;
-import dev.berke.app.notification.NotificationRepository;
-import dev.berke.app.notification.NotificationType;
+import dev.berke.app.notification.infrastructure.email.OrderConfirmationEmail;
+import dev.berke.app.consumer.event.OrderReceivedEvent;
+import dev.berke.app.notification.domain.model.Notification;
+import dev.berke.app.notification.domain.repository.NotificationRepository;
+import dev.berke.app.notification.domain.model.NotificationType;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

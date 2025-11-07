@@ -1,4 +1,4 @@
-package dev.berke.app.email;
+package dev.berke.app.notification.infrastructure.email;
 
 import lombok.Getter;
 

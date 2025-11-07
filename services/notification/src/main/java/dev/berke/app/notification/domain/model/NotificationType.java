@@ -1,4 +1,4 @@
-package dev.berke.app.notification;
+package dev.berke.app.notification.domain.model;
 
 public enum NotificationType {
 

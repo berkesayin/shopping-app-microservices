@@ -1,6 +1,6 @@
-package dev.berke.app.events;
+package dev.berke.app.consumer.event;
 
-import dev.berke.app.payment.PaymentMethod;
+import dev.berke.app.consumer.model.PaymentMethod;
 
 import java.math.BigDecimal;
 
