@@ -7,8 +7,8 @@ import dev.berke.app.basket.domain.model.ItemType;
 import dev.berke.app.basket.api.dto.BasketAddItemRequest;
 import dev.berke.app.basket.api.dto.BasketResponse;
 import dev.berke.app.basket.api.dto.BasketTotalPriceResponse;
-import dev.berke.app.basket.infrastructure.client.ProductClient;
-import dev.berke.app.basket.infrastructure.client.ProductResponse;
+import dev.berke.app.basket.infrastructure.client.product.ProductClient;
+import dev.berke.app.basket.infrastructure.client.product.ProductResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
