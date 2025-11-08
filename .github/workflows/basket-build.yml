@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/basket/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile' 
   pull_request:
     branches:
       - master
     paths:
       - 'services/basket/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   basket-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'basket'
+      service-port: '8040'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

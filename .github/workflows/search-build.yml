@@ -1,4 +1,4 @@
-name: Search Build
+name: Search Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/search/**'
+      - '.github/workflows/main.yml' 
+      - 'Dockerfile' 
   pull_request:
     branches:
       - master
     paths:
       - 'services/search/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   search-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'search'
+      service-port: '8015'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

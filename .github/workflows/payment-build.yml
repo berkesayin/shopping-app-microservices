@@ -1,4 +1,4 @@
-name: Payment Build
+name: Payment Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/payment/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
   pull_request:
     branches:
       - master
     paths:
       - 'services/payment/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   payment-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'payment'
+      service-port: '8060'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
