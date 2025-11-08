@@ -29,9 +29,7 @@ public class PaymentController {
             @RequestBody @Valid CreditCardRequest creditCardRequest,
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-
-        return ResponseEntity.ok(paymentService.createCreditCard(creditCardRequest, customerId));
+        return ResponseEntity.ok(paymentService.createCreditCard(creditCardRequest, customerIdPrincipal));
     }
 
     @GetMapping("/me/credit-cards")
@@ -39,9 +37,7 @@ public class PaymentController {
     public ResponseEntity<List<CreditCardResponse>> getCreditCards(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-
-        return ResponseEntity.ok(paymentService.getCreditCards(customerId));
+        return ResponseEntity.ok(paymentService.getCreditCards(customerIdPrincipal));
     }
 
     @PostMapping("/iyzi-payment")
@@ -49,10 +45,8 @@ public class PaymentController {
     public ResponseEntity<PaymentResponse> createPayment(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-
         PaymentResponse paymentResponse =
-                iyzipayService.createPaymentRequestWithCard(customerId);
+                iyzipayService.createPaymentRequestWithCard(customerIdPrincipal);
 
         return new ResponseEntity<>(paymentResponse, HttpStatus.OK);
     }

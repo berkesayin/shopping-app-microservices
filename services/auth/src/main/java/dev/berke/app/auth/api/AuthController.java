@@ -10,7 +10,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -26,8 +31,7 @@ public class AuthController {
     public ResponseEntity<SignInResponse> getToken(
             @Valid @RequestBody SignInRequest signInRequest
     ) {
-        SignInResponse signInResponse = authService.getToken(signInRequest);
-        return ResponseEntity.ok(signInResponse);
+        return ResponseEntity.ok(authService.getToken(signInRequest));
     }
 
     @PostMapping("/sign-up")

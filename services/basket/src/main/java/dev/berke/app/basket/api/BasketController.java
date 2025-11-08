@@ -23,10 +23,7 @@ public class BasketController {
     public ResponseEntity<BasketResponse> getBasket(
             @AuthenticationPrincipal String customerIdPrincipal
     ){
-        String customerId = customerIdPrincipal;
-
-        BasketResponse basketResponse = basketService.getBasket(customerId);
-        return new ResponseEntity<>(basketResponse, HttpStatus.OK);
+        return ResponseEntity.ok(basketService.getBasket(customerIdPrincipal));
     }
 
     @PostMapping("/items")
@@ -35,12 +32,7 @@ public class BasketController {
             @AuthenticationPrincipal String customerIdPrincipal,
             @RequestBody BasketAddItemRequest basketAddItemRequest
     ) {
-        String customerId = customerIdPrincipal;
-
-        BasketResponse basketResponse =
-                basketService.addItemToBasket(customerId, basketAddItemRequest);
-
-        return new ResponseEntity<>(basketResponse, HttpStatus.OK);
+        return ResponseEntity.ok(basketService.addItemToBasket(customerIdPrincipal, basketAddItemRequest));
     }
 
     @GetMapping("/total-price")
@@ -48,11 +40,6 @@ public class BasketController {
     public ResponseEntity<BasketTotalPriceResponse> calculateTotalBasketPrice(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-
-        BasketTotalPriceResponse totalPriceResponse =
-                basketService.calculateTotalBasketPrice(customerId);
-
-        return new ResponseEntity<>(totalPriceResponse, HttpStatus.OK);
+        return ResponseEntity.ok(basketService.calculateTotalBasketPrice(customerIdPrincipal));
     }
 }
