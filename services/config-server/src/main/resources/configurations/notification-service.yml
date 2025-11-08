@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      username: berke
-      password: mngdb-pwd
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
       host: localhost
       port: 27017
       database: notification
@@ -28,8 +28,8 @@ spring:
   mail:
     host: localhost
     port: 1025
-    username: berke
-    password: brk-test
+    username: ${MAIL_USER}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:

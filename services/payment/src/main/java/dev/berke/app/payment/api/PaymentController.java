@@ -41,9 +41,7 @@ public class PaymentController {
     ) {
         String customerId = customerIdPrincipal;
 
-        return ResponseEntity.ok(
-                paymentService.getCreditCards(customerId)
-        );
+        return ResponseEntity.ok(paymentService.getCreditCards(customerId));
     }
 
     @PostMapping("/iyzi-payment")

@@ -3,8 +3,8 @@ spring:
     name: search-service
   elasticsearch:
     uris: https://localhost:9200
-    username: elastic
-    password: 5Ddtx05yH9wsv2MofHuZ
+    username: ${ELASTICSEARCH_USERNAME}
+    password: ${ELASTICSEARCH_PASSWORD}
     ssl:
       ca-certificate: /Users/berkesayin/Documents/apps/elasticsearch-8.17.4/config/certs/http_ca.crt
       verification-mode: certificate

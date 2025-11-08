@@ -1,11 +1,13 @@
 package dev.berke.app.payment.infrastructure.paymentprovider.iyzipay;
 
 import com.iyzipay.Options;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Slf4j
 public class IyzipayConfig {
 
     @Value("${iyzipay.api.key}")
@@ -24,10 +26,8 @@ public class IyzipayConfig {
         options.setSecretKey(secretKey);
         options.setBaseUrl(baseUrl);
 
-        System.out.println("Iyzipay Options Configuration initialized: ");
-        System.out.println("API Key: " + options.getApiKey());
-        System.out.println("Secret Key: " + options.getSecretKey());
-        System.out.println("Base URL: " + options.getBaseUrl());
+        log.info("Iyzipay Options Configuration initialized: ");
+        log.info("Base URL: " + options.getBaseUrl());
 
         return options;
     }
