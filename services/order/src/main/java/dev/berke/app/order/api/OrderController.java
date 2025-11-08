@@ -26,9 +26,7 @@ public class OrderController {
             @RequestBody @Valid OrderRequest orderRequest,
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-
-        OrderResponse orderResponse = orderService.createOrder(orderRequest, customerId);
+        OrderResponse orderResponse = orderService.createOrder(orderRequest, customerIdPrincipal);
         return new ResponseEntity<>(orderResponse, HttpStatus.CREATED);
     }
 

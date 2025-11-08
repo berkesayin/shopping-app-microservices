@@ -35,12 +35,8 @@ public class CustomerController {
     public ResponseEntity<CustomerCreateResponse> createCustomer(
             @RequestBody @Valid CustomerDataRequest customerDataRequest
     ) {
-        try {
-            CustomerCreateResponse response = customerService.createCustomer(customerDataRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+        CustomerCreateResponse response = customerService.createCustomer(customerDataRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/me")
@@ -49,12 +45,9 @@ public class CustomerController {
             @RequestBody @Valid CustomerUpdateRequest customerUpdateRequest,
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-
-        CustomerResponse updatedCustomer =
-                customerService.updateProfile(customerUpdateRequest, customerId);
-
-        return ResponseEntity.accepted().body(updatedCustomer);
+        return ResponseEntity
+                .accepted()
+                .body(customerService.updateProfile(customerUpdateRequest, customerIdPrincipal));
     }
 
     @GetMapping
@@ -76,8 +69,7 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> getProfile(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-        return ResponseEntity.ok(customerService.getProfile(customerId));
+        return ResponseEntity.ok(customerService.getProfile(customerIdPrincipal));
     }
 
     @GetMapping("{customerId}")
@@ -93,9 +85,8 @@ public class CustomerController {
     public ResponseEntity<Void> deleteProfile(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-        customerService.deleteProfile(customerId);
-        return ResponseEntity.accepted().build();
+        customerService.deleteProfile(customerIdPrincipal);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/me/billing-addresses")
@@ -104,8 +95,7 @@ public class CustomerController {
             @AuthenticationPrincipal String customerIdPrincipal,
             @RequestBody @Valid AddressRequest addressRequest
     ) {
-        String customerId = customerIdPrincipal;
-        var response = customerService.addBillingAddress(customerId, addressRequest);
+        var response = customerService.addBillingAddress(customerIdPrincipal, addressRequest);
         return ResponseEntity.ok(response);
     }
 
@@ -115,8 +105,7 @@ public class CustomerController {
             @AuthenticationPrincipal String customerIdPrincipal,
             @RequestBody @Valid AddressRequest addressRequest
     ) {
-        String customerId = customerIdPrincipal;
-        var response = customerService.addShippingAddress(customerId, addressRequest);
+        var response = customerService.addShippingAddress(customerIdPrincipal, addressRequest);
         return ResponseEntity.ok(response);
     }
 
@@ -125,8 +114,7 @@ public class CustomerController {
     public ResponseEntity<List<AddressResponse>> getBillingAddresses(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-        var responses = customerService.getBillingAddresses(customerId);
+        var responses = customerService.getBillingAddresses(customerIdPrincipal);
         return ResponseEntity.ok(responses);
     }
 
@@ -135,8 +123,7 @@ public class CustomerController {
     public ResponseEntity<List<AddressResponse>> getShippingAddresses(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-        var responses = customerService.getShippingAddresses(customerId);
+        var responses = customerService.getShippingAddresses(customerIdPrincipal);
         return ResponseEntity.ok(responses);
     }
 
@@ -164,8 +151,7 @@ public class CustomerController {
             @AuthenticationPrincipal String customerIdPrincipal,
             @PathVariable("billingAddressId") String billingAddressId
     ) {
-        String customerId = customerIdPrincipal;
-        customerService.setActiveBillingAddress(customerId, billingAddressId);
+        customerService.setActiveBillingAddress(customerIdPrincipal, billingAddressId);
         return ResponseEntity.ok("Active billing address has been set.");
     }
 
@@ -175,8 +161,7 @@ public class CustomerController {
             @AuthenticationPrincipal String customerIdPrincipal,
             @PathVariable("shippingAddressId") String shippingAddressId
     ) {
-        String customerId = customerIdPrincipal;
-        customerService.setActiveShippingAddress(customerId, shippingAddressId);
+        customerService.setActiveShippingAddress(customerIdPrincipal, shippingAddressId);
         return ResponseEntity.ok("Active shipping address has been set.");
     }
 
@@ -185,8 +170,7 @@ public class CustomerController {
     public ResponseEntity<AddressResponse> getActiveBillingAddress(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-        var response = customerService.getActiveBillingAddress(customerId);
+        var response = customerService.getActiveBillingAddress(customerIdPrincipal);
         return ResponseEntity.ok(response);
     }
 
@@ -195,8 +179,7 @@ public class CustomerController {
     public ResponseEntity<AddressResponse> getActiveShippingAddress(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
-        String customerId = customerIdPrincipal;
-        var response = customerService.getActiveShippingAddress(customerId);
+        var response = customerService.getActiveShippingAddress(customerIdPrincipal);
         return ResponseEntity.ok(response);
     }
 
