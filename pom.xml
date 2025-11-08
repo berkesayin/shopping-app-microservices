@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>dev.berke</groupId>
+    <artifactId>shopping-app</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Shopping App</name>
+    <description>Parent POM for the entire shopping app project</description>
+
+    <modules>
+        <module>services/auth</module>
+        <module>services/basket</module>
+        <module>services/config-server</module>
+        <module>services/customer</module>
+        <module>services/discovery</module>
+        <module>services/gateway</module>
+        <module>services/notification</module>
+        <module>services/order</module>
+        <module>services/payment</module>
+        <module>services/product</module>
+        <module>services/search</module>
+    </modules>
+
+    <properties>
+        <java.version>21</java.version>
+        <spring-cloud.version>2023.0.2</spring-cloud.version>
+        <jjwt.version>0.11.5</jjwt.version>
+        <spring-dotenv.version>3.0.0</spring-dotenv.version>
+        <iyzipay.version>2.0.132</iyzipay.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring cloud BOM import -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- project-managed dependencies (versions we control) -->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>me.paulschwarz</groupId>
+                <artifactId>spring-dotenv</artifactId>
+                <version>${spring-dotenv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.iyzipay</groupId>
+                <artifactId>iyzipay-java</artifactId>
+                <version>${iyzipay.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- centralized build configuration -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <annotationProcessorPaths>
+                            <path>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                                <version>${lombok.version}</version>
+                            </path>
+                        </annotationProcessorPaths>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>

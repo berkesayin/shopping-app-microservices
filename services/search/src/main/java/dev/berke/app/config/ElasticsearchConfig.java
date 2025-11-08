@@ -14,7 +14,10 @@ import java.security.cert.X509Certificate;
 import java.time.Duration;
 
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "dev.berke.app")
+@EnableElasticsearchRepositories(basePackages = {
+    "dev.berke.app.productsearch.domain.repository",
+    "dev.berke.app.ordersearch.domain.repository"
+})
 public class ElasticsearchConfig extends ElasticsearchConfiguration {
 
     @Value("${spring.elasticsearch.uris}")

@@ -1,4 +1,4 @@
-name: Discovery Build
+name: Discovery Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/discovery/**'
+      - '.github/workflows/main.yml' 
+      - 'Dockerfile' 
   pull_request:
     branches:
       - master
     paths:
       - 'services/discovery/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   discovery-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'discovery'
+      service-port: '8761'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

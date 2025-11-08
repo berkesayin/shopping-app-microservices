@@ -1,8 +1,8 @@
 spring:
   data:
     mongodb:
-      username: berke
-      password: mngdb-pwd
+      username: ${MONGO_INITDB_ROOT_USERNAME}
+      password: ${MONGO_INITDB_ROOT_PASSWORD}
       host: localhost
       port: 27017
       database: notification
@@ -18,18 +18,18 @@ spring:
         spring:
           json:
             trusted:
-              packages: "dev.berke.app.events.*"
+              packages: "dev.berke.app.consumer.event.*"
             type:
               mapping: >
-                orderCreated:dev.berke.app.events.OrderCreatedEvent,
-                orderReceived:dev.berke.app.events.OrderReceivedEvent,
-                orderStatusUpdated:dev.berke.app.events.OrderStatusUpdatedEvent,
-                paymentReceived:dev.berke.app.events.PaymentReceivedEvent
+                orderCreated:dev.berke.app.consumer.event.OrderCreatedEvent,
+                orderReceived:dev.berke.app.consumer.event.OrderReceivedEvent,
+                orderStatusUpdated:dev.berke.app.consumer.event.OrderStatusUpdatedEvent,
+                paymentReceived:dev.berke.app.consumer.event.PaymentReceivedEvent
   mail:
     host: localhost
     port: 1025
-    username: berke
-    password: brk-test
+    username: ${MAIL_USER}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:

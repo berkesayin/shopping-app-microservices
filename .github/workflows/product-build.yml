@@ -1,4 +1,4 @@
-name: Product Build
+name: Product Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/product/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile' 
   pull_request:
     branches:
       - master
     paths:
       - 'services/product/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   product-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'product'
+      service-port: '8050'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

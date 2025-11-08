@@ -1,4 +1,4 @@
-name: Notification Build
+name: Notification Service Build
 
 on:
   push:
@@ -6,11 +6,15 @@ on:
       - master
     paths:
       - 'services/notification/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
   pull_request:
     branches:
       - master
     paths:
       - 'services/notification/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   notification-build:

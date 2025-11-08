@@ -1,4 +1,4 @@
-name: Gateway Build
+name: Gateway Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/gateway/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile' 
   pull_request:
     branches:
       - master
     paths:
       - 'services/gateway/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   gateway-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'gateway'
+      service-port: '8222'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

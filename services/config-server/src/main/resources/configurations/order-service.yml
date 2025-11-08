@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/order
-    username: berke
-    password: pgdb-pwd
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,9 +19,9 @@ spring:
           json:
             type:
               mapping: >
-                orderCreated:dev.berke.app.events.OrderCreatedEvent,
-                orderReceived:dev.berke.app.events.OrderReceivedEvent,
-                orderStatusUpdated:dev.berke.app.events.OrderStatusUpdatedEvent
+                orderCreated:dev.berke.app.order.domain.event.OrderCreatedEvent,
+                orderReceived:dev.berke.app.order.domain.event.OrderReceivedEvent,
+                orderStatusUpdated:dev.berke.app.order.domain.event.OrderStatusUpdatedEvent
 app:
   kafka:
     topics:

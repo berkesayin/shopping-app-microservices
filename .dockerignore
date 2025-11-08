@@ -1,0 +1,46 @@
+# git
+.git/
+.gitignore
+.gitattributes
+
+# maven
+**/target
+.mvn/
+mvnw
+mvnw.cmd
+
+# ide configs
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.sublime-project
+*.sublime-workspace
+
+# logs
+logs/
+*.log
+*.tmp
+*.swp
+*.bak
+*.old
+*.orig
+*.rej
+
+# os
+.DS_Store
+Thumbs.db
+
+# CI/CD and docker configs
+.github/
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# local env files
+.env
+*.env
+
+# docs
+README.md

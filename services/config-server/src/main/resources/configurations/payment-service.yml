@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/payment
-    username: berke
-    password: pgdb-pwd
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -18,12 +18,12 @@ spring:
         spring:
           json:
             type:
-              mapping: paymentReceived:dev.berke.app.events.PaymentReceivedEvent
+              mapping: paymentReceived:dev.berke.app.payment.domain.event.PaymentReceivedEvent
 iyzipay:
   api:
-    key: sandbox-q6L1GCFJrBE3OUTW8lxbPS5bCDzqeBZZ
+    key: ${IYZIPAY_API_KEY}
   secret:
-    key: sandbox-ybdMkmJmflCYlhzUBiyRo9X4eeUJF3nk
+    key: ${IYZIPAY_SECRET_KEY}
   base:
     url: https://sandbox-api.iyzipay.com
 server:

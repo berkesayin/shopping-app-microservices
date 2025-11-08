@@ -1,7 +1,7 @@
 package dev.berke.app.config;
 
-import dev.berke.app.order.document.OrderDocument;
-import dev.berke.app.product.document.ProductDocument;
+import dev.berke.app.ordersearch.domain.document.OrderDocument;
+import dev.berke.app.productsearch.domain.document.ProductDocument;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;

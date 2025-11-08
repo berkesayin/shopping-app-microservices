@@ -1,0 +1,13 @@
+package dev.berke.app.payment.domain.event;
+
+import dev.berke.app.payment.PaymentMethod;
+
+import java.math.BigDecimal;
+
+public record PaymentReceivedEvent(
+        String customerName,
+        String email,
+        BigDecimal totalPrice,
+        PaymentMethod paymentMethod
+) {
+}
