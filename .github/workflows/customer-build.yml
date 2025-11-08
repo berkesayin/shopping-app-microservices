@@ -1,4 +1,4 @@
-name: Customer Build
+name: Customer Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/customer/**'
+      - '.github/workflows/main.yml' 
+      - 'Dockerfile'
   pull_request:
     branches:
       - master
     paths:
       - 'services/customer/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   customer-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'customer'
+      service-port: '8090'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

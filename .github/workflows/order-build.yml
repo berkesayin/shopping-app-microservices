@@ -1,4 +1,4 @@
-name: Order Build
+name: Order Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/order/**'
+      - '.github/workflows/main.yml' 
+      - 'Dockerfile' 
   pull_request:
     branches:
       - master
     paths:
       - 'services/order/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   order-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'order'
+      service-port: '8070'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

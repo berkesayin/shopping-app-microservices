@@ -1,4 +1,4 @@
-name: Auth Build
+name: Auth Service Build
 
 on:
   push:
@@ -6,17 +6,22 @@ on:
       - master
     paths:
       - 'services/auth/**'
+      - '.github/workflows/main.yml' 
+      - 'Dockerfile'
   pull_request:
     branches:
       - master
     paths:
       - 'services/auth/**'
+      - '.github/workflows/main.yml'
+      - 'Dockerfile'
 
 jobs:
   auth-build:
     uses: ./.github/workflows/main.yml
     with:
       service-name: 'auth'
+      service-port: '8030'
       java-version: '21'
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
