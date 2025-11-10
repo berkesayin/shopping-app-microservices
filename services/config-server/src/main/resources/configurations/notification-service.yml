@@ -40,5 +40,3 @@ spring:
         connectiontimeout: 5000
         timeout: 3000
         writetimeout: 5000
-server:
-  port: 8040
