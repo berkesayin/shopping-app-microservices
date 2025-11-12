@@ -50,34 +50,12 @@ public class CustomerController {
                 .body(customerService.updateProfile(customerUpdateRequest, customerIdPrincipal));
     }
 
-    @GetMapping
-    @PreAuthorize("hasRole('BACKOFFICE')")
-    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
-        return ResponseEntity.ok(customerService.getAllCustomers());
-    }
-
-    @GetMapping("/exists/{customerId}")
-    @PreAuthorize("hasRole('BACKOFFICE')")
-    public ResponseEntity<Boolean> checkCustomerById(
-            @PathVariable("customerId") String customerId
-    ) {
-        return ResponseEntity.ok(customerService.checkCustomerById(customerId));
-    }
-
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<CustomerResponse> getProfile(
             @AuthenticationPrincipal String customerIdPrincipal
     ) {
         return ResponseEntity.ok(customerService.getProfile(customerIdPrincipal));
-    }
-
-    @GetMapping("{customerId}")
-    @PreAuthorize("hasRole('BACKOFFICE')")
-    public ResponseEntity<CustomerResponse> getCustomerById(
-            @PathVariable String customerId
-    ) {
-        return ResponseEntity.ok(customerService.getProfile(customerId));
     }
 
     @DeleteMapping("/me")
@@ -127,24 +105,6 @@ public class CustomerController {
         return ResponseEntity.ok(responses);
     }
 
-    @GetMapping("/{customerId}/billing-addresses")
-    @PreAuthorize("hasRole('BACKOFFICE')")
-    public ResponseEntity<List<AddressResponse>> getBillingAddressesByCustomerId(
-            @PathVariable String customerId
-    ) {
-        var responses = customerService.getBillingAddresses(customerId);
-        return ResponseEntity.ok(responses);
-    }
-
-    @GetMapping("/{customerId}/shipping-addresses")
-    @PreAuthorize("hasRole('BACKOFFICE')")
-    public ResponseEntity<List<AddressResponse>> getShippingAddressesByCustomerId(
-            @PathVariable String customerId
-    ) {
-        var responses = customerService.getShippingAddresses(customerId);
-        return ResponseEntity.ok(responses);
-    }
-
     @PutMapping("/me/billing-addresses/{billingAddressId}/active")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> setActiveBillingAddress(
@@ -183,4 +143,43 @@ public class CustomerController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping
+    @PreAuthorize("hasRole('BACKOFFICE')")
+    public ResponseEntity<List<CustomerResponse>> getAllCustomers() {
+        return ResponseEntity.ok(customerService.getAllCustomers());
+    }
+
+    @GetMapping("{customerId}")
+    @PreAuthorize("hasRole('BACKOFFICE')")
+    public ResponseEntity<CustomerResponse> getCustomerById(
+            @PathVariable String customerId
+    ) {
+        return ResponseEntity.ok(customerService.getProfile(customerId));
+    }
+
+    @GetMapping("/exists/{customerId}")
+    @PreAuthorize("hasRole('BACKOFFICE')")
+    public ResponseEntity<Boolean> checkCustomerById(
+            @PathVariable("customerId") String customerId
+    ) {
+        return ResponseEntity.ok(customerService.checkCustomerById(customerId));
+    }
+
+    @GetMapping("/{customerId}/billing-addresses")
+    @PreAuthorize("hasRole('BACKOFFICE')")
+    public ResponseEntity<List<AddressResponse>> getBillingAddressesByCustomerId(
+            @PathVariable String customerId
+    ) {
+        var responses = customerService.getBillingAddresses(customerId);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/{customerId}/shipping-addresses")
+    @PreAuthorize("hasRole('BACKOFFICE')")
+    public ResponseEntity<List<AddressResponse>> getShippingAddressesByCustomerId(
+            @PathVariable String customerId
+    ) {
+        var responses = customerService.getShippingAddresses(customerId);
+        return ResponseEntity.ok(responses);
+    }
 }
