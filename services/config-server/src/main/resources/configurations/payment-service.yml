@@ -30,5 +30,5 @@ server:
   port: 8060
 application:
   config:
-    customer-url: http://localhost:8222/api/v1/customers
     basket-url: http://localhost:8222/api/v1/baskets
+    customer-url: http://localhost:8222/api/v1/customers

@@ -19,6 +19,3 @@ token:
     jwtExpirationMs: 86400000
 server:
   port: 8030
-application:
-  config:
-    customer-url: http://localhost:8222/api/v1/customers
