@@ -141,6 +141,11 @@ public class ProductSearchService {
     }
     
     public AutocompleteSuggestionResponse getAutocompleteSuggestions(String query) {
+        if (query == null || query.isBlank() || query.length() < 2) {
+            throw new IllegalArgumentException("Autocomplete query must be " +
+                    "provided and have at least 2 characters.");
+        }
+
         List<ProductDocument> results = productSearchRepository
                 .findByProductNameAutocomplete(query);
 

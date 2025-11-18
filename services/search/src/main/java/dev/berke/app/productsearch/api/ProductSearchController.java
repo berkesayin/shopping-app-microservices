@@ -32,9 +32,6 @@ public class ProductSearchController {
     public ResponseEntity<AutocompleteSuggestionResponse> autocomplete(
             @RequestParam("query") String query
     ) {
-        if (query == null || query.isBlank() || query.length() < 2) {
-            return ResponseEntity.badRequest().build();
-        }
         AutocompleteSuggestionResponse response = productSearchService.getAutocompleteSuggestions(query);
         return ResponseEntity.ok(response);
     }

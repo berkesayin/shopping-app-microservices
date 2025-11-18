@@ -1,6 +1,5 @@
 package dev.berke.app.product.domain.model;
 
-import dev.berke.app.product.domain.model.Product;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,5 +43,4 @@ public class Category {
     // defines the foreign key
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Product> products = new HashSet<>(); // Initialize to avoid NullPointerException
-
 }
