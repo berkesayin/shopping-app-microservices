@@ -149,7 +149,7 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getAllCustomers());
     }
 
-    @GetMapping("{customerId}")
+    @GetMapping("/{customerId}")
     @PreAuthorize("hasRole('BACKOFFICE')")
     public ResponseEntity<CustomerResponse> getCustomerById(
             @PathVariable String customerId

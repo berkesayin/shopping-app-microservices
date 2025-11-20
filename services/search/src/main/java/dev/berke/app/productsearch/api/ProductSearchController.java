@@ -6,7 +6,12 @@ import dev.berke.app.productsearch.api.dto.ProductSearchResponse;
 import dev.berke.app.productsearch.application.ProductSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,9 +32,6 @@ public class ProductSearchController {
     public ResponseEntity<AutocompleteSuggestionResponse> autocomplete(
             @RequestParam("query") String query
     ) {
-        if (query == null || query.isBlank() || query.length() < 2) {
-            return ResponseEntity.badRequest().build();
-        }
         AutocompleteSuggestionResponse response = productSearchService.getAutocompleteSuggestions(query);
         return ResponseEntity.ok(response);
     }

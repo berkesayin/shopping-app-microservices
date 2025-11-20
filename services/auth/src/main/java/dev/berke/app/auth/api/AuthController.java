@@ -8,7 +8,6 @@ import dev.berke.app.user.domain.model.User;
 import dev.berke.app.auth.application.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,21 +44,7 @@ public class AuthController {
     public ResponseEntity<MessageResponse> invalidateToken(
             @RequestHeader("Authorization") String tokenHeader
     ) {
-        try {
-            authService.invalidateToken(tokenHeader);
-            return ResponseEntity.ok(new MessageResponse("Logout successful. Token invalidated."));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new MessageResponse("Error: " + e.getMessage()));
-        } catch (RuntimeException e) { // for Redis errors or other runtime issues
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new MessageResponse("Error during logout: " + e.getMessage()));
-        } catch (Exception e) { // all unexpected errors
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new MessageResponse("Unexpected error! " + e.getMessage()));
-        }
+        authService.invalidateToken(tokenHeader);
+        return ResponseEntity.ok(new MessageResponse("Logout successful. Token invalidated."));
     }
 }
