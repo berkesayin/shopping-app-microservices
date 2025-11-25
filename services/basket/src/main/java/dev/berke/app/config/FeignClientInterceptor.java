@@ -15,7 +15,6 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(FeignClientInterceptor.class);
 
-    // headers to send
     private static final String HEADER_CUSTOMER_ID = "X-User-CustomerId";
     private static final String HEADER_ROLES = "X-User-Roles";
     private static final String HEADER_EMAIL = "X-User-Email";
@@ -28,13 +27,11 @@ public class FeignClientInterceptor implements RequestInterceptor {
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
 
-            // 1. send authorization bearer
             String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 template.header(HttpHeaders.AUTHORIZATION, authorizationHeader);
             }
 
-            // 2. send custom identity headers
             String customerId = request.getHeader(HEADER_CUSTOMER_ID);
             if (customerId != null) {
                 template.header(HEADER_CUSTOMER_ID, customerId);

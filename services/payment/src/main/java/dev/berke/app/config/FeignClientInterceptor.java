@@ -15,6 +15,10 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(FeignClientInterceptor.class);
 
+    private static final String HEADER_CUSTOMER_ID = "X-User-CustomerId";
+    private static final String HEADER_ROLES = "X-User-Roles";
+    private static final String HEADER_EMAIL = "X-User-Email";
+
     @Override
     public void apply(RequestTemplate template) {
         ServletRequestAttributes attributes =
@@ -22,18 +26,32 @@ public class FeignClientInterceptor implements RequestInterceptor {
 
         if (attributes != null) {
             HttpServletRequest request = attributes.getRequest();
+
             String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-                logger.debug("payment service FeignClientInterceptor: {}",
-                        template.feignTarget().url() + template.url());
-
                 template.header(HttpHeaders.AUTHORIZATION, authorizationHeader);
-            } else {
-                logger.warn("Authorization header not found or not a Bearer token on " +
-                                "path: {}. Cannot propagate JWT for Feign call to: {} {}. " ,
-                        request.getRequestURI(), template.feignTarget().url(), template.url());
             }
+
+            String customerId = request.getHeader(HEADER_CUSTOMER_ID);
+            if (customerId != null) {
+                template.header(HEADER_CUSTOMER_ID, customerId);
+            }
+
+            String roles = request.getHeader(HEADER_ROLES);
+            if (roles != null) {
+                template.header(HEADER_ROLES, roles);
+            }
+
+            String email = request.getHeader(HEADER_EMAIL);
+            if (email != null) {
+                template.header(HEADER_EMAIL, email);
+            }
+
+            logger.info("Sent headers for Feign Call to {}: Auth={}, CustomerId={}",
+                    template.feignTarget().url() + template.url(),
+                    (authorizationHeader != null ? "auth header exists" : "does not exist"),
+                    customerId);
+
         }
     }
 }

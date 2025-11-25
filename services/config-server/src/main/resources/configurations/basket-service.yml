@@ -5,6 +5,3 @@ spring:
       port: 6379
 server:
   port: 8040
-application:
-  config:
-    product-url: http://localhost:8222/api/v1/products
