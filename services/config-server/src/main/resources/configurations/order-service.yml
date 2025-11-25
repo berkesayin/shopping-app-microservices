@@ -30,8 +30,3 @@ app:
       order-status-updated: order-status-updates
 server:
   port: 8070
-application:
-  config:
-    basket-url: http://localhost:8222/api/v1/baskets
-    customer-url: http://localhost:8222/api/v1/customers
-    payment-url: http://localhost:8222/api/v1/payments

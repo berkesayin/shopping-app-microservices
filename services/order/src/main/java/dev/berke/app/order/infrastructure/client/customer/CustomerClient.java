@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.Optional;
 
-@FeignClient(name = "customer-service", url = "${application.config.customer-url}")
+@FeignClient(name = "customer-service", path = "/api/v1/customers")
 public interface CustomerClient {
 
     @GetMapping("/me")

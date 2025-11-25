@@ -3,7 +3,7 @@ package dev.berke.app.payment.infrastructure.client.basket;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@FeignClient(name = "basket-service", url = "${application.config.basket-url}")
+@FeignClient(name = "basket-service", path = "/api/v1/baskets")
 public interface BasketClient {
 
     @GetMapping("/me")
