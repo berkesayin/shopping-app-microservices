@@ -46,7 +46,7 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: berkesayin/${{ inputs.service-name }}:latest
+          tags: berkesayin/${{ inputs.service-name }}:1.0
           build-args: |
             SERVICE_NAME=${{ inputs.service-name }}
             SERVICE_PORT=${{ inputs.service-port }}
