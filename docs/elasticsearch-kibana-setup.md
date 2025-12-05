@@ -1,13 +1,13 @@
-## Elasticsearch and Kibana Initial Setup
+# Elasticsearch and Kibana Initial Setup
 
 There are couple of ways to get `Elasticsearch` and `Kibana` instances. This guide explains to download with version `8.17.4` and setup on `MacOS` system. Use other options if you prefer to.
 
-#### Download and Run Elasticsearch, Kibana
+### Download Elasticsearch and Kibana
 
 - [Download Elasticsearch](https://www.elastic.co/downloads/elasticsearch)
 - [Download Kibana](https://www.elastic.co/downloads/kibana)
 
-#### Run Elasticsearch 
+### Run Elasticsearch 
 
 At terminal, locate `/path/to/your/elasticsearch-8.17.4` and run
 
@@ -21,7 +21,7 @@ bin/elasticsearch
 
 - It also provides `enrollment token` to be used at kibana server.
 
-#### Run Kibana 
+### Run Kibana 
 
 At terminal, locate `/path/to/your/kibana-8.17.4` and run
 
@@ -31,10 +31,73 @@ bin/kibana
 
 Kibana has not been configured yet. Go to [kibana server](http://localhost:5601) and paste `enrollment token` there. 
 
-#### Reset Elasticsearch Password 
+### Reset Elasticsearch Password 
 
 Use this command to reset your Elasticsearch password. 
 
 ```sh
 bin/elasticsearch-reset-password -u elastic
 ```
+
+### Kibana Security Configuration 
+
+`Elastic Agent` and `Fleet Server` are used in the project. For that, required certificates should be included for `kibana` configurations.
+
+- `/path/to/your/kibana-8.17.4/config` directory includes these ones for now:
+
+```sh
+kibana-8.17.4/
+        ├── config/
+        │    ├── kibana.yml
+        │    ├── node.options
+```
+
+Run this command.
+
+```sh
+openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes \
+    -keyout kibana-server.key -out kibana-server.crt \
+    -subj "/CN=localhost" \
+    -addext "subjectAltName=DNS:localhost,IP:127.0.0.1" 
+```
+
+This command generates `kibana-server.crt` and `kibana-server.key` under `config` directory.
+
+```sh
+kibana-8.17.4/
+        ├── config/
+        │    ├── kibana.yml
+        │    ├── node.options
+        │    ├── kibana-server.crt
+        │    ├── kibana-server.key
+```
+
+### Update Kibana Configuration
+
+Open `config/kibana.yml` and update its security configurations.
+
+```yml 
+# =================== System: Kibana Server ===================
+# Enables SSL and paths to the PEM-format SSL certificate and SSL key files, respectively.
+# These settings enable SSL for outgoing requests from the Kibana server to the browser.
+server.ssl.enabled: true
+server.ssl.certificate: /path/to/your/kibana-8.17.4/config/kibana-server.crt
+server.ssl.key: /path/to/your/kibana-8.17.4/config/kibana-server.key
+
+# This section was updated to change automatically generated values during setup.
+elasticsearch.hosts: ['https://localhost:9200']
+elasticsearch.serviceAccountToken: <service_account_token>
+elasticsearch.ssl.certificateAuthorities: ["/path/to/your/elasticsearch-8.17.4/config/certs/http_ca.crt"] 
+xpack.fleet.outputs: [{id: fleet-default-output, name: default, is_default: true, is_default_monitoring: true, type: elasticsearch, hosts: ['https://localhost:9200'], ca_trusted_fingerprint: <ca_trusted_fingerprint>}] 
+```
+
+Stop and run kibana server again.
+
+```sh
+bin/kibana
+```
+
+Certificates are included and security options are configured for `Elasticsearch` and `Kibana`. 
+
+- `Elasticsearch`: https://localhost:9200 
+- `Kibana`: https://localhost:5601 
