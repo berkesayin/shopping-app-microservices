@@ -85,31 +85,22 @@ services:
       - be-net
       
   kafka:
-    build:
-      context: ./kafka-jolokia
+    image: confluentinc/cp-kafka:latest
     container_name: be-kafka
     environment:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://kafka:29092
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
-      KAFKA_JMX_PORT: 9999
-      KAFKA_JMX_HOSTNAME: localhost
-    volumes:
-      - kafka_data:/var/lib/kafka/data 
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
     ports:
       - "9092:9092"
-      - "29092:29092"
-      - "9999:9999" 
-      - "8778:8778" # jolokia port
     networks:
       - be-net
     depends_on:
       - zookeeper
-      
+
   maildev:
     image: maildev/maildev:latest
     container_name: be-maildev
@@ -151,4 +142,3 @@ volumes:
   zookeeper_data:
   zookeeper_log:
   kafka_data:
-
