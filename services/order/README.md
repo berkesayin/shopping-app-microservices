@@ -6,18 +6,18 @@
 
 ### Build and Run Order Service
 
-Make sure `docker containers`, `config-server` and `discovery` service are running.
+Make sure `docker containers`, `config-server` and `discovery` services are running.
 
 Build the `order` service. For that locate to `order` at terminal: `cd services/order`
 
 ```sh 
-mvn clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-mvn spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Order Service Endpoints

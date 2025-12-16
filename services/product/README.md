@@ -6,18 +6,18 @@
 
 ### Build and Run Product Service
 
-Make sure `docker containers`, `config-server` and `discovery` service are running.
+Make sure `docker containers`, `config-server` and `discovery` services are running.
 
 Build the `product` service. For that locate to `product` at terminal: `cd services/product`
 
 ```sh 
-mvn clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-mvn spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Product Service Endpoints

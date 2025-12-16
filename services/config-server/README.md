@@ -26,11 +26,11 @@ Make sure `docker containers` are running. `config-server` is the first service 
 Build the `config-server`. For that locate to `config-server` at terminal: `cd services/config-server`
 
 ```sh 
-mvn clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-mvn spring-boot:run
+../../mvnw spring-boot:run
 ```
