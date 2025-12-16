@@ -9,13 +9,13 @@ Make sure `docker containers`, `config-server`, `discovery` and `customer` servi
 Build the `auth` service. For that locate to `auth` at terminal: `cd services/auth`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Auth Service Endpoints

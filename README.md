@@ -1,4 +1,4 @@
-# eCommerce Application With Elastic Data And Iyzico Payment
+# eCommerce Application With Elastic Data And iyzico Payment
 
 The `shopping app` is designed using `Microservices` architecture and `API Gateway` pattern where each service is responsible for a specific business function. 
 

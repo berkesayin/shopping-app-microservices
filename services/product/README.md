@@ -11,13 +11,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `product` service. For that locate to `product` at terminal: `cd services/product`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Product Service Endpoints

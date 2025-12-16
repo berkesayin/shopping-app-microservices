@@ -9,13 +9,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `customer` service. For that locate to `customer` at terminal: `cd services/customer`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Customer Service Endpoints

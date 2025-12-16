@@ -9,13 +9,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `basket` service. For that locate to `basket` at terminal: `cd services/basket`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Basket Service Endpoints

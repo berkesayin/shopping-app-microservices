@@ -9,13 +9,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `notification` service. For that locate to `notification` at terminal: `cd services/notification`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### DevMail For Order And Payment Mails

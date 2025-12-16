@@ -20,13 +20,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `payment` service. For that locate to `payment` at terminal: `cd services/payment`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Payment Service Endpoints

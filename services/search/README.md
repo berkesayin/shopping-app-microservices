@@ -9,13 +9,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `search` service. For that locate to `search` at terminal: `cd services/search`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Search Service Endpoints

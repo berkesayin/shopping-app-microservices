@@ -11,13 +11,13 @@ Make sure `docker containers`, `config-server` and `discovery` services are runn
 Build the `order` service. For that locate to `order` at terminal: `cd services/order`
 
 ```sh 
-./mvnw clean install
+../../mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-./mvnw spring-boot:run
+../../mvnw spring-boot:run
 ```
 
 ### Order Service Endpoints
