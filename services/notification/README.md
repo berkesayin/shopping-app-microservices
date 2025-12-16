@@ -4,18 +4,18 @@
 
 ### Build and Run Notification Service
 
-Make sure `docker containers`, `config-server` and `discovery` service are running.
+Make sure `docker containers`, `config-server` and `discovery` services are running.
 
 Build the `notification` service. For that locate to `notification` at terminal: `cd services/notification`
 
 ```sh 
-mvn clean install
+./mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ### DevMail For Order And Payment Mails

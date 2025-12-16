@@ -4,18 +4,18 @@
 
 ### Build and Run Customer Service
 
-Make sure `docker containers`, `config-server` and `discovery` service are running.
+Make sure `docker containers`, `config-server` and `discovery` services are running.
 
 Build the `customer` service. For that locate to `customer` at terminal: `cd services/customer`
 
 ```sh 
-mvn clean install
+./mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ### Customer Service Endpoints

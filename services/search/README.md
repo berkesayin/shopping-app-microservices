@@ -4,18 +4,18 @@
 
 ### Build and Run Search Service
 
-Make sure `docker containers`, `config-server` and `discovery` service are running.
+Make sure `docker containers`, `config-server` and `discovery` services are running.
 
 Build the `search` service. For that locate to `search` at terminal: `cd services/search`
 
 ```sh 
-mvn clean install
+./mvnw clean install
 ```
 
 Run the service.
 
 ```sh 
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
 
 ### Search Service Endpoints

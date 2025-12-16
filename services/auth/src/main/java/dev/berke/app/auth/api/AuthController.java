@@ -26,14 +26,14 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/sign-in")
+    @PostMapping("/login")
     public ResponseEntity<SignInResponse> getToken(
             @Valid @RequestBody SignInRequest signInRequest
     ) {
         return ResponseEntity.ok(authService.getToken(signInRequest));
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         User registeredUser = authService.createUser(signUpRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully! Email: "
