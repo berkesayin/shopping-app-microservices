@@ -37,8 +37,8 @@ public class SecurityConfig {
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(HttpMethod.POST, "/api/v1/auth/sign-in").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/v1/auth/sign-up").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/auth/login").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/v1/auth/register").permitAll()
                         .pathMatchers(HttpMethod.POST, "/api/v1/customers").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/products").permitAll()
                         .pathMatchers(HttpMethod.GET, "/api/v1/products/*").permitAll() // /api/v1/products/{product-id}

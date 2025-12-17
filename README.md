@@ -12,6 +12,8 @@ The `shopping app` is designed using `Microservices` architecture and `API Gatew
 
 ![img](./docs/img/40.app-architecture.png)
 
+`NOTE:` `Open Feign` is used at internal service calls as `synchronous communnication`. And there are other `Kafka events` providing `async transactions`. Check other `docs` or `diagrams`. 
+
 `Elasticsearch` &rarr; `product` index as example
 
 ![img](./docs/img/41.kibana-product-index.png)
@@ -45,6 +47,7 @@ Technologies:
 Refer to the `docs` section for `setup` and `development` of the project. It includes these parts:
 
 - [Get API Key for iyzipay Java Client](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.1.IYZIPAY_API_KEY.md)
+- [Use iyzico Sandbox Environment for Order Details](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.2.IYZICO_SANDBOX.md)
 - [Set Up Environment Variables](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.2.ENVIRONMENT_VARIABLES.md)
 - [Run Docker Containers](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.3.DOCKER_COMPOSE_SERVICES.md)
 - [Run Elasticsearch and Kibana](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.1.ELASTICSEARCH_KIBANA_SETUP.md)
@@ -75,4 +78,17 @@ Refer to the `docs` section for `setup` and `development` of the project. It inc
   - [product](https://github.com/berkesayin/shopping-app-microservices/tree/master/services/product)
   - [search](https://github.com/berkesayin/shopping-app-microservices/tree/master/services/search)
 
+### New Features 
+
+- Running the project in `Kubernetes` environment:
+  - `minikube`
+  - `kubectl`
+  - `helm`
+  - `kustomize`
+
+This part is under development and will be released with new version of the project.
+
+### Contributing 
+
+Contributions are welcome! If you have suggestions or want to improve the code, please check [Contributing](https://github.com/berkesayin/shopping-app-microservices/blob/master/Contributing.md) section. 
 
