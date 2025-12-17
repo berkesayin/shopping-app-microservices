@@ -1,12 +1,11 @@
 # Contributing 
 
-The `shopping app` is designed using `Microservices` architecture and `API Gateway` pattern.
+### eCommerce App  
 
-`iyipay-java` API client developed by `iyzico` is integrated and used for the project at the `payment` service.
-
-And `Elastic's sample eCommerce data` is used for `orders`, `products` and `search` functionalities.
-
-Refer to the [Documentation](https://github.com/berkesayin/shopping-app-microservices/blob/master/README.md) section to setup and run project. 
+- The `shopping app` is designed using `Microservices` architecture and `API Gateway` pattern.
+- `iyipay-java` API client developed by `iyzico` is integrated and used for the project at the `payment` service.
+- `Elastic's sample eCommerce data` is used for `orders`, `products` and `search` functionalities.
+- Refer to the [Documentation](https://github.com/berkesayin/shopping-app-microservices/blob/master/README.md) section to setup and run project. 
 
 ### Contributing  
 

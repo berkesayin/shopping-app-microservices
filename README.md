@@ -90,5 +90,4 @@ This part is under development and will be released with new version of the proj
 
 ### Contributing 
 
-Contributions are welcome! If you have suggestions or want to improve the code, please check [Contributing](https://github.com/berkesayin/shopping-app-microservices/blob/master/Contributing.md) section. 
-
+Contributions are welcome! If you have suggestions or want to improve the code, please check [Contributing](https://github.com/berkesayin/ecommerce-app-microservices/blob/master/CONTRIBUTING.md) section. 
