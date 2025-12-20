@@ -27,3 +27,8 @@ Run the service.
 | POST | `Base URL` | `Public Endpoint` | `searchProducts` |
 | GET  | `Base URL/autocomplete` | `Public Endpoint` | `autocomplete` |
 
+### Search Examples
+
+Check docs named `Search Examples` for use cases.
+
+- [Search Functions](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/5.SEARCH_FUNCTIONS.md)

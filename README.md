@@ -12,7 +12,7 @@ The `shopping app` is designed using `Microservices` architecture and `API Gatew
 
 ![img](./docs/img/40.app-architecture.png)
 
-`NOTE:` `Open Feign` is used at internal service calls as `synchronous communnication`. And there are other `Kafka events` providing `async transactions`. Check other `docs` or `diagrams`. 
+`NOTE:` Check docs or diagrams for `internal service calls` and `Kafka events`. 
 
 `Elasticsearch` &rarr; `product` index as example
 
@@ -46,26 +46,28 @@ Technologies:
 
 Refer to the `docs` section for `setup` and `development` of the project. It includes these parts:
 
-- [Get API Key for iyzipay Java Client](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.1.IYZIPAY_API_KEY.md)
-- [Use iyzico Sandbox Environment for Order Details](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.2.IYZICO_SANDBOX.md)
-- [Set Up Environment Variables](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.2.ENVIRONMENT_VARIABLES.md)
-- [Run Docker Containers](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.3.DOCKER_COMPOSE_SERVICES.md)
-- [Run Elasticsearch and Kibana](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.1.ELASTICSEARCH_KIBANA_SETUP.md)
-  - [Set up Elasticsearch and Kibana](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.1.ELASTICSEARCH_KIBANA_SETUP.md)
-  - [Get Elastic's Sample eCommerce Data](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.2.ECOMMERCE_DATA_ELASTIC.md)
-  - [Get Product Data for Elasticsearch](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.3.PRODUCT_DATA_ELASTICSEARCH.md)
-  - [Get Category Data for Elasticsearch](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.4.CATEGORY_DATA_ELASTICSEARCH.md)
-  - [Get Product Data for PostgreSQL](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.5.PRODUCT_DATA_POSTGRESQL.md)
-  - [Get Customer Data](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.6.CUSTOMER_DATA.md)
-  - [Create Order Index at Elasticsearch](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.7.ORDER_INDEX_ELASTICSEARCH.md)
-  - [Go to Kibana Index Management](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.8.INDEX_MANAGEMENT_KIBANA.md)
-- [Use Kibana Observability](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.1.FLEET_SERVER_ELASTIC_AGENT.md)
-  - [Set Up Fleet Server and Elastic Agent](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.1.FLEET_SERVER_ELASTIC_AGENT.md)
-  - [Add Kibana's Docker Integration](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.2.KIBANA_INTEGRATIONS_DOCKER.md)
-  - [Add Kibana's Redis Integration](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.3.KIBANA_INTEGRATIONS_REDIS.md)
-  - [Use Elastic APM (Application Performance Monitoring)](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.4.ELASTIC_APM.md)
-  - [Use OpenTelemetry](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.5.OPEN_TELEMETRY.md)
-- [Backend services](https://github.com/berkesayin/shopping-app-microservices/tree/master/services)
+- [1. Set Up Environments](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.1.IYZIPAY_API_KEY.md)
+  - [1.1. Get API Key for iyzipay Java Client](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.1.IYZIPAY_API_KEY.md)
+  - [1.2. Use iyzico Sandbox Environment for Order Details](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.2.IYZICO_SANDBOX.md)
+  - [1.3. Set Up Environment Variables](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/1.3.ENVIRONMENT_VARIABLES.md)
+- [2. Run Docker Containers](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/2.DOCKER_COMPOSE_SERVICES.md)
+- [3. Run Elasticsearch and Kibana](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.1.ELASTICSEARCH_KIBANA_SETUP.md)
+  - [3.1. Set up Elasticsearch and Kibana](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.1.ELASTICSEARCH_KIBANA_SETUP.md)
+  - [3.2. Get Elastic's Sample eCommerce Data](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.2.ECOMMERCE_DATA_ELASTIC.md)
+  - [3.3. Get Product Data for Elasticsearch](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.3.PRODUCT_DATA_ELASTICSEARCH.md)
+  - [3.4. Get Category Data for Elasticsearch](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.4.CATEGORY_DATA_ELASTICSEARCH.md)
+  - [3.5. Get Product Data for PostgreSQL](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.5.PRODUCT_DATA_POSTGRESQL.md)
+  - [3.6. Get Customer Data](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.6.CUSTOMER_DATA.md)
+  - [3.7. Create Order Index at Elasticsearch](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.7.ORDER_INDEX_ELASTICSEARCH.md)
+  - [3.8. Go to Kibana Index Management](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/3.8.INDEX_MANAGEMENT_KIBANA.md)
+- [4. Use Kibana Observability](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.1.FLEET_SERVER_ELASTIC_AGENT.md)
+  - [4.1. Set Up Fleet Server and Elastic Agent](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.1.FLEET_SERVER_ELASTIC_AGENT.md)
+  - [4.2. Add Kibana's Docker Integration](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.2.KIBANA_INTEGRATIONS_DOCKER.md)
+  - [4.3. Add Kibana's Redis Integration](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.3.KIBANA_INTEGRATIONS_REDIS.md)
+  - [4.4. Use Elastic APM (Application Performance Monitoring)](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.4.ELASTIC_APM.md)
+  - [4.5. Use OpenTelemetry](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/4.5.OPEN_TELEMETRY.md)
+- [5. Use Search Functions](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/5.SEARCH_FUNCTIONS.md)
+- [6. Run Backend Services](https://github.com/berkesayin/shopping-app-microservices/blob/master/docs/6.BACKEND_SERVICES.md)
   - [auth](https://github.com/berkesayin/shopping-app-microservices/tree/master/services/auth)
   - [basket](https://github.com/berkesayin/shopping-app-microservices/tree/master/services/basket)
   - [config-server](https://github.com/berkesayin/shopping-app-microservices/tree/master/services/config-server)
